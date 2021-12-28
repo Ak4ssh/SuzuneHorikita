@@ -593,7 +593,7 @@ eg:
 
 ✗  `Unlocking - `permission` *pin* `will allow members (non-admins) to pinned a message in a group`
 
-*✗ Pᴏᴡᴇʀᴇᴅ 💕 Bʏ: Tᴇᴀᴍ DᴇCᴏᴅᴇ!*
+*✗ By Suzune Team~*
 """
 
 __mod_name__ = "Lᴏᴄᴋꜱ"
