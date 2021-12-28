@@ -144,7 +144,7 @@ __help__ = """
  
 ✗ /Chatbot - `Shows chatbot control panel`
   
-*✗ Pᴏᴡᴇʀᴇᴅ 💕 Bʏ: Tᴇᴀᴍ DᴇCᴏᴅᴇ!*
+*✗ By Suzune Team~*
 """
 
 __mod_name__ = "CʜᴀᴛBᴏᴛ"
