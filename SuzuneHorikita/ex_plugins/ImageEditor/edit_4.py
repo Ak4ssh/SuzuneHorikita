@@ -8,7 +8,7 @@ import numpy as np
 import requests
 from PIL import Image, ImageDraw, ImageOps
 
-from Yuriko.confing import get_str_key
+from SuzuneHorikita.confing import get_str_key
 
 RemoveBG_API = get_str_key("REM_BG_API_KEY", required=False)
 
