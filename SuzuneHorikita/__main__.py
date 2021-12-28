@@ -84,7 +84,7 @@ SuzuneHorikitarobot_IMG = "https://telegra.ph/file/e4eb557540f5b666728f3.jpg"
 PM_START_TEXT = """
 * Hello {} ♡︎ !*
 ════════════════════════════
-• *I'Aᴍ 「(𝐒ᴜᴢᴜɴᴇ 𝐇ᴏʀɪᴋɪᴛᴀ)[https://telegra.ph/file/9cd0b9c94262fe74aae07.jpg]」*
+• *I'Aᴍ 「[𝐒ᴜᴢᴜɴᴇ 𝐇ᴏʀɪᴋɪᴛᴀ](https://telegra.ph/file/9cd0b9c94262fe74aae07.jpg)」*
 • 𝕿𝖍𝖊 𝕮𝖑𝖆𝖘𝖘 𝕽𝖔𝖔𝖒 𝕺𝖋 𝕰𝖑𝖎𝖙𝖊
 • *Aᴍ Vᴇʀʏ Fᴀꜱᴛ Aɴᴅ  Mᴏʀᴇ Eꜰꜰɪᴄɪᴇɴᴛ | Pʀᴏᴠɪᴅᴇ Aᴡᴇꜱᴏᴍᴇ  Fᴇᴀᴛᴜʀᴇꜱ!*
 ════════════════════════════
