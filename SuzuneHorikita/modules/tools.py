@@ -57,5 +57,5 @@ __help__ = """
 
 ✗  /tagall - `for tag everyone at least 100 member first.`
 
-*✗ Pᴏᴡᴇʀᴇᴅ 💕 Bʏ: Tᴇᴀᴍ DᴇCᴏᴅᴇ!*
+*✗ *
 """
