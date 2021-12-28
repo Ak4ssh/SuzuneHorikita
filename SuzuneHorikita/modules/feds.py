@@ -495,7 +495,7 @@ def fed_info(update: Update, context: CallbackContext):
     chat = update.effective_chat
     info = sql.get_fed_info(fed_id)
 
-    text = "<b>?��? Federation Information:</b>"
+    text = "<b> Federation Information:</b>"
     text += "\nFedID: <code>{}</code>".format(fed_id)
     text += "\nName: {}".format(info["fname"])
     text += "\nCreator: {}".format(mention_html(owner.id, owner_name))
@@ -547,9 +547,9 @@ def fed_admin(update: Update, context: CallbackContext):
 
     members = sql.all_fed_members(fed_id)
     if len(members) == 0:
-        text += "\n?�� There are no admins in this federation"
+        text += "\n?± There are no admins in this federation"
     else:
-        text += "\n?�� Admin:\n"
+        text += "\n?± Admin:\n"
         for x in members:
             user = bot.get_chat(x)
             text += " ?? {}\n".format(mention_html(user.id, user.first_name))
@@ -2378,7 +2378,7 @@ def fed_owner_help(update: Update, context: CallbackContext):
 
 def fed_admin_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
-        """*?�� Fed Admins:*
+        """*?± Fed Admins:*
  ??  `/fban - `<user> <reason> Fed bans a user`
  ??  `/unfban - `<user> <reason> Removes a user from a fed ban`
  ??  `/fedinfo - `<fed_id> Information about the specified Federation`
@@ -2395,7 +2395,7 @@ def fed_admin_help(update: Update, context: CallbackContext):
 
 def fed_user_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
-        """*?�� Any user:*
+        """*?© Any user:*
 
 ??  /fbanstat - `Shows if you/or the user you are replying to or their username is fbanned somewhere or not`
 ??  /fednotif - `<on/off> Federation settings not in PM when there are users who are fbaned/unfbanned`
@@ -2404,7 +2404,7 @@ def fed_user_help(update: Update, context: CallbackContext):
     )
 
 
-__mod_name__ = "Fᴇ�?ᴇʀᴀᴛɪ�?ɴ"
+__mod_name__ = "Fá´á?á´Êá´á´Éªá?É´"
 
 
 NEW_FED_HANDLER = CommandHandler("newfed", new_fed, run_async=True)
