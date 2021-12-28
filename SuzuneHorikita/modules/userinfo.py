@@ -254,7 +254,7 @@ def info(update: Update, context: CallbackContext):
     rep = message.reply_text("<code>Collecting Information.....</code>", parse_mode=ParseMode.HTML)
 
     text = (
-        f"═════「<b> Information Collected</b> ═════\n"
+        f"═══「<b> Information Collected</b> ═══\n"
         f"✯ID: <code>{user.id}</code>\n"
         f"✯First Name: {html.escape(user.first_name)}"
     )
@@ -316,7 +316,7 @@ def info(update: Update, context: CallbackContext):
         text += "\n\nThe Disaster level of this person is 'Soldier'."
         disaster_level_present = True
     elif user.id == 1829047705:
-         text += "\n\nOwner Of A Bot. Queen Of @excrybaby. Bot Name Inspired From 'JoJo'."
+         text += "\n\nOwner Of A Bot. Bot Name Inspired From 'Venom'."
          disaster_level_present = True
 
     try:
