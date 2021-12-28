@@ -99,7 +99,6 @@ buttons = [
         InlineKeyboardButton(text="Support Chat", url="https://t.me/Suzune_Support"),
         InlineKeyboardButton(
             text="Updates Channel", url="https://t.me/SuzuneSuperbot"),
-        ),
     ],
     [
         InlineKeyboardButton(text="Help && Commands", callback_data="help_back"),
