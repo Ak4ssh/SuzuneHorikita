@@ -537,11 +537,6 @@ def __chat_settings__(chat_id, user_id):
     return f"This chat is enforcing *gbans*: `{sql.does_chat_gban(chat_id)}`."
 
 
-@support_plus
-def gbanreq(update: Update, context: CallbackContext):
-await app.send_message(
- GBAN_REQ_LOG_ID, 
-"<b>OK WORKING GAND MARAO</b>", )
 
 __help__ = f"""
 *Admins only:*
@@ -551,7 +546,6 @@ __help__ = f"""
 """
 
 GBAN_HANDLER = CommandHandler("scan", gban, run_async=True)
-GBANREQ_HANDLER = CommandHandler("gban", gbanreq, run_async=True)
 UNGBAN_HANDLER = CommandHandler("ungban", ungban, run_async=True)
 GBAN_LIST = CommandHandler("gbanlist", gbanlist, run_async=True)
 GBAN_STATUS = CommandHandler(
@@ -565,10 +559,11 @@ dispatcher.add_handler(GBAN_HANDLER)
 dispatcher.add_handler(UNGBAN_HANDLER)
 dispatcher.add_handler(GBAN_LIST)
 dispatcher.add_handler(GBAN_STATUS)
-dispatcher.add_handler(GBANREQ_HANDLER)
+                       
+                
 
 __mod_name__ = "Aɴᴛɪ-Sᴘᴀᴍ"
-__handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS, GBANREQ_HANDLER]
+__handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
 
 if STRICT_GBAN:  # enforce GBANS if this is set
     dispatcher.add_handler(GBAN_ENFORCER, GBAN_ENFORCE_GROUP)
