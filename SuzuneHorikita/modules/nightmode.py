@@ -131,7 +131,7 @@ async def job_close():
     for pro in chats:
         try:
             await tbot.send_message(
-              int(pro.chat_id), "12:00 Am, Group Is Closing Till 6 Am. Night Mode Started ! \n**Good Night ❤"
+              int(pro.chat_id), "12:00 Am, Group Is Closing Till 6 Am. Night Mode Started ! \nGood Night ❤"
             )
             await tbot(
             functions.messages.EditChatDefaultBannedRightsRequest(
@@ -153,7 +153,7 @@ async def job_open():
     for pro in chats:
         try:
             await tbot.send_message(
-              int(pro.chat_id), "06:00 Am, Group Is Opening.\n**Good Morning Get Back To Our Works Again "
+              int(pro.chat_id), "06:00 Am, Group Is Opening.\nGood Morning Get Back To Our Works Again "
             )
             await tbot(
             functions.messages.EditChatDefaultBannedRightsRequest(
