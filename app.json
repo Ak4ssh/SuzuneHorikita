@@ -1,7 +1,7 @@
 {
-      "name": "innexiaBot",
+      "name": "Suzune Horikita",
       "description": "Telegram group management bot.",
-      "logo": "https://telegra.ph/file/0c2a666a4d94ad1616593.jpg",
+      "logo": "https://telegra.ph/file/51a5e49572f874f4ea984.jpg",
       "keywords": [
          "telegram",
          "anime",
@@ -9,7 +9,7 @@
          "manager",
          "innexi"
       ],   
-   "repository": "https://github.com/DarkCybers/innexia.git",
+   "repository": "https://github.com/desinobita/SuzuneHorikita",
    "addons": [
       {
          "options": {
