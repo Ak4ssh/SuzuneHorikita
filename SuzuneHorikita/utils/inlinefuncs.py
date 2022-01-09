@@ -35,7 +35,6 @@ from SuzuneHorikita.utils.pluginhelper import convert_seconds_to_minutes as time
 from SuzuneHorikita.services.tasks import _get_tasks_text, all_tasks, rm_task
 from SuzuneHorikita.services.types import InlineQueryResultCachedDocument
 from SuzuneHorikita.modules.info import get_chat_info, get_user_info
-from SuzuneHorikita.modules.music import download_youtube_audio
 from SuzuneHorikita.utils.functions import test_speedtest
 from SuzuneHorikita.utils.pastebin import paste
 
