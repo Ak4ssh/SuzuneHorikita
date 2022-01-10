@@ -1,6 +1,5 @@
 import asyncio
 
-from loguru import logger
 from pyrogram import Client, errors
 from pyrogram.raw import types, functions, base
 
