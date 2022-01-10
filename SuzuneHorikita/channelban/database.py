@@ -6,7 +6,7 @@ from loguru import logger
 from pyrogram import errors
 from pyrogram.raw import types, base, functions
 
-from plugins.glovar import linked_channel_db, whitelist_db, stat_db
+from SuzuneHorikita.glovar import linked_channel_db, whitelist_db, stat_db
 
 link_ch_db_lock: asyncio.Lock = asyncio.Lock()
 whitelist_db_lock: asyncio.Lock = asyncio.Lock()
