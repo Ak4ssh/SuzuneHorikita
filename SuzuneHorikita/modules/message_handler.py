@@ -4,7 +4,7 @@ from loguru import logger
 from pyrogram import Client, errors
 from pyrogram.raw import types, functions, base
 
-from plugins.functions import database
+from SuzuneHorikita.channelban import database
 
 
 def pre_sender_channel_check(update: base.Update) -> bool:
