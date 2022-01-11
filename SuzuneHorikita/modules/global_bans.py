@@ -77,6 +77,8 @@ UNGBAN_ERRORS = {
     "User not found",
 }
 
+custom_message_filter = filters.create(lambda _, __, message: False if message.forward_from_chat or message.from_user else True)
+custom_chat_filter = filters.create(lambda _, __, message: True if message.sender_chat else False)
 
 @support_plus
 def gban(update: Update, context: CallbackContext):
