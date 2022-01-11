@@ -283,22 +283,6 @@ def gban(update: Update, context: CallbackContext):
     except:
         pass  # bot probably blocked by user
 
-@support_plus(custom_message_filter & filters.group & custom_chat_filter)
-async def cban(update: Update, context: CallbackContext):
-    chat_id = message.chat.id
-    a_id = message.sender_chat.id
-    if (await whitelist_check(chat_id, a_id)):
-        return
-    try:
-        res = await bot.kick_chat_member(chat_id, a_id)
-    except:
-        return await message.reply_text("Promote me as admin, to use me")
-    if res:
-        mention = f"@{message.sender_chat.username}" if message.sender_chat.username else message.chat_data.title
-        await message.reply_text(text=f"{mention} has been banned.\n\n💡 He can write only with his profile but not through other channels.",
-                                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Unban", callback_data=f"unban_{chat_id}_{a_id}")]]),
-                              )
-    await message.delete()
     
 
 @support_plus
@@ -579,7 +563,7 @@ Constantly help banning spammers off from your group automatically So you wont h
 *Note:* Users can appeal spamwatch bans at @Suzune_Support 
 
 """
-CBAN_HANDLER = CommandHandler("cban", cban, run_async=True)
+
 GBAN_HANDLER = CommandHandler("gban", gban, run_async=True)
 UNGBAN_HANDLER = CommandHandler("ungban", ungban, run_async=True)
 GBAN_LIST = CommandHandler("gbanlist", gbanlist, run_async=True)
@@ -590,14 +574,14 @@ GBAN_ENFORCER = MessageHandler(
     Filters.all & Filters.chat_type.groups, enforce_gban, run_async=True
 )
 
-dispatcher.add_handler(CBAN_HANDLER)
+
 dispatcher.add_handler(GBAN_HANDLER)
 dispatcher.add_handler(UNGBAN_HANDLER)
 dispatcher.add_handler(GBAN_LIST)
 dispatcher.add_handler(GBAN_STATUS)
 
 __mod_name__ = "「Anti-Spam」"
-__handlers__ = [CBAN_HANDLER, GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
+__handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
 
 if STRICT_GBAN:  # enforce GBANS if this is set
     dispatcher.add_handler(GBAN_ENFORCER, GBAN_ENFORCE_GROUP)
