@@ -284,7 +284,7 @@ def gban(update: Update, context: CallbackContext):
         pass  # bot probably blocked by user
 
 @support_plus(custom_message_filter & filters.group & custom_chat_filter)
-async def cban(bot, message):
+async def cban(update: Update, context: CallbackContext):
     chat_id = message.chat.id
     a_id = message.sender_chat.id
     if (await whitelist_check(chat_id, a_id)):
