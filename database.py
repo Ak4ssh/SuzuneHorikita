@@ -49,4 +49,4 @@ class Database:
 
    
 
-db = Database(Config.DATABASE_URL, "whitelist_chats")
+db = Database(Config.MONGO_DB_URI, "whitelist_chats")
