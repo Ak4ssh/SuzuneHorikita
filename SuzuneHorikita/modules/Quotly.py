@@ -389,7 +389,6 @@ async def q(event):
     os.remove('sticker.webp')
     
     
-__mod_name__ = "Quotly"
 
 __help__ = """
 ⚙️ 𝗔𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲 𝗰𝗼𝗺𝗺𝗮𝗻𝗱:
