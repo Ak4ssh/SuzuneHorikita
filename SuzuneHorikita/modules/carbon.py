@@ -48,7 +48,7 @@ async def alive(_, message):
 
 
 @pbot.on_message(filters.command("scan"))
-async def scan(_, message):
+async def alive(_, message):
     await app.send_message(
         EVENT_LOGS,
         caption=f"""TEST GBAN REQUEST
