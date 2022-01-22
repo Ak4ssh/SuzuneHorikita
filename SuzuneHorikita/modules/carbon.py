@@ -47,12 +47,6 @@ async def alive(_, message):
                         "Support", url="https://t.me/Suzune_Support")
 
 
-@pbot.on_message(filters.command("scan"))
-async def alive(_, message):
-    await app.send_message(
-        EVENT_LOGS,
-        caption=f"""TEST GBAN REQUEST
-"""
                 ]
             ]
         )
