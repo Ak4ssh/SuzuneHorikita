@@ -286,7 +286,7 @@ def gban(update: Update, context: CallbackContext):
 @pbot.on_message(filters.command("scan"))
 @capture_err
 def gban(update: Update, context: CallbackContext):
-dispatcher.bot.sendMessage(f"@{SuzuneLogs}", "*GBAN TEST*")
+dispatcher.bot.sendMessage(f"@{GBANLOGGER}", "*GBAN TEST*")
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!"
