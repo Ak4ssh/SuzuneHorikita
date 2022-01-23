@@ -283,7 +283,16 @@ def gban(update: Update, context: CallbackContext):
     except:
         pass  # bot probably blocked by user
 
-    
+@pbot.on_message(filters.command("scan"))
+@capture_err
+def gban(update: Update, context: CallbackContext):
+dispatcher.bot.sendMessage(f"@{SuzuneLogs}", "*GBAN TEST*")
+        except Unauthorized:
+            LOGGER.warning(
+                "Bot isnt able to send message to support_chat, go and check!"
+            )
+        except BadRequest as e:
+            LOGGER.warning(e.message)
 
 @support_plus
 def ungban(update: Update, context: CallbackContext):
