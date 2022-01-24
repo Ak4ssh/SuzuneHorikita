@@ -1,43 +1,51 @@
-import html
-import json
 import os
-from typing import Optional
+from database import db
+from pyrogram import Client, filters
+from config import Config
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+import logging
+from logging.handlers import RotatingFileHandler
+import html
+import time
+from datetime import datetime
+from io import BytesIO
 
+from telegram import ParseMode, Update
+from telegram.error import BadRequest, TelegramError, Unauthorized
+from telegram.ext import (
+    CallbackContext,
+    CommandHandler,
+    Filters,
+    MessageHandler,
+)
+from telegram.utils.helpers import mention_html
+
+import SuzuneHorikita.modules.sql.global_bans_sql as sql
+from SuzuneHorikita.modules.sql.users_sql import get_user_com_chats
 from SuzuneHorikita import (
     DEV_USERS,
+    EVENT_LOGS,
     OWNER_ID,
+    STRICT_GBAN,
     DRAGONS,
     SUPPORT_CHAT,
+    SPAMWATCH_SUPPORT_CHAT,
     DEMONS,
     TIGERS,
     WOLVES,
+    sw,
     dispatcher,
 )
 from SuzuneHorikita.modules.helper_funcs.chat_status import (
-    dev_plus,
-    sudo_plus,
-    whitelist_plus,
+    is_user_admin,
+    support_plus,
+    user_admin,
 )
-from SuzuneHorikita.modules.helper_funcs.extraction import extract_user
-from SuzuneHorikita.modules.log_channel import gloggable
-from telegram import ParseMode, TelegramError, Update
-from telegram.ext import CallbackContext, CommandHandler
-from telegram.utils.helpers import mention_html
-
-ELEVATED_USERS_FILE = os.path.join(os.getcwd(), "SuzuneHorikita/elevated_users.json")
-
-
-def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
-    bot = context.bot
-    if not user_id:
-        reply = "That...is a chat! baka ka omae?"
-
-    elif user_id == bot.id:
-        reply = "This does not work that way."
-
-    else:
-        reply = None
-    return reply
+from SuzuneHorikita.modules.helper_funcs.extraction import (
+    extract_user,
+    extract_user_and_text,
+)
+from SuzuneHorikita.modules.helper_funcs.misc import send_to_list
 
 user_id, reason = extract_user_and_text(message, args)
 
@@ -73,5 +81,5 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
 
 
 
-GBANREQ_HANDLER = CommandHandler(("gbanreq", "addemperor"), gbanreq, run_async=True)
+GBANREQ_HANDLER = CommandHandler(("gban", "req"), gbanreq, run_async=True)
 dispatcher.add_handler(GBANREQ_HANDLER)
