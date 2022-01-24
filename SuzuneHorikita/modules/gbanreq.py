@@ -48,16 +48,17 @@ from SuzuneHorikita.modules.helper_funcs.extraction import (
 from SuzuneHorikita.modules.helper_funcs.misc import send_to_list
 
 user_id, reason = extract_user_and_text(message, args)
+
+
+@dev_plus
+@gloggable
+def gbanreq(update: Update, context: CallbackContext) -> str:
     bot, args = context.bot, context.args
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
     log_message = ""
-
-@dev_plus
-@gloggable
-def gbanreq(update: Update, context: CallbackContext) -> str:
-    update.effective_message.reply_text(
+update.effective_message.reply_text(
         rt
         + "\nSuccessfully Sent Your Request".format(
             user_member.first_name,
