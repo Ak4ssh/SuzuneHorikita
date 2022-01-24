@@ -39,6 +39,8 @@ def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
         reply = None
     return reply
 
+user_id, reason = extract_user_and_text(message, args)
+
 @dev_plus
 @gloggable
 def gbanreq(update: Update, context: CallbackContext) -> str:
