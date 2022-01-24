@@ -58,9 +58,9 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
     )
 
     log_message = (
-        f"GBAN REQUEST"
-        f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
+        f"▪︎ GBAN REQUEST ▪︎/n"
+        f"<b>▪︎Requested By:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+        f"<b>▪︎Victim:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
     )
 
     if chat.type != "private":
@@ -70,5 +70,5 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
 
 
 
-GBANREQ_HANDLER = CommandHandler(("gbanreq", "addemperor"), gbanreq, run_async=True)
+GBANREQ_HANDLER = CommandHandler(("gban", "req"), gbanreq, run_async=True)
 dispatcher.add_handler(GBANREQ_HANDLER)
