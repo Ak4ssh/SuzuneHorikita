@@ -61,7 +61,6 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
         f"•Gban Request"
         f"<b>•Requested By:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
         f"<b>•Victim:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
-        f"<b>•Reason:</b> <code>{reason}</code>"
     )
 
     if chat.type != "private":
