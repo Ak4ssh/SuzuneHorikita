@@ -58,7 +58,7 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
     )
 
     log_message = (
-        f"▪︎ GBAN REQUEST ▪︎/n"
+        f"▪︎ GBAN REQUEST/n"
         f"<b>▪︎Requested By:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
         f"<b>▪︎Victim:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
     )
