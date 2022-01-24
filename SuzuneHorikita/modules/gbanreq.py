@@ -48,13 +48,11 @@ from SuzuneHorikita.modules.helper_funcs.extraction import (
 from SuzuneHorikita.modules.helper_funcs.misc import send_to_list
 
 user_id, reason = extract_user_and_text(message, args)
-message = update.effective_message
+    bot, args = context.bot, context.args
+    message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-    bot, args = context.bot, context.args
-    user_id = extract_user(message, args)
-    user_member = bot.getChat(user_id)
-    rt = ""
+    log_message = ""
 
 @dev_plus
 @gloggable
