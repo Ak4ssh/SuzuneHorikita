@@ -163,7 +163,6 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
             ),
             parse_mode=ParseMode.HTML,
         )
-        return log_message
 
     except BadRequest as excp:
         if excp.message == "Reply message not found":
@@ -171,7 +170,6 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
             if silent:
                 return log_message
             message.reply_text("Gbanned Successfully", quote=False)
-            return log
         else:
             LOGGER.warning(update)
             LOGGER.exception(
