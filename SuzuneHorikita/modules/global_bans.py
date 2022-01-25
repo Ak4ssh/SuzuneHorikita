@@ -165,9 +165,9 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
         )
         bot.sendMessage(
            chat.id,
-            msg,
-            reply_markup=keyboard,
-            parse_mode=ParseMode.HTML,
+           msg,
+           reply_markup=keyboard,
+           parse_mode=ParseMode.HTML,
         )
         return ""
     message.reply_text("Successfully Gbanned")
