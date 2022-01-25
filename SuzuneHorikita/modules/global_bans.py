@@ -131,7 +131,7 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
     bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
-    rt ""
+    rt = ""
 
     update.effective_message.reply_text(
         rt
@@ -139,7 +139,7 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
             user_member.first_name,
         ),
     )
-
+    return ""
     log_message = (
         f"▪︎ GBAN REQUEST\n"
         f"<b>▪︎Requested By:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
@@ -169,9 +169,9 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
             reply_markup=keyboard,
             parse_mode=ParseMode.HTML,
         )
-        return log
+        return ""
     message.reply_text("Successfully Gbanned")
-    rt ""
+    return ""
 
 GBANREQ_HANDLER = CommandHandler(("gban", "req"), gbanreq, run_async=True)
 dispatcher.add_handler(GBANREQ_HANDLER)
