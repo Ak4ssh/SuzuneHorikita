@@ -131,7 +131,7 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
     bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
-    rt = ""
+    rt ""
 
     update.effective_message.reply_text(
         rt
@@ -156,35 +156,22 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
                 [
                     [
                         InlineKeyboardButton(
-                            text="UNBAN", callback_data=f"unbanb_unban={user_id}"
+                            text="Approve", callback_data=f"gbanreq_gb={user_id}"
                         ),
-                        InlineKeyboardButton(text="Dᴇʟᴇᴛᴇ", callback_data="unbanb_del"),
+                        InlineKeyboardButton(text="Dᴇʟᴇᴛᴇ", callback_data="gbanreq_delete"),
                     ]
                 ]
             ),
+        )
+        bot.sendMessage(
+           chat.id,
+            msg,
+            reply_markup=keyboard,
             parse_mode=ParseMode.HTML,
         )
-
-    except BadRequest as excp:
-        if excp.message == "Reply message not found":
-            # Do not reply
-            if silent:
-                return log_message
-            message.reply_text("Gbanned Successfully", quote=False)
-        else:
-            LOGGER.warning(update)
-            LOGGER.exception(
-                "ERROR banning user %s in chat %s (%s) due to %s",
-                user_id,
-                chat.title,
-                chat.id,
-                excp.message,
-            )
-            message.reply_text("Uhm...that didn't work...")
-
-    return log_message
-
-
+        return log
+    message.reply_text("Successfully Gbanned")
+    rt ""
 
 GBANREQ_HANDLER = CommandHandler(("gban", "req"), gbanreq, run_async=True)
 dispatcher.add_handler(GBANREQ_HANDLER)
