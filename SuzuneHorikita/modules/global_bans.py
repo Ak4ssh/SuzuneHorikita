@@ -148,6 +148,7 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
 
     if chat.type != "private":
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
+        
     bot.sendMessage(
             chat.id,
             reply,
