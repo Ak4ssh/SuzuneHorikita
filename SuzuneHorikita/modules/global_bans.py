@@ -123,6 +123,7 @@ def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
     return reply
 
 @support_plus
+@gloggable
 def gbanreq(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
