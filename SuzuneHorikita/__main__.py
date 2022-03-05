@@ -5,8 +5,7 @@ import importlib
 import time
 import re
 import sys
-import traceback
-import SuzuneHorikita.modules.sql.users_sql as sql
+import traceback 
 from sys import argv
 from typing import Optional
 from telegram import __version__ as peler
