@@ -7,9 +7,9 @@ import requests
 from telethon import types
 from telethon.tl import functions
 
-from EmikoRobot import REM_BG_API_KEY
-from EmikoRobot.events import register
-from EmikoRobot import telethn as tbot
+from SuzuneHorikita import REM_BG_API_KEY
+from SuzuneHorikita.events import register
+from SuzuneHorikita import telethn as tbot
 
 REM_BG_API_KEY = "REM_BG_API_KEY"
 TEMP_DOWNLOAD_DIRECTORY = "./"
