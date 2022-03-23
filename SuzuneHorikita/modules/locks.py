@@ -65,7 +65,7 @@ LOCK_CHAT_RESTRICTION = {
     "info": {"can_change_info": False},
     "invite": {"can_invite_users": False},
     "pin": {"can_pin_messages": False},
-    "anonchannel": {"bot.del_chat_member": True},
+    "anonchannel": {"bot.del_ChannelMessages": True},
 }
 
 UNLOCK_CHAT_RESTRICTION = {
