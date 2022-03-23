@@ -210,7 +210,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
             # Welcome Devs
             if new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "Whoa! The Prince just joined!",
+                    "Whoa! The Dev just joined!",
                     reply_to_message_id=reply,
                 )
                 continue
@@ -218,7 +218,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
             # Welcome Sudos
             if new_mem.id in DRAGONS:
                 update.effective_message.reply_text(
-                    "Huh! Emperor just joined! Stay Alert!",
+                    "Huh! Dragon User just joined! Stay Alert!",
                     reply_to_message_id=reply,
                 )
                 continue
@@ -226,7 +226,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
             # Welcome Support
             if new_mem.id in DEMONS:
                 update.effective_message.reply_text(
-                    "Huh! Someone with Captain just joined!",
+                    "Huh! Someone with Demon just joined!",
                     reply_to_message_id=reply,
                 )
                 continue
@@ -234,7 +234,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
             # Welcome WOLVES
             if new_mem.id in WOLVES:
                 update.effective_message.reply_text(
-                    "Oof! A Soldier Users just joined!", reply_to_message_id=reply
+                    "Oof! A Wolves Users just joined!", reply_to_message_id=reply
                 )
                 continue
 
@@ -687,7 +687,7 @@ def welcome(update: Update, context: CallbackContext):
         noformat = True
         pref, welcome_m, cust_content, welcome_type = sql.get_welc_pref(chat.id)
         update.effective_message.reply_text(
-            f"This chat has it's welcome setting set to: {pref}.\n"
+            f"This chat has it's welcome setting set to: `{pref}`.\n"
             f"*The welcome message (not filling the {{}}) is:*",
             parse_mode=ParseMode.MARKDOWN,
         )
@@ -749,7 +749,7 @@ def goodbye(update: Update, context: CallbackContext):
         noformat = True
         pref, goodbye_m, goodbye_type = sql.get_gdbye_pref(chat.id)
         update.effective_message.reply_text(
-            f"This chat has it's goodbye setting set to: {pref}.\n"
+            f"This chat has it's goodbye setting set to: `{pref}`.\n"
             f"*The goodbye  message (not filling the {{}}) is:*",
             parse_mode=ParseMode.MARKDOWN,
         )
@@ -926,14 +926,14 @@ def welcomemute(update: Update, context: CallbackContext) -> str:
                 f"Has toggled welcome mute to <b>CAPTCHA</b>."
             )
         msg.reply_text(
-            "Please enter off/no/soft/strong/captcha!",
+            "Please enter `off`/`no`/`soft`/`strong`/`captcha`!",
             parse_mode=ParseMode.MARKDOWN,
         )
         return ""
     curr_setting = sql.welcome_mutes(chat.id)
     reply = (
-        f"\n Give me a setting!\nChoose one out of: off/no or soft, strong or captcha only! \n"
-        f"Current setting: {curr_setting}"
+        f"\n Give me a setting!\nChoose one out of: `off`/`no` or `soft`, `strong` or `captcha` only! \n"
+        f"Current setting: `{curr_setting}`"
     )
     msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
     return ""
@@ -1163,36 +1163,36 @@ def user_captcha_button(update: Update, context: CallbackContext):
 WELC_HELP_TXT = (
     "Your group's welcome/goodbye messages can be personalised in multiple ways. If you want the messages"
     " to be individually generated, like the default welcome message is, you can use *these* variables:\n"
-    "  • {first}*:* this represents the user's *first* name\n"
-    "  • {last}*:* this represents the user's *last* name. Defaults to *first name* if user has no "
+    "  • `{first}`*:* this represents the user's *first* name\n"
+    "  • `{last}`*:* this represents the user's *last* name. Defaults to *first name* if user has no "
     "last name.\n"
-    "  • {fullname}*:* this represents the user's *full* name. Defaults to *first name* if user has no "
+    "  • `{fullname}`*:* this represents the user's *full* name. Defaults to *first name* if user has no "
     "last name.\n"
-    "  • {username}*:* this represents the user's *username*. Defaults to a *mention* of the user's "
+    "  • `{username}`*:* this represents the user's *username*. Defaults to a *mention* of the user's "
     "first name if has no username.\n"
-    "  • {mention}*:* this simply *mentions* a user - tagging them with their first name.\n"
-    "  • {id}*:* this represents the user's *id*\n"
-    "  • {count}*:* this represents the user's *member number*.\n"
-    "  • {chatname}*:* this represents the *current chat name*.\n"
-    "\nEach variable MUST be surrounded by {} to be replaced.\n"
+    "  • `{mention}`*:* this simply *mentions* a user - tagging them with their first name.\n"
+    "  • `{id}`*:* this represents the user's *id*\n"
+    "  • `{count}`*:* this represents the user's *member number*.\n"
+    "  • `{chatname}`*:* this represents the *current chat name*.\n"
+    "\nEach variable MUST be surrounded by `{}` to be replaced.\n"
     "Welcome messages also support markdown, so you can make any elements bold/italic/code/links. "
     "Buttons are also supported, so you can make your welcomes look awesome with some nice intro "
     "buttons.\n"
-    f"To create a button linking to your rules, use this: [Rules](buttonurl://t.me/{dispatcher.bot.username}?start=group_id). "
-    "Simply replace group_id with your group's id, which can be obtained via /id, and you're good to "
-    "go. Note that group ids are usually preceded by a - sign; this is required, so please don't "
+    f"To create a button linking to your rules, use this: `[Rules](buttonurl://t.me/{dispatcher.bot.username}?start=group_id)`. "
+    "Simply replace `group_id` with your group's id, which can be obtained via /id, and you're good to "
+    "go. Note that group ids are usually preceded by a `-` sign; this is required, so please don't "
     "remove it.\n"
     "You can even set images/gifs/videos/voice messages as the welcome message by "
-    "replying to the desired media, and calling /setwelcome."
+    "replying to the desired media, and calling `/setwelcome`."
 )
 
 WELC_MUTE_HELP_TXT = (
     "You can get the bot to mute new people who join your group and hence prevent spambots from flooding your group. "
     "The following options are possible:\n"
-    "  • /welcomemute soft*:* restricts new members from sending media for 24 hours.\n"
-    "  • /welcomemute strong*:* mutes new members till they tap on a button thereby verifying they're human.\n"
-    "  • /welcomemute captcha*:*  mutes new members till they solve a button captcha thereby verifying they're human.\n"
-    "  • /welcomemute off*:* turns off welcomemute.\n"
+    "  • `/welcomemute soft`*:* restricts new members from sending media for 24 hours.\n"
+    "  • `/welcomemute strong`*:* mutes new members till they tap on a button thereby verifying they're human.\n"
+    "  • `/welcomemute captcha`*:*  mutes new members till they solve a button captcha thereby verifying they're human.\n"
+    "  • `/welcomemute off`*:* turns off welcomemute.\n"
     "*Note:* Strong mode kicks a user from the chat if they dont verify in 120seconds. They can always rejoin though"
 )
 
@@ -1229,43 +1229,28 @@ def __chat_settings__(chat_id, _):
     welcome_pref = sql.get_welc_pref(chat_id)[0]
     goodbye_pref = sql.get_gdbye_pref(chat_id)[0]
     return (
-        "This chat has it's welcome preference set to {}.\n"
-        "It's goodbye preference is {}.".format(welcome_pref, goodbye_pref)
+        "This chat has it's welcome preference set to `{}`.\n"
+        "It's goodbye preference is `{}`.".format(welcome_pref, goodbye_pref)
     )
 
 
 __help__ = """
-*Admins Command Only:*
-
- /welcome - <on/off> enable/disable welcome messages.
-
- /welcome - shows current welcome settings.
-
- /welcome - noformat shows current welcome settings, without the formatting - useful to recycle your welcome messages!
-
- /goodbye - same usage and args as /welcome.
-
- /setwelcome - <sometext> set a custom welcome message. If used replying to media, uses that media.
-
- /setgoodbye - <sometext> set a custom goodbye message. If used replying to media, uses that media.
-
- /resetwelcome - reset to the default welcome message.
-
- /resetgoodbye - reset to the default goodbye message.
-
- /cleanwelcome - <on/off> On new member, try to delete the previous welcome message to avoid spamming the chat.
-
-
- /welcomemutehelp - gives information about welcome mutes.
-
- /cleanservice - <on/off deletes telegrams welcome/left service messages.
-
+*Admins only:*
+ /welcome <on/off>*:* enable/disable welcome messages.
+ /welcome*:* shows current welcome settings.
+ /welcome noformat*:* shows current welcome settings, without the formatting - useful to recycle your welcome messages!
+ /goodbye*:* same usage and args as `/welcome`.
+ /setwelcome <sometext>*:* set a custom welcome message. If used replying to media, uses that media.
+ /setgoodbye <sometext>*:* set a custom goodbye message. If used replying to media, uses that media.
+ /resetwelcome*:* reset to the default welcome message.
+ /resetgoodbye*:* reset to the default goodbye message.
+ /cleanwelcome <on/off>*:* On new member, try to delete the previous welcome message to avoid spamming the chat.
+ /welcomemutehelp*:* gives information about welcome mutes.
+ /cleanservice <on/off*:* deletes telegrams welcome/left service messages.
  *Example:*
 user joined chat, user left chat.
-
 *Welcome markdown:*
-
- /welcomehelp - view more formatting information for custom welcome/goodbye messages.
+ /welcomehelp*:* view more formatting information for custom welcome/goodbye messages.
 """
 
 NEW_MEM_HANDLER = MessageHandler(
@@ -1328,7 +1313,7 @@ dispatcher.add_handler(BUTTON_VERIFY_HANDLER)
 dispatcher.add_handler(WELCOME_MUTE_HELP)
 dispatcher.add_handler(CAPTCHA_BUTTON_VERIFY_HANDLER)
 
-__mod_name__ = "「Welcome & Greetings」"
+__mod_name__ = "Greetings"
 __command_list__ = []
 __handlers__ = [
     NEW_MEM_HANDLER,

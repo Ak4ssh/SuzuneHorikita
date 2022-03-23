@@ -1,5 +1,5 @@
 import html
-from typing import Optional, List
+from typing import Optional
 import re
 
 from telegram import Message, Chat, Update, User, ChatPermissions
@@ -53,11 +53,11 @@ def check_flood(update, context) -> str:
     try:
         getmode, getvalue = sql.get_flood_setting(chat.id)
         if getmode == 1:
-            chat.kick_member(user.id)
+            chat.ban_member(user.id)
             execstrings = "Banned"
             tag = "BANNED"
         elif getmode == 2:
-            chat.kick_member(user.id)
+            chat.ban_member(user.id)
             chat.unban_member(user.id)
             execstrings = "Kicked"
             tag = "KICKED"
@@ -71,7 +71,7 @@ def check_flood(update, context) -> str:
             tag = "MUTED"
         elif getmode == 4:
             bantime = extract_time(msg, getvalue)
-            chat.kick_member(user.id, until_date=bantime)
+            chat.ban_member(user.id, until_date=bantime)
             execstrings = "Banned for {}".format(getvalue)
             tag = "TBAN"
         elif getmode == 5:
@@ -397,7 +397,7 @@ def __chat_settings__(chat_id, user_id):
         return "Not enforcing to flood control."
     return "Antiflood has been set to`{}`.".format(limit)
 
-__mod_name__ = "Fʟᴏᴏᴅ"
+__mod_name__ = "Anti-Flood"
 
 FLOOD_BAN_HANDLER = MessageHandler(
     Filters.all & ~Filters.status_update & Filters.chat_type.groups,
@@ -405,7 +405,7 @@ FLOOD_BAN_HANDLER = MessageHandler(
     run_async=True,
 )
 SET_FLOOD_HANDLER = CommandHandler(
-    "setflood", set_flood, filters=Filters.chat_type.group, run_async=True
+    "setflood", set_flood, filters=Filters.chat_type.groups, run_async=True
 )
 SET_FLOOD_MODE_HANDLER = CommandHandler(
     "setfloodmode",

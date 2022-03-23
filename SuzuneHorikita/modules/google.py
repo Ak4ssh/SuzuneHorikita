@@ -57,11 +57,11 @@ async def _(event):
         except IndexError:
             break
     await webevent.edit(
-        "**Search Query:**\n" + match + "\n\n**Results:**\n" + msg, link_preview=False
+        "**Search Query:**\n`" + match + "`\n\n**Results:**\n" + msg, link_preview=False
     )
 
 
-@register(pattern="^/image (.*)")
+@register(pattern="^/img (.*)")
 async def img_sampler(event):
     if event.fwd_from:
         return
@@ -102,15 +102,15 @@ async def okgoogle(img):
         photo = io.BytesIO()
         await tbot.download_media(message, photo)
     else:
-        await img.reply("Reply to photo or sticker nigger.")
+        await img.reply("`Reply to photo or sticker nigger.`")
         return
 
     if photo:
-        dev = await img.reply("Processing...")
+        dev = await img.reply("`Processing...`")
         try:
             image = Image.open(photo)
         except OSError:
-            await dev.edit("Unsupported sexuality, most likely.")
+            await dev.edit("`Unsupported sexuality, most likely.`")
             return
         name = "okgoogle.png"
         image.save(name, "PNG")
@@ -123,11 +123,11 @@ async def okgoogle(img):
 
         if response != 400:
             await dev.edit(
-                "Image successfully uploaded to Google. Maybe."
-                "\nParsing source now. Maybe."
+                "`Image successfully uploaded to Google. Maybe.`"
+                "\n`Parsing source now. Maybe.`"
             )
         else:
-            await dev.edit("Google told me to fuck off.")
+            await dev.edit("`Google told me to fuck off.`")
             return
 
         os.remove(name)
@@ -136,9 +136,9 @@ async def okgoogle(img):
         imgspage = match["similar_images"]
 
         if guess and imgspage:
-            await dev.edit(f"[{guess}]({fetchUrl})\n\nLooking for this Image...")
+            await dev.edit(f"[{guess}]({fetchUrl})\n\n`Looking for this Image...`")
         else:
-            await dev.edit("Can't find this piece of shit.")
+            await dev.edit("`Can't find this piece of shit.`")
             return
 
         if img.pattern_match.group(1):
@@ -276,26 +276,18 @@ async def apk(e):
         await e.reply("Exception Occured:- " + str(err))
 
 
-__mod_name__ = "「Search」"
+__mod_name__ = "Search"
 
 __help__ = """
- /google - <query> Perform a google search
+❂ /google <query>*:* Perform a google search
+❂ /image <query>*:* Search Google for images and returns them\nFor greater no. of results specify lim, For eg: `/img hello lim=10`
+❂ /app <appname>*:* Searches for an app in Play Store and returns its details.
+❂ /reverse: Does a reverse image search of the media which it was replied to.
+❂ /gps <location>*:* Get gps location.
+❂ /github <username>*:* Get information about a GitHub user.
+❂ /country <country name>*:* Gathering info about given country
+❂ /imdb <Movie name>*:* Get full info about a movie with imdb.com
+❂ Emiko <query>*:* Emiko answers the query
 
- /image - <query> Search Google for images and returns them\nFor greater no. of results specify lim, For eg: /img hello lim=10
-
- /app - <appname> Searches for an app in Play Store and returns its details.
-
- /reverse - Does a reverse image search of the media which it was replied to.
-
- /gps <location> Get gps location.
-
- /github - <username> Get information about a GitHub user.
-
- /country - <country name> Gathering info about given country
-
- /imdb - <Movie name> Get full info about a movie with imdb.com
-
- SuzuneHorikita - <query> SuzuneHorikita answers the query
-
-💡 Ex: Suzune Horikita where is Japan?
+  💡Ex: `Emiko where is Japan?`
 """

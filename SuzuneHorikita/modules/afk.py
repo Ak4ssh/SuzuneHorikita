@@ -65,14 +65,14 @@ def no_longer_afk(update: Update, context: CallbackContext):
         firstname = update.effective_user.first_name
         try:
             options = [
-                "{} is here!",
-                "{} is back!",
-                "{} is now in the chat!",
-                "{} is awake!",
-                "{} is back online!",
-                "{} is finally here!",
-                "Welcome back! {}",
-                "Where is {}?\nIn the chat!",
+                "{} is still in contact with us.",
+                "{} is back again with same power and energy!",
+                "{} is now in the way of the destruction.",
+                "As You Can See {} Is Not Dead ",
+                "{} has recharged his pack and came online",
+                "Hashh {} We Thought That You Were Dead.",
+                "Hey Kids Side Please {} Is Back",
+                "{} Are You Fine Now?",
             ]
             chosen_option = random.choice(options)
             update.effective_message.reply_text(chosen_option.format(firstname))
@@ -156,7 +156,7 @@ dispatcher.add_handler(AFK_REGEX_HANDLER, AFK_GROUP)
 dispatcher.add_handler(NO_AFK_HANDLER, AFK_GROUP)
 dispatcher.add_handler(AFK_REPLY_HANDLER, AFK_REPLY_GROUP)
 
-__mod_name__ = "ᴀfᴋ"
+__mod_name__ = "Afk​"
 __command_list__ = ["afk"]
 __handlers__ = [
     (AFK_HANDLER, AFK_GROUP),

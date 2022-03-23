@@ -173,14 +173,14 @@ def airing(update: Update, context: CallbackContext):
     ).json()["data"]["Media"]
     info = response.get("siteUrl")
     image = info.replace("anilist.co/anime/", "img.anili.st/media/")
-    msg = f"*Name*: *{response['title']['romaji']}*({response['title']['native']})\n*ID*: {response['id']}"
+    msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*ID*: `{response['id']}`"
     if response["nextAiringEpisode"]:
         time = response["nextAiringEpisode"]["timeUntilAiring"] * 1000
         time = t(time)
-        msg += f"\n*Episode*: {response['nextAiringEpisode']['episode']}\n*Airing In*: {time}"
+        msg += f"\n*Episode*: `{response['nextAiringEpisode']['episode']}`\n*Airing In*: `{time}`"
     else:
         buttons = [[InlineKeyboardButton("More Info", url=info)]]
-        msg += f"\n*Episode*: {response['episodes']}\n*Status*: N/A"
+        msg += f"\n*Episode*: `{response['episodes']}`\n*Status*: `N/A`"
     update.effective_message.reply_photo(
         photo=image,
         caption=msg,
@@ -207,14 +207,14 @@ def anime(update: Update, context: CallbackContext):
         return
     if json:
         json = json['data']['Media']
-        msg = f"*{json['title']['romaji']}*({json['title']['native']})\n*Type*: {json['format']}\n*Status*: {json['status']}\n*Episodes*: {json.get('episodes', 'N/A')}\n*Duration*: {json.get('duration', 'N/A')} Per Ep.\n*Score*: {json['averageScore']}\n*Genres*: "
+        msg = f"*{json['title']['romaji']}*(`{json['title']['native']}`)\n*Type*: {json['format']}\n*Status*: {json['status']}\n*Episodes*: {json.get('episodes', 'N/A')}\n*Duration*: {json.get('duration', 'N/A')} Per Ep.\n*Score*: {json['averageScore']}\n*Genres*: `"
         for x in json['genres']:
             msg += f"{x}, "
-        msg = msg[:-2] + '\n'
-        msg += "*Studios*: "
+        msg = msg[:-2] + '`\n'
+        msg += "*Studios*: `"
         for x in json['studios']['nodes']:
             msg += f"{x['name']}, "
-        msg = msg[:-2] + '\n'
+        msg = msg[:-2] + '`\n'
         info = json.get('siteUrl')
         trailer = json.get('trailer', None)
         anime_id = json['id']
@@ -273,7 +273,7 @@ def character(update: Update, context: CallbackContext):
         return
     if json:
         json = json['data']['Character']
-        msg = f"*{json.get('name').get('full')}*({json.get('name').get('native')})\n"
+        msg = f"*{json.get('name').get('full')}*(`{json.get('name').get('native')}`)\n"
         description = f"{json['description']}"
         site_url = json.get('siteUrl')
         msg += shorten(description, site_url)
@@ -317,13 +317,13 @@ def manga(update: Update, context: CallbackContext):
         if title:
             msg += f"*{title}*"
             if title_native:
-                msg += f"({title_native})"
+                msg += f"(`{title_native}`)"
         if start_date:
-            msg += f"\n*Start Date* - {start_date}"
+            msg += f"\n*Start Date* - `{start_date}`"
         if status:
-            msg += f"\n*Status* - {status}"
+            msg += f"\n*Status* - `{status}`"
         if score:
-            msg += f"\n*Score* - {score}"
+            msg += f"\n*Score* - `{score}`"
         msg += '\n*Genres* - '
         for x in json.get('genres', []):
             msg += f"{x}, "
@@ -409,11 +409,11 @@ def user(update: Update, context: CallbackContext):
 
     caption += textwrap.dedent(f"""
     *Username*: [{user['username']}]({user['url']})
-    *Gender*: {user['gender']}
-    *Birthday*: {user_birthday_formatted}
-    *Joined*: {user_joined_date_formatted}
-    *Days wasted watching anime*: {user['anime_stats']['days_watched']}
-    *Days wasted reading manga*: {user['manga_stats']['days_read']}
+    *Gender*: `{user['gender']}`
+    *Birthday*: `{user_birthday_formatted}`
+    *Joined*: `{user_joined_date_formatted}`
+    *Days wasted watching anime*: `{user['anime_stats']['days_watched']}`
+    *Days wasted reading manga*: `{user['manga_stats']['days_read']}`
     """)
 
     caption += f"*About*: {about_string}"
@@ -552,34 +552,21 @@ def kayo(update: Update, context: CallbackContext):
 
 
 __help__ = """
-Welcome To Anime Search Module
-                         
- /anime - <anime> returns information about the anime.
+ ──「 Anime search 」──                           
+❂ /anime <anime>: returns information about the anime.
+❂ /whatanime: returns source of anime when replied to photo or gif.                                                          
+❂ /character <character>: returns information about the character.
+❂ /manga <manga>: returns information about the manga.
+❂ /user <user>: returns information about a MyAnimeList user.
+❂ /upcoming: returns a list of new anime in the upcoming seasons.
+❂ /airing <anime>: returns anime airing info.
+❂ /whatanime <anime>: reply to gif or photo.
+❂ /kaizoku <anime>: search an anime on animekaizoku.com
+❂ /kayo <anime>: search an anime on animekayo.com
 
- /whatanime - returns source of anime when replied to photo or gif.
-                                                          
- /character - <character> returns information about the character.
-
- /manga - <manga> returns information about the manga.
-
- /user - <user> returns information about a MyAnimeList user.
-
- /upcoming - returns a list of new anime in the upcoming seasons.
-
- /airing - <anime> returns anime airing info.
-
- /whatanime - <anime> reply to gif or photo.
-
- /kaizoku - <anime> search an anime on animekaizoku.com
-
- /kayo - <anime> search an anime on animekayo.com
-
-Anime Quotes Command
-
- /animequotes - for anime quotes randomly as photos.
-
- /quote - send quotes randomly as text
-
+ 「 Anime Quotes 」
+❂ /animequotes: for anime quotes randomly as photos.
+❂ /quote: send quotes randomly as text
  """
 
 ANIME_HANDLER = DisableAbleCommandHandler("anime", anime, run_async=True)
@@ -602,7 +589,7 @@ dispatcher.add_handler(KAIZOKU_SEARCH_HANDLER)
 dispatcher.add_handler(KAYO_SEARCH_HANDLER)
 dispatcher.add_handler(UPCOMING_HANDLER)
 
-__mod_name__ = "「Anime」"
+__mod_name__ = "Anime"
 __command_list__ = [
     "anime", "manga", "character", "user", "upcoming", "kaizoku", "airing",
     "kayo"

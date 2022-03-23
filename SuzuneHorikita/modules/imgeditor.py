@@ -1,4 +1,3 @@
-# By @TheVenomXD
 
 from pyrogram import filters
 from pyrogram.types import (

@@ -190,7 +190,6 @@ def get(update, context, notename, show_none=True, no_format=False):
                         caption=text,
                         reply_to_message_id=reply_id,
                         parse_mode=parseMode,
-                        disable_web_page_preview=True,
                         reply_markup=keyboard,
                     )
 
@@ -210,8 +209,8 @@ def get(update, context, notename, show_none=True, no_format=False):
                     sql.rm_note(note_chat_id, notename)
                 else:
                     message.reply_text(
-                        "This note could not be sent, as it is incorrectly formatted. Ask in "
-                        f"@{SUPPORT_CHAT} if you can't figure out why!",
+                        "This note haven't been correctly Formatted"
+                        f" Visit @{SUPPORT_CHAT} if you can't figure out why!",
                     )
                     LOGGER.exception(
                         "Could not parse message #%s in chat %s",
@@ -254,7 +253,7 @@ def slash_get(update: Update, context: CallbackContext):
         note_name = str(noteid).strip(">").split()[1]
         get(update, context, note_name, show_none=False)
     except IndexError:
-        update.effective_message.reply_text("Wrong Note ID 😾")
+        update.effective_message.reply_text("Wrong Note ID")
 
 
 @user_admin
@@ -279,7 +278,7 @@ def save(update: Update, context: CallbackContext):
     )
 
     msg.reply_text(
-        f"Yas! Added {note_name}.\nGet it with /get {note_name}, or #{note_name}",
+        f"Yas! Added `{note_name}`.\nGet it with /get `{note_name}`, or `#{note_name}`",
         parse_mode=ParseMode.MARKDOWN,
     )
 
@@ -378,12 +377,12 @@ def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
     notes = len(note_list) + 1
-    msg = "Get note by /notenumber or #notename \n\n  *ID*    *Note* \n"
+    msg = "Get note by `/notenumber` or `#notename` \n\n  *ID*    *Note* \n"
     for note_id, note in zip(range(1, notes), note_list):
         if note_id < 10:
-            note_name = f"{note_id:2}.  #{(note.name.lower())}\n"
+            note_name = f"`{note_id:2}.`  `#{(note.name.lower())}`\n"
         else:
-            note_name = f"{note_id}.  #{(note.name.lower())}\n"
+            note_name = f"`{note_id}.`  `#{(note.name.lower())}`\n"
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
             msg = ""
@@ -544,48 +543,37 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, user_id):
     notes = sql.get_all_chat_notes(chat_id)
-    return f"There are {len(notes)} notes in this chat."
+    return f"There are `{len(notes)}` notes in this chat."
 
 
 __help__ = """
-
- /get - <notename> get the note with this notename
-
- <notename> same as /get
-
- /notes - or /saved list all saved notes in this chat
-
- /number - Will pull the note of that number in the list
-
-If you would like to retrieve the contents of a note without any formatting, use /get <notename> noformat. This can
+ /get <notename>*:* get the note with this notename
+ #<notename>*:* same as /get
+ /notes or /saved*:* list all saved notes in this chat
+ /number *:* Will pull the note of that number in the list
+If you would like to retrieve the contents of a note without any formatting, use `/get <notename> noformat`. This can \
 be useful when updating a current note
 
 *Admins only:*
-
- /save -  <notename> <notedata> saves notedata as a note with name notename
-
-*A button can be added to a note by using standard markdown link syntax - the link should just be prepended with a*
-buttonurl:  *section, as such:* [somelink](buttonurl:example.com). *Check* /markdownhelp *for more info*
-
- /save - <notename> save the replied message as a note with name notename
-
- Separate diff replies by %%% to get random notes
-
+ /save <notename> <notedata>*:* saves notedata as a note with name notename
+A button can be added to a note by using standard markdown link syntax - the link should just be prepended with a \
+`buttonurl:` section, as such: `[somelink](buttonurl:example.com)`. Check `/markdownhelp` for more info
+ /save <notename>*:* save the replied message as a note with name notename
+ Separate diff replies by `%%%` to get random notes
  *Example:*
- /save notename
+ `/save notename
  Reply 1
  %%%
  Reply 2
  %%%
- Reply 3
- /clear - <notename> clear note with this name
-
- /removeallnotes - removes all notes from the group
+ Reply 3`
+ /clear <notename>*:* clear note with this name
+ /removeallnotes*:* removes all notes from the group
 
  *Note:* Note names are case-insensitive, and they are automatically converted to lowercase before getting saved.
 """
 
-__mod_name__ = "「Notes」"
+__mod_name__ = "Notes"
 
 GET_HANDLER = CommandHandler("get", cmd_get, run_async=True)
 HASH_GET_HANDLER = MessageHandler(Filters.regex(r"^#[^\s]+"), hash_get, run_async=True)

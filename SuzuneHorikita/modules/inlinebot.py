@@ -4,7 +4,7 @@ from SuzuneHorikita import pbot as app
 from SuzuneHorikita.utils.pluginhelper import fetch
 from SuzuneHorikita.utils.inlinefuncs import *
 
-__MODULE__ = "ɪɴʟɪɴᴇ"
+__MODULE__ = "Inline"
 __HELP__ = """See inline for help related to inline"""
 
 

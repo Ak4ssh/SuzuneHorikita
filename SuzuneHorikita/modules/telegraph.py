@@ -1,5 +1,3 @@
-# This file is part of YuiGBot (Telegram Bot)
-# I give credit for this module to YuiGBot.
 
 from SuzuneHorikita.events import register
 from SuzuneHorikita import telethn
@@ -46,7 +44,7 @@ async def _(event):
                 end = datetime.now()
                 ms_two = (end - start).seconds
                 os.remove(downloaded_file_name)
-                await h.edit("Uploaded to https://telegra.ph{}".format(media_urls[0], (ms + ms_two)), link_preview=True)
+                await h.edit("Created In Telegraph Link ▪︎ https://telegra.ph{}".format(media_urls[0], (ms + ms_two)), link_preview=True)
         elif input_str == "gt":
             user_object = await telethn.get_entity(r_message.sender_id)
             title_of_page = user_object.first_name # + " " + user_object.last_name

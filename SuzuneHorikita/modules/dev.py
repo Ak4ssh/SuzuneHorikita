@@ -18,13 +18,13 @@ from telegram.ext import CallbackContext, CommandHandler
 def allow_groups(update: Update, context: CallbackContext):
     args = context.args
     if not args:
-        state = "Lockdown is " + "on" if not EmikooRobot.ALLOW_CHATS else "off"
+        state = "Lockdown is " + "on" if not SuzuneHorikita.ALLOW_CHATS else "off"
         update.effective_message.reply_text(f"Current state: {state}")
         return
     if args[0].lower() in ["off", "no"]:
-        EmikooRobot.ALLOW_CHATS = True
+        SuzuneHorikita.ALLOW_CHATS = True
     elif args[0].lower() in ["yes", "on"]:
-        EmikooRobot.ALLOW_CHATS = False
+        SuzuneHorikita.ALLOW_CHATS = False
     else:
         update.effective_message.reply_text("Format: /lockdown Yes/No or Off/On")
         return
@@ -72,7 +72,7 @@ def gitpull(update: Update, context: CallbackContext):
 @dev_plus
 def restart(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
-        "Starting a new instance and shutting down this one",
+        "System Shutting Down",
     )
 
     os.system("restart.bat")

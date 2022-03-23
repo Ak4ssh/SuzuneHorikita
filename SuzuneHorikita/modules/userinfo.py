@@ -44,7 +44,7 @@ from SuzuneHorikita import telethn
 
 def no_by_per(totalhp, percentage):
     """
-    rtype: num of percentage from total
+    rtype: num of `percentage` from total
     eg: 1000, 10 -> 10% of 1000 (100)
     """
     return totalhp * percentage / 100
@@ -52,7 +52,7 @@ def no_by_per(totalhp, percentage):
 
 def get_percentage(totalhp, earnedhp):
     """
-    rtype: percentage of totalhp num
+    rtype: percentage of `totalhp` num
     eg: (1000, 100) will return 10%
     """
 
@@ -90,7 +90,7 @@ def hpmanager(user):
 
     if not is_user_gbanned(user.id):
 
-        # Assign new var new_hp since we need total_hp in
+        # Assign new var `new_hp` since we need `total_hp` in
         # end to calculate percentage.
         new_hp = total_hp
 
@@ -150,8 +150,8 @@ def get_id(update: Update, context: CallbackContext):
 
             msg.reply_text(
                 f"<b>Telegram ID:</b>\n"
-                f"✯ {html.escape(user2.first_name)} - <code>{user2.id}</code>.\n"
-                f"✯ {html.escape(user1.first_name)} - <code>{user1.id}</code>.",
+                f"• {html.escape(user2.first_name)} - <code>{user2.id}</code>.\n"
+                f"• {html.escape(user1.first_name)} - <code>{user1.id}</code>.",
                 parse_mode=ParseMode.HTML,
             )
 
@@ -192,23 +192,23 @@ async def group_info(event) -> None:
             "Can't for some reason, maybe it is a private one or that I am banned there.",
         )
         return
-    msg = f"**ID**: {entity.id}"
-    msg += f"\n**Title**: {entity.title}"
-    msg += f"\n**Datacenter**: {entity.photo.dc_id}"
-    msg += f"\n**Video PFP**: {entity.photo.has_video}"
-    msg += f"\n**Supergroup**: {entity.megagroup}"
-    msg += f"\n**Restricted**: {entity.restricted}"
-    msg += f"\n**Scam**: {entity.scam}"
-    msg += f"\n**Slowmode**: {entity.slowmode_enabled}"
+    msg = f"**ID**: `{entity.id}`"
+    msg += f"\n**Title**: `{entity.title}`"
+    msg += f"\n**Datacenter**: `{entity.photo.dc_id}`"
+    msg += f"\n**Video PFP**: `{entity.photo.has_video}`"
+    msg += f"\n**Supergroup**: `{entity.megagroup}`"
+    msg += f"\n**Restricted**: `{entity.restricted}`"
+    msg += f"\n**Scam**: `{entity.scam}`"
+    msg += f"\n**Slowmode**: `{entity.slowmode_enabled}`"
     if entity.username:
         msg += f"\n**Username**: {entity.username}"
     msg += "\n\n**Member Stats:**"
-    msg += f"\nAdmins: {len(totallist)}"
-    msg += f"\nUsers: {totallist.total}"
+    msg += f"\n`Admins:` `{len(totallist)}`"
+    msg += f"\n`Users`: `{totallist.total}`"
     msg += "\n\n**Admins List:**"
     for x in totallist:
-        msg += f"\n✯ [{x.id}](tg://user?id={x.id})"
-    msg += f"\n\n**Description**:\n{ch_full.full_chat.about}"
+        msg += f"\n• [{x.id}](tg://user?id={x.id})"
+    msg += f"\n\n**Description**:\n`{ch_full.full_chat.about}`"
     await event.reply(msg)
 
 
@@ -251,24 +251,24 @@ def info(update: Update, context: CallbackContext):
     else:
         return
 
-    rep = message.reply_text("<code>Collecting Information.....</code>", parse_mode=ParseMode.HTML)
+    rep = message.reply_text("<code>Collecting Information...</code>", parse_mode=ParseMode.HTML)
 
     text = (
-        f"═════「<b> Information Collected</b> ═════\n"
-        f"✯ID: <code>{user.id}</code>\n"
-        f"✯First Name: {html.escape(user.first_name)}"
+        f"╔═━「<b> Information</b> 」\n"
+        f"☆ ID: <code>{user.id}</code>\n"
+        f"☆ First Name: {html.escape(user.first_name)}"
     )
 
     if user.last_name:
-        text += f"\n✯ Last Name: {html.escape(user.last_name)}"
+        text += f"\n☆ Last Name: {html.escape(user.last_name)}"
 
     if user.username:
-        text += f"\n✯ Username: @{html.escape(user.username)}"
+        text += f"\n☆ Username: @{html.escape(user.username)}"
 
-    text += f"\n✯ Userlink: {mention_html(user.id, 'link')}"
+    text += f"\n☆ Userlink: {mention_html(user.id, 'link')}"
 
     if chat.type != "private" and user_id != bot.id:
-        _stext = "\n✯ Presence: <code>{}</code>"
+        _stext = "\n☆ Presence: <code>{}</code>"
 
         afk_st = is_afk(user.id)
         if afk_st:
@@ -298,25 +298,25 @@ def info(update: Update, context: CallbackContext):
     disaster_level_present = False
 
     if user.id == OWNER_ID:
-        text += "\n\nThe level of this person is 「𝐃ᴇᴠɪʟ」"
+        text += "\n\nThe Disaster level of this person is 'King'."
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nThis user is member of 「𝐒ᴜᴢᴜɴᴇ 𝐃ᴇᴠs」."
+        text += "\n\nThis user is member of 'Prince'."
         disaster_level_present = True
     elif user.id in DRAGONS:
-        text += "\n\nThe Disaster level of this person is 「𝐄ᴍᴘᴇʀᴏʀ」 ."
+        text += "\n\nThe Disaster level of this person is 'Emperor'."
         disaster_level_present = True
     elif user.id in DEMONS:
-        text += "\n\nThe Disaster level of this person is 「𝐃ᴇᴍᴏɴ」."
+        text += "\n\nThe Disaster level of this person is 'Governor'."
         disaster_level_present = True
     elif user.id in TIGERS:
-        text += "\n\nThe Disaster level of this person is 「𝐓ɪɢᴇʀ」"
+        text += "\n\nThe Disaster level of this person is 'Captain'."
         disaster_level_present = True
     elif user.id in WOLVES:
-        text += "\n\nThe Disaster level of this person is 「𝐒ᴏʟᴅɪᴇʀ」"
+        text += "\n\nThe Disaster level of this person is 'Soldier'."
         disaster_level_present = True
     elif user.id == 1789859817:
-         text += "\n\nThe Disaster Level Of This Person Is 「𝐅ᴏʀᴇᴠᴇʀ 𝐀 𝐊ɪɴɢ」"
+         text += "\n\The King"
          disaster_level_present = True
 
     try:
@@ -353,9 +353,9 @@ def info(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                "ᴏᴡɴᴇʀ🥀", url="https://t.me/TheVenomXD"),
+                                "Health", url="https://t.me/KennedyProject/44"),
                             InlineKeyboardButton(
-                                "support", url="https://t.me/Suzune_Support")
+                                "Disaster", url="https://t.me/KennedyProject/43")
                         ],
                     ]
                 ),
@@ -371,9 +371,9 @@ def info(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                "ᴏᴡɴᴇʀ🥀", url="https://t.me/TheVenomXD"),
+                                "Health", url="https://t.me/KennedyProject/44"),
                             InlineKeyboardButton(
-                                "support", url="https://t.me/Suzune_Support")
+                                "Disaster", url="https://t.me/KennedyProject/43")
                         ],
                     ]
                 ),
@@ -445,8 +445,9 @@ def set_about_me(update: Update, context: CallbackContext):
 
 @sudo_plus
 def stats(update: Update, context: CallbackContext):
-    stats = "<b>╔═━「 Current SuzuneHorikita's Statistics 」</b>\n" + "\n".join([mod.__stats__() for mod in STATS])
+    stats = "<b>Stats Of `𝐒ᴜᴢᴜɴᴇ ዘᴏʀɪᴋɪᴛᴀ` </b>\n" + "\n".join([mod.__stats__() for mod in STATS])
     result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
+    result += "\n<b>By 𓆩𝐀ᴋ𝐀s𝐇𓆪™</b>"
     update.effective_message.reply_text(
         result,
         parse_mode=ParseMode.HTML, 
@@ -539,59 +540,42 @@ def __user_info__(user_id):
 
 __help__ = """
 *ID:*
- /id - get the current group id. If used by replying to a message, gets that user's id.
-
- /gifid - reply to a gif to me to tell you its file ID.
+ /id*:* get the current group id. If used by replying to a message, gets that user's id.
+ /gifid*:* reply to a gif to me to tell you its file ID.
  
 *Self addded information:* 
-
- /setme - <text> will set your info.
-
- /me - will get your or another user's info.
-
+ /setme <text>*:* will set your info
+ /me*:* will get your or another user's info.
 Examples:
-
- /setme - I am a *DᴇCᴏᴅᴇ* Member.
-
- /me - @username(defaults to yours if no user specified)
+ /setme I am a wolf.
+ /me @username(defaults to yours if no user specified)
  
 *Information others add on you:* 
-
- /bio - will get your or another user's bio. This cannot be set by yourself.
-
- /setbio - <text> while replying, will save another user's bio
-
-*Examples:*
-
- /bio - @username(defaults to yours if not specified).
-
- /setbio - This user is a *DᴇCᴏᴅᴇ* Member (reply to the user)
+ /bio*:* will get your or another user's bio. This cannot be set by yourself.
+ /setbio <text>*:* while replying, will save another user's bio 
+Examples:
+ /bio @username(defaults to yours if not specified).
+ /setbio This user is a wolf (reply to the user)
  
 *Overall Information about you:*
-
- /info - get information about a user.
+ /info*:* get information about a user. 
  
 *json Detailed info:*
-
- /json - Get Detailed info about any message.
+ /json*:* Get Detailed info about any message.
  
 *AFk:*
-
 When marked as AFK, any mentions will be replied to with a message stating that you're not available!
-
- /afk - <reason> Mark yourself as AFK.
-
-  brb - <reason> Same as the afk command, but not a command. 
-
+ /afk <reason>*:* Mark yourself as AFK.
+  - brb <reason>: Same as the afk command, but not a command. 
+  
 *What is that health thingy?*
-
- Come and see [HP System explained](https://t.me/SuzuneHorikitaLogger/5)
+ Come and see [HP System explained](https://t.me/KennedyProject/44)
 """
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio, run_async=True)
 GET_BIO_HANDLER = DisableAbleCommandHandler("bio", about_bio, run_async=True)
 
-STATS_HANDLER = CommandHandler(["c", "stats"], stats, run_async=True)
+STATS_HANDLER = CommandHandler(["stats", "statistics"], stats, run_async=True)
 ID_HANDLER = DisableAbleCommandHandler("id", get_id, run_async=True)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid, run_async=True)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, run_async=True)
@@ -608,7 +592,7 @@ dispatcher.add_handler(GET_BIO_HANDLER)
 dispatcher.add_handler(SET_ABOUT_HANDLER)
 dispatcher.add_handler(GET_ABOUT_HANDLER)
 
-__mod_name__ = "「Info & Afk」"
+__mod_name__ = "Info & AFK"
 __command_list__ = ["setbio", "bio", "setme", "me", "info"]
 __handlers__ = [
     ID_HANDLER,

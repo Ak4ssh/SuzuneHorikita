@@ -1,15 +1,8 @@
-import os
-from database import db
-from pyrogram import Client, filters
-from config import Config
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-import logging
-from logging.handlers import RotatingFileHandler
 import html
 import time
 from datetime import datetime
 from io import BytesIO
-
+from SuzuneHorikita.modules.helper_funcs.chat_status import dev_plus
 from telegram import ParseMode, Update
 from telegram.error import BadRequest, TelegramError, Unauthorized
 from telegram.ext import (
@@ -46,6 +39,7 @@ from SuzuneHorikita.modules.helper_funcs.extraction import (
     extract_user_and_text,
 )
 from SuzuneHorikita.modules.helper_funcs.misc import send_to_list
+from SuzuneHorikita.modules.language import gs
 
 GBAN_ENFORCE_GROUP = 6
 
@@ -77,89 +71,8 @@ UNGBAN_ERRORS = {
     "User not found",
 }
 
-custom_message_filter = filters.create(lambda _, __, message: False if message.forward_from_chat or message.from_user else True)
-custom_chat_filter = filters.create(lambda _, __, message: True if message.sender_chat else False)
 
-
-import html
-import json
-import os
-from typing import Optional
-
-from SuzuneHorikita import (
-    DEV_USERS,
-    OWNER_ID,
-    DRAGONS,
-    SUPPORT_CHAT,
-    DEMONS,
-    TIGERS,
-    WOLVES,
-    dispatcher,
-)
-from SuzuneHorikita.modules.helper_funcs.chat_status import (
-    dev_plus,
-    sudo_plus,
-    whitelist_plus,
-)
-from SuzuneHorikita.modules.helper_funcs.extraction import extract_user
-from SuzuneHorikita.modules.log_channel import gloggable
-from telegram import ParseMode, TelegramError, Update
-from telegram.ext import CallbackContext, CommandHandler
-from telegram.utils.helpers import mention_html
-
-ELEVATED_USERS_FILE = os.path.join(os.getcwd(), "SuzuneHorikita/elevated_users.json")
-
-
-def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
-    bot = context.bot
-    if not user_id:
-        reply = "That...is a chat! baka ka omae?"
-
-    elif user_id == bot.id:
-        reply = "This does not work that way."
-
-    else:
-        reply = None
-    return reply
-
-@support_plus
-@gloggable
-def gbanreq(update: Update, context: CallbackContext) -> str:
-    message = update.effective_message
-    user = update.effective_user
-    chat = update.effective_chat
-    bot, args = context.bot, context.args
-    user_id = extract_user(message, args)
-    user_member = bot.getChat(user_id)
-    rt = ""
-
-    update.effective_message.reply_text(
-        rt
-        + "\nSuccessfully Sent Your Request".format(
-            user_member.first_name,
-        ),
-    )
-
-    log_message = (
-        f"▪︎ GBAN REQUEST\n"
-        f"<b>▪︎Requested By:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        f"<b>▪︎Victim:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
-    )
-
-    if chat.type != "private":
-        log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
-
-    return log_message
-
-
-
-GBANREQ_HANDLER = CommandHandler(("gban", "req"), gbanreq, run_async=True)
-dispatcher.add_handler(GBANREQ_HANDLER)
-
-
-
-
-@support_plus
+@dev_plus
 def gban(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -177,28 +90,28 @@ def gban(update: Update, context: CallbackContext):
 
     if int(user_id) in DEV_USERS:
         message.reply_text(
-            "That user is part of the Association\nI can't act against our own.",
+            "That user is part of Council Ministers\nI can't act against our own.",
         )
         return
 
     if int(user_id) in DRAGONS:
         message.reply_text(
-            "I spy, with my little eye... a disaster! Why are you guys turning on each other?",
+            "I spy, with my little eye... a Mayor! Why you......?",
         )
         return
 
     if int(user_id) in DEMONS:
         message.reply_text(
-            "OOOH someone's trying to gban a Demon Disaster! *grabs popcorn*",
+            "OOOH someone's trying to gban a members of The 9's! *grabs popcorn*",
         )
         return
 
     if int(user_id) in TIGERS:
-        message.reply_text("That's a Tiger! They cannot be banned!")
+        message.reply_text("That's a Commander! They cannot be banned!")
         return
 
     if int(user_id) in WOLVES:
-        message.reply_text("That's a Wolf! They cannot be banned!")
+        message.reply_text("That's one of my Specials! They cannot be banned!")
         return
 
     if user_id == bot.id:
@@ -361,6 +274,7 @@ def gban(update: Update, context: CallbackContext):
         )
     except:
         pass  # bot probably blocked by user
+
 
 @support_plus
 def ungban(update: Update, context: CallbackContext):
@@ -621,28 +535,14 @@ def __migrate__(old_chat_id, new_chat_id):
 
 
 def __chat_settings__(chat_id, user_id):
-    return f"This chat is enforcing *gbans*: {sql.does_chat_gban(chat_id)}."
+    return f"This chat is enforcing *gbans*: `{sql.does_chat_gban(chat_id)}`."
 
 
-__help__ = f"""
-*Admin Commands only:*
+def helps(chat):
+    return gs(chat, "antispam_help")
 
- /antispam - <on/off/yes/no> Will toggle our antispam tech or return your current settings.
-
-Anti-Spam used by bot devs to ban spammers across all groups. This helps protect
-you and your groups by removing spam flooders as quickly as possible.
-*Note:* Users can appeal gbans or report spammers at @{SUPPORT_CHAT}
-
-This also integrates @Spamwatch API to remove Spammers as much as possible from your chatroom!
-*What is SpamWatch?*
-SpamWatch maintains a large constantly updated ban-list of spambots trolls bitcoin spammers and unsavoury characters
-Constantly help banning spammers off from your group automatically So you wont have to worry about spammers storming your group.
-*Note:* Users can appeal spamwatch bans at @Suzune_Support 
-
-"""
-
-GBAN_HANDLER = CommandHandler("sqlban", gban, run_async=True)
-UNGBAN_HANDLER = CommandHandler("sqlunban", ungban, run_async=True)
+GBAN_HANDLER = CommandHandler("scan", gban, run_async=True)
+UNGBAN_HANDLER = CommandHandler("ungban", ungban, run_async=True)
 GBAN_LIST = CommandHandler("gbanlist", gbanlist, run_async=True)
 GBAN_STATUS = CommandHandler(
     "antispam", gbanstat, filters=Filters.chat_type.groups, run_async=True
@@ -651,13 +551,12 @@ GBAN_ENFORCER = MessageHandler(
     Filters.all & Filters.chat_type.groups, enforce_gban, run_async=True
 )
 
-
 dispatcher.add_handler(GBAN_HANDLER)
 dispatcher.add_handler(UNGBAN_HANDLER)
 dispatcher.add_handler(GBAN_LIST)
 dispatcher.add_handler(GBAN_STATUS)
 
-__mod_name__ = "「Anti-Spam」"
+__mod_name__ = "✘ ᴀɴᴛɪ-sᴘᴀᴍ ✘"
 __handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
 
 if STRICT_GBAN:  # enforce GBANS if this is set

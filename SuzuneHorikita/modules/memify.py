@@ -17,7 +17,7 @@ async def handler(event):
         await event.reply("```Reply to a image/sticker.```")
         return
     file = await bot.download_media(reply_message)
-    msg = await event.reply("Memifying The Sticker ;) ")
+    msg = await event.reply("```Memifying this image! (」ﾟﾛﾟ)｣ ```")
     text = str(event.pattern_match.group(1)).strip()
     if len(text) < 1:
         return await msg.edit("You might want to try `/mmf text`")
