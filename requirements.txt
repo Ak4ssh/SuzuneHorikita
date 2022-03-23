@@ -69,7 +69,6 @@ jikanpy
 tswift
 python-arq
 envparse
-#profanity (Credits to Julia)
 better_profanity
 textblob 
 nudepy
@@ -85,3 +84,4 @@ fuzzysearch
 img2pdf
 multicolorcaptcha
 loguru
+git+https://github.com/HellBoy-OP/yt-dp-fork
