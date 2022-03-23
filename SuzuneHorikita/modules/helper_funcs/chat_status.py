@@ -114,7 +114,7 @@ def dev_plus(func):
                 pass
         else:
             update.effective_message.reply_text(
-                "This is a developer restricted command."
+                "Sorry This Command Is Restricted For Low Ranked Users."
             )
 
     return is_dev_plus_func
@@ -138,7 +138,7 @@ def sudo_plus(func):
                 pass
         else:
             update.effective_message.reply_text(
-                "Bhai,Bhen jo bhi ho apke pass ye right na ha sorry aur so sameless you are saste admin  🙂 dil se bura laga support @DeeCodeBots",
+                "Who The Hell Are You To Give Me Instructions?",
             )
 
     return is_sudo_plus_func
@@ -177,7 +177,7 @@ def whitelist_plus(func):
         if user and is_whitelist_plus(chat, user.id):
             return func(update, context, *args, **kwargs)
         update.effective_message.reply_text(
-            f"Tera pass ye sab dekhne ka access na ha sed.\nVisit @{SUPPORT_CHAT}",
+            f"You Don't Have Access To View This\nVisit @{SUPPORT_CHAT}",
         )
 
     return is_whitelist_plus_func
