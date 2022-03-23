@@ -8,9 +8,9 @@ from PIL import Image
 from pyrogram import filters
 from pyrogram.types import Message
 
-from EmikoRobot import pbot as app
-from EmikoRobot.utils.errors import capture_err
-from EmikoRobot.services.sections import section
+from SuzuneHorikita import pbot as app
+from SuzuneHorikita.utils.errors import capture_err
+from SuzuneHorikita.services.sections import section
 
 
 async def convert(
