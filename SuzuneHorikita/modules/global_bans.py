@@ -39,7 +39,6 @@ from SuzuneHorikita.modules.helper_funcs.extraction import (
     extract_user_and_text,
 )
 from SuzuneHorikita.modules.helper_funcs.misc import send_to_list
-from SuzuneHorikita.modules.language import gs
 
 GBAN_ENFORCE_GROUP = 6
 
