@@ -3,6 +3,11 @@ import json
 import os
 from typing import Optional
 
+from SuzuneHorikita.modules.helper_funcs.extraction import (
+    extract_user,
+    extract_user_and_text,
+)
+
 from SuzuneHorikita import (
     DEV_USERS,
     OWNER_ID,
