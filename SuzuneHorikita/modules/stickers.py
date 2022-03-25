@@ -217,8 +217,8 @@ def kang(update, context):
                 try:
                     stickerset = context.bot.get_sticker_set(packname)
                     if len(stickerset.stickers) >= max_stickers:
-                    packnum += 1
-                    packname = ("video"
+                        packnum += 1
+                        packname = ("video"
                                 
                                 + str(packnum)
                                 + "_"
