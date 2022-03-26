@@ -48,6 +48,7 @@ def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
 @support_plus
 @gloggable
 def gbanreq(update: Update, context: CallbackContext) -> str:
+    
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -68,6 +69,11 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
         f"<b>▪︎Requested By:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
         f"<b>▪︎Victim:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
     )
+    if reason:
+        if chat.type == chat.SUPERGROUP and chat.username:
+            log_message += f'\n<b>Reason:</b> <a href="https://telegram.me/{chat.username}/{message.message_id}">{reason}</a>'
+        else:
+            log_message += f"\n<b>Reason:</b> <code>{reason}</code>"
 
 
 GBANREQ_HANDLER = CommandHandler(("gban", "req"), gbanreq, run_async=True)
