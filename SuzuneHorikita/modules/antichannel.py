@@ -3,6 +3,7 @@ import html
 from telegram import Update
 from telegram.ext import CallbackContext
 from telegram.ext.filters import Filters
+from telegram.ext import CallbackContext, Filters, CommandHandler, run_async, CallbackQueryHandler
 
 from SuzuneHorikita.AntiChannel.anonymous import AdminPerms, user_admin
 from SuzuneHorikita.AntiChannel.decorators import shasacmd, shasamsg
