@@ -82,7 +82,13 @@ def user_admin(permission: AdminPerms):
     return wrapper
 
 
-@shasacallback(pattern="anoncb")
+@connection_status
+@bot_admin
+@can_restrict
+@user_admin
+@user_can_ban
+@loggable
+@dev_plus
 def anon_callback_handler1(upd: Update, _: CallbackContext):
     callback = upd.callback_query
     perm = callback.data.split("/")[3]
@@ -114,3 +120,8 @@ def anon_callback_handler1(upd: Update, _: CallbackContext):
             return cb[1](cb[0][0], cb[0][1])
     else:
         callback.answer("This isn't for ya")
+
+ANON_HANDLER = CommandHandler(["anoncb", "anoncb1"], anon_callback_handler1, run_async=True)
+
+
+dispatcher.add_handler(ANON_HANDLER)
