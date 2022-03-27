@@ -13,6 +13,17 @@ from SuzuneHorikita.modules.sql.antichannel_sql import (
     enable_antichannel,
 )
 
+from SuzuneHorikita import (
+    DEV_USERS,
+    LOGGER,
+    OWNER_ID,
+    DRAGONS,
+    DEMONS,
+    TIGERS,
+    WOLVES,
+    dispatcher,
+)
+
 from SuzuneHorikita.modules.log_channel import gloggable, loggable
 from SuzuneHorikita.modules.helper_funcs.chat_status import (
     user_admin_no_reply,
