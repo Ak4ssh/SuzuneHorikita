@@ -177,5 +177,5 @@ class ShasaHandler:
 
 shasacmd = ShasaHandler(d).command
 shasamsg = ShasaHandler(d).message
-suzuCallback = ShasaHandler(d).callbackquery
+suzucallback = ShasaHandler(d).callbackquery
 shasainline = ShasaHandler(d).inlinequery
