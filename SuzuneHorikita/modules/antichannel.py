@@ -12,10 +12,29 @@ from SuzuneHorikita.modules.sql.antichannel_sql import (
     enable_antichannel,
 )
 
+from SuzuneHorikita.modules.log_channel import gloggable, loggable
+from SuzuneHorikita.modules.helper_funcs.chat_status import (
+    user_admin_no_reply,
+    bot_admin,
+    can_restrict,
+    connection_status,
+    is_user_admin,
+    is_user_ban_protected,
+    is_user_in_chat,
+    user_admin,
+    user_can_ban,
+    can_delete,
+    dev_plus,
+)
 
-@shasacmd(command="antichannel", group=100)
-@user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
-def set_antichannel(update: Update, context: CallbackContext):
+@connection_status
+@bot_admin
+@can_restrict
+@user_admin
+@user_can_ban
+@loggable
+@dev_plus
+def antichannel(update: Update, context: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
     args = context.args
@@ -39,9 +58,7 @@ def set_antichannel(update: Update, context: CallbackContext):
             antichannel_status(chat.id), html.escape(chat.title)
         )
     )
-
-
-@shasamsg(Filters.chat_type.groups, group=110)
+   
 def eliminate_channel(update: Update, context: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
