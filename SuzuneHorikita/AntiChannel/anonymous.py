@@ -8,6 +8,20 @@ from telegram.inline.inlinekeyboardmarkup import InlineKeyboardMarkup
 
 from SuzuneHorikita import DEV_USERS, dispatcher
 from SuzuneHorikita.AntiChannel.decorators import suzucallback
+from SuzuneHorikita.modules.log_channel import gloggable, loggable
+from SuzuneHorikita.modules.helper_funcs.chat_status import (
+    user_admin_no_reply,
+    bot_admin,
+    can_restrict,
+    connection_status,
+    is_user_admin,
+    is_user_ban_protected,
+    is_user_in_chat,
+    user_admin,
+    user_can_ban,
+    can_delete,
+    dev_plus,
+)
 
 
 class AdminPerms(Enum):
@@ -89,7 +103,7 @@ def user_admin(permission: AdminPerms):
 @user_can_ban
 @loggable
 @dev_plus
-def anon_callback_handler1(upd: Update, _: CallbackContext):
+def anonc(upd: Update, _: CallbackContext):
     callback = upd.callback_query
     perm = callback.data.split("/")[3]
     chat_id = int(callback.data.split("/")[1])
@@ -121,7 +135,7 @@ def anon_callback_handler1(upd: Update, _: CallbackContext):
     else:
         callback.answer("This isn't for ya")
 
-ANON_HANDLER = CommandHandler(["anoncb", "anoncb1"], anon_callback_handler1, run_async=True)
+ANONC_HANDLER = CommandHandler(["anoncb", "anoncb1"], anonc, run_async=True)
 
 
-dispatcher.add_handler(ANON_HANDLER)
+dispatcher.add_handler(ANONC_HANDLER)
