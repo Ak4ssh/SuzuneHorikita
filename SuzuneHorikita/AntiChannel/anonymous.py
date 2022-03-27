@@ -24,6 +24,16 @@ from SuzuneHorikita.modules.helper_funcs.chat_status import (
     dev_plus,
 )
 
+from SuzuneHorikita import (
+    DEV_USERS,
+    LOGGER,
+    OWNER_ID,
+    DRAGONS,
+    DEMONS,
+    TIGERS,
+    WOLVES,
+    dispatcher,
+)
 
 class AdminPerms(Enum):
     CAN_RESTRICT_MEMBERS = "can_restrict_members"
