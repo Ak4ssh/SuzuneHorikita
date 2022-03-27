@@ -5,6 +5,7 @@ from telegram import ParseMode, Update
 from telegram.ext import CallbackContext
 from telegram.inline.inlinekeyboardbutton import InlineKeyboardButton
 from telegram.inline.inlinekeyboardmarkup import InlineKeyboardMarkup
+from telegram.ext import CallbackContext, Filters, CommandHandler, run_async, CallbackQueryHandler
 
 from SuzuneHorikita import DEV_USERS, dispatcher
 from SuzuneHorikita.AntiChannel.decorators import suzucallback
