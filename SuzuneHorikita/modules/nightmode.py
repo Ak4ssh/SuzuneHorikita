@@ -131,7 +131,7 @@ async def job_close():
     for pro in chats:
         try:
             await tbot.send_message(
-              int(pro.chat_id), "It's 12:00 Am Time To Close The Group*"
+              int(pro.chat_id), "**It's 12:00 Am Time To Close The Group*"
             )
             await tbot(
             functions.messages.EditChatDefaultBannedRightsRequest(
@@ -142,7 +142,7 @@ async def job_close():
             logger.info(f"Unable To Close Group {chat} - {e}")
 
 #Run everyday at 12am
-scheduler = AsyncIOScheduler(timezone="Asia/Jakarta")
+scheduler = AsyncIOScheduler(timezone="Asia/Kolkata")
 scheduler.add_job(job_close, trigger="cron", hour=23, minute=59)
 scheduler.start()
 
@@ -153,7 +153,7 @@ async def job_open():
     for pro in chats:
         try:
             await tbot.send_message(
-              int(pro.chat_id), "It's 06:00 Am Time To Open The Group**"
+              int(pro.chat_id), "**It's 06:00 Am Time To Open The Group**"
             )
             await tbot(
             functions.messages.EditChatDefaultBannedRightsRequest(
