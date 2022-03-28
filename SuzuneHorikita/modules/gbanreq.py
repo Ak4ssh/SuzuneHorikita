@@ -3,7 +3,7 @@ import json
 import os
 from typing import Optional
 
-from Gojo_Satarou import (
+from SuzuneHorikita import (
     DEV_USERS,
     OWNER_ID,
     DRAGONS,
@@ -13,19 +13,19 @@ from Gojo_Satarou import (
     WOLVES,
     dispatcher,
 )
-from Gojo_Satarou.modules.helper_funcs.chat_status import (
+from SuzuneHorikita.modules.helper_funcs.chat_status import (
     dev_plus,
     sudo_plus,
     whitelist_plus,
     support_plus,
 )
-from Gojo_Satarou.modules.helper_funcs.extraction import extract_user
-from Gojo_Satarou.modules.log_channel import gloggable
+from SuzuneHorikita.modules.helper_funcs.extraction import extract_user
+from SuzuneHorikita.modules.log_channel import gloggable
 from telegram import ParseMode, TelegramError, Update
 from telegram.ext import CallbackContext, CommandHandler
 from telegram.utils.helpers import mention_html
 
-ELEVATED_USERS_FILE = os.path.join(os.getcwd(), "Gojo_Satarou/elevated_users.json")
+ELEVATED_USERS_FILE = os.path.join(os.getcwd(), "SuzuneHorikita/elevated_users.json")
 
 
 def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
