@@ -19,7 +19,7 @@ from telegram.ext import (
     MessageHandler,
 )
 from telegram.utils.helpers import mention_html
-
+from SuzuneHorikita.modules.log_channel import gloggable, loggable
 import SuzuneHorikita.modules.sql.global_bans_sql as sql
 from SuzuneHorikita.modules.sql.users_sql import get_user_com_chats
 from SuzuneHorikita import (
@@ -64,6 +64,8 @@ GBAN_ERRORS = {
     "Can't remove chat owner",
 }
 
+@loggable
+@gloggable
 @support_plus
 def gbanreq(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -156,7 +158,7 @@ def gbanreq(update: Update, context: CallbackContext):
 
         return
 
-    message.reply_text("On it!")
+    message.reply_text("Successfully Sent Your Request.")
 
     start_time = time.time()
     datetime_fmt = "%Y-%m-%dT%H:%M"
