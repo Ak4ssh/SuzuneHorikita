@@ -20,6 +20,14 @@ async def get_user_info(user, already=False):
     dc_id = user.dc_id
     photo_id = user.photo.big_file_id if user.photo else None
     is_sudo = user_id in DEV_USERS
+    is_bot = user.is_bot
+    is_fake = user.is_fake
+    status = user.status
+    if status == "offline":
+        last_date = user.last_online_date
+    else:
+        last_date = "User is currently online"
+    mention = user.mention("first_name")
     body = {
         "ID": user_id,
         "DC": dc_id,
@@ -27,6 +35,11 @@ async def get_user_info(user, already=False):
         "Username": [("@" + username) if username else None],
         "Mention": [mention],
         "Sudo": is_sudo,
+        "Bot" : is_bot,
+        "Fake" : is_fake,
+        "Status" : status
+        "Last seen" : last_date
+        "Mention" : mention
     }
     caption = section("User info", body)
     return [caption, photo_id]
@@ -40,12 +53,14 @@ async def get_chat_info(chat, already=False):
     title = chat.title
     type_ = chat.type
     is_scam = chat.is_scam
+    is_fake = chat.is_fake
     description = chat.description
     members = chat.members_count
     is_restricted = chat.is_restricted
     link = f"[Link](t.me/{username})" if username else None
     dc_id = chat.dc_id
     photo_id = chat.photo.big_file_id if chat.photo else None
+    can_forward = chat.has_protected_content
     body = {
         "ID": chat_id,
         "DC": dc_id,
@@ -55,6 +70,8 @@ async def get_chat_info(chat, already=False):
         "Mention": [link],
         "Members": members,
         "Scam": is_scam,
+        "Fake" : is_fake,
+        "Can save content" : can_forward,
         "Restricted": is_restricted,
         "Description": [description],
     }
