@@ -3,12 +3,7 @@ import json
 import os
 from typing import Optional
 
-from SuzuneHorikita.modules.helper_funcs.extraction import (
-    extract_user,
-    extract_user_and_text,
-)
-
-from SuzuneHorikita import (
+from Gojo_Satarou import (
     DEV_USERS,
     OWNER_ID,
     DRAGONS,
@@ -18,19 +13,19 @@ from SuzuneHorikita import (
     WOLVES,
     dispatcher,
 )
-from SuzuneHorikita.modules.helper_funcs.chat_status import (
+from Gojo_Satarou.modules.helper_funcs.chat_status import (
     dev_plus,
     sudo_plus,
     whitelist_plus,
     support_plus,
 )
-from SuzuneHorikita.modules.helper_funcs.extraction import extract_user
-from SuzuneHorikita.modules.log_channel import gloggable
+from Gojo_Satarou.modules.helper_funcs.extraction import extract_user
+from Gojo_Satarou.modules.log_channel import gloggable
 from telegram import ParseMode, TelegramError, Update
 from telegram.ext import CallbackContext, CommandHandler
 from telegram.utils.helpers import mention_html
 
-ELEVATED_USERS_FILE = os.path.join(os.getcwd(), "SuzuneHorikita/elevated_users.json")
+ELEVATED_USERS_FILE = os.path.join(os.getcwd(), "Gojo_Satarou/elevated_users.json")
 
 
 def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
@@ -48,12 +43,11 @@ def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
 @support_plus
 @gloggable
 def gbanreq(update: Update, context: CallbackContext) -> str:
-    
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
     bot, args = context.bot, context.args
-    user_id, reason = extract_user_and_text(message, args)
+    user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
     rt = ""
 
@@ -69,11 +63,12 @@ def gbanreq(update: Update, context: CallbackContext) -> str:
         f"<b>▪︎Requested By:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
         f"<b>▪︎Victim:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
     )
-    if reason:
-        if chat.type == chat.SUPERGROUP and chat.username:
-            log_message += f'\n<b>Reason:</b> <a href="https://telegram.me/{chat.username}/{message.message_id}">{reason}</a>'
-        else:
-            log_message += f"\n<b>Reason:</b> <code>{reason}</code>" 
+
+    if chat.type != "private":
+        log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
+
+    return log_message
+
 
 
 GBANREQ_HANDLER = CommandHandler(("gban", "req"), gbanreq, run_async=True)
