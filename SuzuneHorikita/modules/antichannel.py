@@ -7,15 +7,13 @@ import asyncio
 from pyrogram import filters
 from SuzuneHorikita import pbot as app
 from pyrogram.types import Message
+from SuzuneHorikita import eor
 from SuzuneHorikita.utils.errors import capture_err
 
 active_channel = []
 
 
-async def eor(msg: Message, **kwargs):
-    func = msg.edit_text if msg.from_user.is_self else msg.reply
-    spec = getfullargspec(func.__wrapped__).args
-    return await func(**{k: v for k, v in kwargs.items() if k in spec})
+
 
 
 
