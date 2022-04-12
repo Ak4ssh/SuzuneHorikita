@@ -16,7 +16,7 @@ async def get_user_info(user, already=False):
     user_id = user.id
     username = user.username
     first_name = user.first_name
-    mention = user.mention("Link")
+    mention = user.mention(f"{first_name}")
     dc_id = user.dc_id
     photo_id = user.photo.big_file_id if user.photo else None
     is_sudo = user_id in DEV_USERS
@@ -27,7 +27,6 @@ async def get_user_info(user, already=False):
         last_date = user.last_online_date
     else:
         last_date = "User is currently online"
-    mention = user.mention("first_name")
     body = {
         "ID": user_id,
         "DC": dc_id,
@@ -37,9 +36,8 @@ async def get_user_info(user, already=False):
         "Sudo": is_sudo,
         "Bot" : is_bot,
         "Fake" : is_fake,
-        "Status" : status
-        "Last seen" : last_date
-        "Mention" : mention
+        "Status" : [status],
+        "Last seen" : [last_date]
     }
     caption = section("User info", body)
     return [caption, photo_id]
