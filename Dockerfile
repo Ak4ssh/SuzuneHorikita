@@ -64,9 +64,6 @@ RUN apt update && apt upgrade -y && \
 # Pypi package Repo upgrade
 RUN pip3 install --upgrade pip setuptools
 
-#Copy config file to /root/SuzuneHorikita/SuzuneHorikita
-COPY ./SuzuneHorikita/sample_config.py ./SuzuneHorikita/config.py* /root/SuzuneHorikita/SuzuneHorikita/
-
 ENV PATH="/home/bot/bin:$PATH"
 
 # Install requirements
