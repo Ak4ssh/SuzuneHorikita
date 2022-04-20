@@ -1,7 +1,4 @@
-"""
-Copyright (c) 2021 Itzz-axel
-This is part of @VexanaFAnClub so don't change anything....
-"""
+
 
 import asyncio
 from pyrogram import filters
@@ -23,7 +20,7 @@ async def channel_toggle(db, message: Message):
     if status == "on":
         if chat_id not in db:
             db.append(chat_id)
-            text = "**ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴍᴏᴅᴇ ᴇɴᴀʙʟᴇ ✅. I will delete all message that send with channel names in {message.chat.id} .**"
+            text = "**ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴍᴏᴅᴇ ᴇɴᴀʙʟᴇ ✅. I will delete all message that send with channel names in** {message.chat.id} ."
             return await eor(message, text=text)
         await eor(message, text="ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴍᴏᴅᴇ ᴇɴᴀʙʟᴇ .")
     elif status == "off":
