@@ -64,10 +64,6 @@ RUN apt update && apt upgrade -y && \
 # Pypi package Repo upgrade
 RUN pip3 install --upgrade pip setuptools
 
-# Copy Python Requirements to /root/SuzuneHorikita 
-RUN git clone -b master https://github.com/desinobita/SuzuneHorikita /root/SuzuneHorikita
-WORKDIR /root/SuzuneHorikita
-
 #Copy config file to /root/SuzuneHorikita/SuzuneHorikita
 COPY ./SuzuneHorikita/sample_config.py ./SuzuneHorikita/config.py* /root/SuzuneHorikita/SuzuneHorikita/
 
