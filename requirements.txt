@@ -27,7 +27,6 @@ CurrencyConverter
 googletrans==4.0.0-rc1
 google-trans-new==1.1.9
 jikanpy
-speedtest-cli
 coffeehouse==2.2.6
 regex
 bleach
@@ -46,8 +45,6 @@ pygithub
 TgCrypto
 Pyrogram
 PyDictionary
-youtube_search_python==1.4.9
-youtube_search
 lyrics_extractor
 asyncio
 cloudscraper
