@@ -102,7 +102,7 @@ buttons = [
             text="Updates Channel", url="https://t.me/SuzuneSuperbot"),
     ],
     [
-        InlineKeyboardButton(text="Help && Commands", callback_data="help_back"),
+        InlineKeyboardButton(text="•Source Code•", url="https://github.com/desinobita/SuzuneHorikita"),
     ],
 ]
 
