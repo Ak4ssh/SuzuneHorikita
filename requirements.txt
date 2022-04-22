@@ -4,7 +4,7 @@ lxml
 wget
 gtts
 beautifulsoup4
-requests==2.20.0
+requests==2.27.1
 telegram==0.0.1
 python-telegram-bot==13.11
 sqlalchemy==1.4.35
