@@ -81,4 +81,3 @@ fuzzysearch
 img2pdf
 multicolorcaptcha
 loguru
-git+https://github.com/HellBoy-OP/yt-dp-fork
