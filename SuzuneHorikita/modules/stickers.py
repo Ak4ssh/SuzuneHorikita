@@ -17,12 +17,10 @@ from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram import TelegramError, Update, CallbackQuery
 from telegram.ext import CallbackContext, CallbackQueryHandler
 from telegram.utils.helpers import mention_html
-from DarlingRobot import dispatcher
-from DarlingRobot.modules.disable import DisableAbleCommandHandler
+from SuzuneHorikita import dispatcher
+from SuzuneHorikita import DisableAbleCommandHandler
 
-# converting a gif into a sticker method
-from DarlingRobot.services.convert import convert_gif 
-# -------------------------------------------------------
+from SuzuneHorikita import convert_gif 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
  
 def stickerid(update: Update, context: CallbackContext):
@@ -757,13 +755,13 @@ def video(update: Update, context: CallbackContext):
             
         
 __help__ = """
-•  `/stickerid`*:* reply to a sticker to me to tell you its file ID.
-•  `/getsticker`*:* reply to a sticker to me to upload its raw PNG file.
-•  `/getvidsticker` *:* reply to a video sticker to me to upload it's mp4 file.
-•  `/kang`*:* reply to a sticker/video sticker/animated sticker to add it to your pack.
-•  `/delsticker`*:* Reply to your anime exist sticker to your pack to delete it.
-•  `/stickers`*:* Find stickers for given term on combot sticker catalogue 
-•  `/getvideo`*:* reply to a gif to get video easily !
+/stickerid*:* reply to a sticker to me to tell you its file ID.
+/getsticker*:* reply to a sticker to me to upload its raw PNG file.
+/getvidsticker*:* reply to a video sticker to me to upload it's mp4 file.
+/kang*:* reply to a sticker/video sticker/animated sticker to add it to your pack.
+/delsticker*:* Reply to your anime exist sticker to your pack to delete it.
+/stickers*:* Find stickers for given term on combot sticker catalogue 
+/getvideo*:* reply to a gif to get video easily !
 """
 __mod_name__ = "Stickers" 
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, run_async=True)
