@@ -10,7 +10,7 @@ from html import escape
 from pyrogram import filters
 from bs4 import BeautifulSoup as bs 
 from cloudscraper import CloudScraper
-from DarlingRobot import pbot 
+from SuzuneHorikita import pbot 
 from bs4 import BeautifulSoup
 from urllib.parse import quote as urlquote
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
