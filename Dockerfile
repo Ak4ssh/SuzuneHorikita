@@ -69,7 +69,7 @@ RUN git clone -b main https://github.com/desinobita/SuzuneHorikita /root/SuzuneH
 WORKDIR /root/SuzuneHorikita
 
 #Copy config file to /root/SuzuneHorikita/SuzuneHorikita
-COPY ./SuzuneHorikita/sample_config.py ./SuzuneHorikita/config.py* /root/SuzuneHorikita/SuzuneHorikita/
+COPY ./SuzuneHorikita/config.py ./SuzuneHorikita/config.py* /root/SuzuneHorikita/SuzuneHorikita/
 
 ENV PATH="/home/bot/bin:$PATH"
 
