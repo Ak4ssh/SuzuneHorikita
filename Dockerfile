@@ -68,6 +68,8 @@ RUN pip3 install --upgrade pip setuptools
 RUN git clone -b main https://github.com/desinobita/SuzuneHorikita /root/SuzuneHorikita
 WORKDIR /root/SuzuneHorikita
 
+RUN git clone https://github.com/HellBoy-OP/yt-dp-fork
+
 #Copy config file to /root/SuzuneHorikita/SuzuneHorikita
 COPY ./SuzuneHorikita/config.py ./SuzuneHorikita/config.py* /root/SuzuneHorikita/SuzuneHorikita/
 
