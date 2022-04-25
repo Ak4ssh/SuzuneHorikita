@@ -75,7 +75,7 @@ COPY ./SuzuneHorikita/config.py ./SuzuneHorikita/config.py* /root/SuzuneHorikita
 ENV PATH="/home/bot/bin:$PATH"
 
 # Install requirements
-RUN pip3 install -U -r requirements.txt
+RUN pip3 install -U -r reinstalled.horikita
 
 # Starting Worker
 CMD ["python3","-m","SuzuneHorikita"]
