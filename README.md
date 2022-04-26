@@ -20,13 +20,11 @@ If you like the bot make sure to give a ⭐ __star__ ⭐ to this respository and
 -----
 
 ## Group Management 
-The SuzuneHorikita is a powerful Group Management bot. 
+***The SuzuneHorikita is a powerful Group Management bot.***
 
-Can be found on telegram as a management bot for groups.
+**If you counter any problem or face any bugs for help join 🌟 [Suzune Support](https://t.me/Suzune_Support) 🌟 and join 🔥[Suzune's Updates](https://t.me/SuzuneSuperbot)🔥 for bot update.**
 
-<!---**If you counter any problem or face any bugs for help join 🌟 [](https://t.me/) 🌟 and then join the gc and ask your problem.**
-
-Can be found on Telegram as [@](https://t.me/)--->
+Can be found on Telegram as 💫[@Suzune_Superbot](https://t.me/Suzune_Superbot)💫
 
 ------
 
