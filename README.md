@@ -28,6 +28,8 @@ Can be found on telegram as a management bot for groups.
 
 Can be found on Telegram as [@](https://t.me/)--->
 
+------
+
 # DEPLOYMENT 🚀
 ## Deploy To Heroku
 **Make Sure you have Heroku account**
@@ -37,4 +39,12 @@ If you don't have heroku account what are you waiting for click [here](https://i
 Just click on the button it will redirect you to Heroku website and deploy your bot there....enjoy 😉
 
 [![DEPLOY](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/desinobita/SuzuneHorikita.git)
+
+-----
+# Credit
+* [Akash Tiwari](https://github.com/desinobita) `Owner`
+* [Captain Ezio](https://github.com/iamgojoof6eyes) `Dev`
+* [Aksr aashish](https://github.com/aksr-aashish) `Dev`
+* [The RiZoeL](https://github.com/MrRizoel) `Dev`
+* [Zr Gang](https://github.com/akashti5) `Dev`
 
