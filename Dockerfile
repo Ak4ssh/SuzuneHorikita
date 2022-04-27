@@ -1,5 +1,5 @@
 #choti bachi ho kya
-FROM python:3.9.7-slim-buster
+FROM python:3.10.4-slim-buster
 
 ENV PIP_NO_CACHE_DIR 1
 
