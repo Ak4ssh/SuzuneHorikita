@@ -8,7 +8,7 @@
 ![Repo Size](https://img.shields.io/github/repo-size/desinobita/SuzuneHorikita?&style=flat-square&logo=github)
 ![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green?&style=flat-square)
 [![GitHub license](https://img.shields.io/github/license/desinobita/SuzuneHorikita?&style=flat-square&logo=github)](https://github.com/desinobita/SuzuneHorikita/main/LICENSE)
-[![Python](https://img.shields.io/badge/Python-v3.9-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-v3.10-blue)](https://www.python.org/)
 ![Branch](https://img.shields.io/badge/Branch-Main-orange)
 ![GitHub language count](https://img.shields.io/github/languages/count/desinobita/SuzuneHorikita?color=Pink&label=Language&style=flat-square)
 
