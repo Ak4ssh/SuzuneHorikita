@@ -60,3 +60,4 @@ youtube-search-python
 python-arq
 youtube-dl
 wget
+pykeyboard
