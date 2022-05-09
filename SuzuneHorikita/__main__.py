@@ -26,7 +26,6 @@ from SuzuneHorikita import (
     dispatcher,
     StartTime,
     telethn,
-    pbot,
     updater,
 )
 
