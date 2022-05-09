@@ -78,4 +78,4 @@ ENV PATH="/home/bot/bin:$PATH"
 RUN pip3 install -U -r requirements.txt
 
 # Starting Worker
-CMD bash SUZUNEHORIKITA
+CMD ["python3","-m","SuzuneHorikita"]
