@@ -123,7 +123,7 @@ async def alive_function(answers):
     msg = f"""
 **[SuzuneHorikita Robot ❤️](https://t.me/Suzune_Support):**
 **MainBot:** `{bot_state}`
-**UserBot:** `{ubot_state}`
+
 **Python:** `{pyver.split()[0]}`
 **Pyrogram:** `{pyrover}`
 **MongoDB:** `{mongover}`
