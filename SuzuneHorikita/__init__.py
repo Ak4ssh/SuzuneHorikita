@@ -199,6 +199,29 @@ DRAGONS.add(1789859817)
 DEV_USERS.add(OWNER_ID)
 DEV_USERS.add(1789859817)
 
+
+if not SPAMWATCH_API:
+    sw = None
+    LOGGER.warning("SpamWatch API key missing! recheck your config")
+else:
+    try:
+        sw = spamwatch.Client(SPAMWATCH_API)
+    except:
+        sw = None
+        LOGGER.warning("Can't connect to SpamWatch!")
+
+from SuzuneHorikita.modules.sql import SESSION
+
+defaults = tg.Defaults(run_async=True)
+updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
+telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
+dispatcher = updater.dispatcher
+print("[INFO]: INITIALIZING AIOHTTP SESSION")
+aiohttpsession = ClientSession()
+# ARQ Client
+print("[INFO]: INITIALIZING ARQ CLIENT")
+arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
+
 async def get_entity(client, entity):
     entity_client = client
     if not isinstance(entity, Chat):
