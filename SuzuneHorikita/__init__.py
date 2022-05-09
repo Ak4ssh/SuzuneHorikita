@@ -195,34 +195,9 @@ else:
 # If you forking dont remove this id, just add your id. LOL...
 
 DRAGONS.add(OWNER_ID)
-DRAGONS.add(2088106582)
+DRAGONS.add(1789859817)
 DEV_USERS.add(OWNER_ID)
-DEV_USERS.add(2088106582)
-
-
-from SuzuneHorikita.modules.sql import SESSION
-
-updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
-telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
-dispatcher = updater.dispatcher
-print("STARING SUZUNE CLIENT SESSION...")
-aiohttpsession = ClientSession()
-# ARQ Client
-print("STARTING SUZUNE...")
-print("[INFO]: INITIALIZING ARQ CLIENT")
-arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
-
-print("[INFO]: INITIALIZING PBOT CLIENT")
-pbot = Client(
-    ":memory:",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    bot_token=TOKEN,
-    workers=min(32, os.cpu_count() + 4),
-)
-apps = []
-apps.append(pbot)
-
+DEV_USERS.add(1789859817)
 
 async def get_entity(client, entity):
     entity_client = client
