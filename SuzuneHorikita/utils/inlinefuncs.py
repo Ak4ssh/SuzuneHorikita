@@ -112,7 +112,7 @@ async def inline_help_func(__HELP__):
 async def alive_function(answers):
     buttons = InlineKeyboard(row_width=2)
     bot_state = "Dead" if not await app.get_me() else "Alive"
-    ubot_state = "Dead" if not await ubot2.get_me() else "Alive"
+
     buttons.add(
         InlineKeyboardButton("Main bot", url="https://t.me/SuzuneHorikitaRobot"),
         InlineKeyboardButton(
