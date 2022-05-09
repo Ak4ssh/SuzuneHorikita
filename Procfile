@@ -1,1 +1,1 @@
-worker: python3 -m SuzuneHorikita
+worker: python3 -m SUZUNEHORIKITA
