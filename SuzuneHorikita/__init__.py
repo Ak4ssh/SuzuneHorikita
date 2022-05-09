@@ -211,9 +211,10 @@ else:
         LOGGER.warning("Can't connect to SpamWatch!")
 
 from SuzuneHorikita.modules.sql import SESSION
+BOT_API_URL="https://api.telegram.org/bot"
 
 defaults = tg.Defaults(run_async=True)
-updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
+updater = tg.Updater(token=TOKEN, base_url=BOT_API_URL, workers=WORKERS, request_kwargs={"read_timeout": 10, "connect_timeout": 10}, use_context=True)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
 print("[INFO]: INITIALIZING AIOHTTP SESSION")
@@ -221,6 +222,13 @@ aiohttpsession = ClientSession()
 # ARQ Client
 print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
+
+
+pbot = Client("robot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
+
+print("Starting Pyrogram Client")
+pbot.start()
+
 
 async def get_entity(client, entity):
     entity_client = client
