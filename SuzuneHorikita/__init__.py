@@ -15,7 +15,7 @@ from pyrogram.types import Message
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
-From telethon import *
+from telethon import *
 
 
 StartTime = time.time()
