@@ -1,3 +1,6 @@
+//unload sg feature from bot 
+
+
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from SuzuneHorikita import telethn as tbot
 from SuzuneHorikita.events import register
