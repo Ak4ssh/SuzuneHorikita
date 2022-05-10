@@ -1,5 +1,5 @@
 #choti bachi ho kya
-FROM python:3.10.4
+FROM python:3.11.0b1
 
 ENV PIP_NO_CACHE_DIR 1
 
