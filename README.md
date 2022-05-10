@@ -1,7 +1,7 @@
 <h1 align="center">
   <b> SuzuneHorikita </b>
 </h1>
-<h1 align="center"><img src="https://initiate.alphacoders.com/images/871/stretched-1366-768-871552.png?1548" /></h1>
+<h1 align="center"><img src="https://images6.fanpop.com/image/photos/41400000/Horikita-Suzune-wantadog-41400381-633-900.jpg" /></h1>
 
 [![GitHub forks](https://img.shields.io/github/forks/desinobita/SuzuneHorikita?&style=flat-square&logo=github)](https://github.com/desinobita/SuzuneHorikita/fork)
 [![GitHub stars](https://img.shields.io/github/stars/desinobita/SuzuneHorikita?&style=flat-square&logo=github)](https://github.com/desinobita/SuzuneHorikita/stargazers)
