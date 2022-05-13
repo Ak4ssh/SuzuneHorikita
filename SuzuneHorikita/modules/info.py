@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from pyrogram import filters
 from pyrogram.types import Message
@@ -23,10 +24,27 @@ async def get_user_info(user, already=False):
     is_bot = user.is_bot
     is_fake = user.is_fake
     status = user.status
-    if status == "offline":
-        last_date = user.last_online_date
+        
+        
+    if is_bot is True:
+        last_date = "Targeted user is a bot"
+    elif status == "recently":
+        last_date = "Recently"
+    elif status == "within_week":
+        last_date = "Within the last week"
+    elif status == "within_month":
+        last_date = "Within the last month"
+    elif status == "long_time_ago":
+        last_date = "A long time ago or may be I am blocked by the user  :("
+    elif status == "online":
+        last_date = "Currently Online"
+    elif status == "offline":
+        last_date = datetime.fromtimestamp(user.status.date).strftime(
+            "%a, %d %b %Y, %H:%M:%S"
+        )  
     else:
         last_date = "User is currently online"
+        
     body = {
         "ID": user_id,
         "DC": dc_id,
@@ -36,7 +54,6 @@ async def get_user_info(user, already=False):
         "Sudo": is_sudo,
         "Bot" : is_bot,
         "Fake" : is_fake,
-        "Status" : [status],
         "Last seen" : [last_date]
     }
     caption = section("User info", body)
