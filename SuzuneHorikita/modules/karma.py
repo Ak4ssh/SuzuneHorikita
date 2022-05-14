@@ -31,8 +31,7 @@ regex_downvote = r"^(\-|\-\-|\-1|👎|noob|weak)$"
     & filters.reply
     & filters.regex(regex_upvote)
     & ~filters.via_bot
-    & ~filters.bot
-    & ~filters.edited,
+    & ~filters.bot,
     group=karma_positive_group,
 )
 @capture_err
@@ -72,8 +71,7 @@ async def upvote(_, message):
     & filters.reply
     & filters.regex(regex_upvote)
     & ~filters.via_bot
-    & ~filters.bot
-    & ~filters.edited,
+    & ~filters.bot,
     group=karma_positive_group,
 )
 @capture_err
@@ -109,8 +107,7 @@ async def upvote(_, message):
     & filters.reply
     & filters.regex(regex_downvote)
     & ~filters.via_bot
-    & ~filters.bot
-    & ~filters.edited,
+    & ~filters.bot,
     group=karma_negative_group,
 )
 @capture_err
