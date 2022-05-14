@@ -20,7 +20,7 @@ from telegram.utils.helpers import mention_html
 from SuzuneHorikita import dispatcher
 from SuzuneHorikita.modules.disable import DisableAbleCommandHandler 
 
-from src.convert import convert_gif 
+from src.covert import convert_gif 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
  
 def stickerid(update: Update, context: CallbackContext):
