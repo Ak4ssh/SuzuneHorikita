@@ -37,7 +37,7 @@ async def channel_toggle(db, message: Message):
 # Enabled | Disable antichannel
 
 
-@pbot.on_message(filters.command("antichannel") & ~filters.edited)
+@pbot.on_message(filters.command("antichannel"))
 @capture_err
 async def antichannel_status(_, message: Message):
     if len(message.command) != 2:
