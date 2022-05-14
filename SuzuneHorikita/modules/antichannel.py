@@ -37,7 +37,7 @@ async def channel_toggle(db, message: Message):
 # Enabled | Disable antichannel
 
 
-@pbot(filters.command("antichannel") & ~filters.edited)
+@pbot.on_message(filters.command("antichannel") & ~filters.edited)
 @capture_err
 async def antichannel_status(_, message: Message):
     if len(message.command) != 2:
@@ -47,10 +47,10 @@ async def antichannel_status(_, message: Message):
 
 
 
-@user_admin(filters.text & ~filters.linked_channel, group=36)        
-@user_admin(filters.media & ~filters.linked_channel, group=36)
-@user_admin(filters.sticker & ~filters.linked_channel, group=36)
-@user_admin(filters.via_bot & ~filters.linked_channel, group=36)
+@pbot.on_message(filters.text & ~filters.linked_channel, group=36)        
+@pbot.on_message(filters.media & ~filters.linked_channel, group=36)
+@pbot.on_message(filters.sticker & ~filters.linked_channel, group=36)
+@pbot.on_message(filters.via_bot & ~filters.linked_channel, group=36)
 async def anitchnl(_, message):
   chat_id = message.chat.id
   if message.sender_chat:
