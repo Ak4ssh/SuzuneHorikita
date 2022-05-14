@@ -223,11 +223,12 @@ aiohttpsession = ClientSession()
 print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
+pbot = TelegramClient('pbot', API_ID, API_HASH).start(bot_token=TOKEN)
 
-pbot = Client("robot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
-
-print("Starting Pyrogram Client")
 pbot.start()
+
+print("pbot Initialized!")
+
 
 
 async def get_entity(client, entity):
