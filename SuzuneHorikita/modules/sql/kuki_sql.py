@@ -1,6 +1,6 @@
 import threading
 from sqlalchemy import Column, String
-from SuzuneBot.modules.sql import BASE, SESSION
+from SuzuneHorikita.modules.sql import BASE, SESSION
 class KukiChats(BASE):
     __tablename__ = "kuki_chats"
     chat_id = Column(String(14), primary_key=True)
