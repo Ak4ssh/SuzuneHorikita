@@ -79,6 +79,19 @@ def get_readable_time(seconds: int) -> str:
     return ping_time
 
 pic_list = [
+    "https://te.legra.ph/file/dd1edbad33718b9521d31.jpg",
+    "https://te.legra.ph/file/79092be2eeb4668a9e3be.jpg",
+    "https://te.legra.ph/file/549704a3754fcc7ca5e74.jpg",
+    "https://te.legra.ph/file/289f112b6f16edc9e11bc.jpg",
+    "https://te.legra.ph/file/517e2d114390df1a9a7aa.jpg",
+    "https://te.legra.ph/file/8654c27dc2282f542d870.jpg",
+    "https://te.legra.ph/file/cf83af6cb6a99e8c19a7e.jpg",
+    "https://te.legra.ph/file/c65c872745c4961474ce4.jpg",
+    "https://te.legra.ph/file/d87f588763a834aa77aa4.jpg",
+    "https://te.legra.ph/file/d9eb3ede71879999bfaac.jpg",
+    "https://te.legra.ph/file/562396308049c01531315.jpg",
+    "https://te.legra.ph/file/c941d5cf0c8910c38ab2c.jpg",
+]
     
 
 SuzuneHorikitarobot_IMG = "https://telegra.ph/file/e4eb557540f5b666728f3.jpg"
