@@ -7,6 +7,7 @@ from pyrogram.types import Message
 from SuzuneHorikita import eor
 from SuzuneHorikita.utils.errors import capture_err
 from SuzuneHorikita.modules.helper_funcs.chat_status import user_admin
+from SuzuneHorikita import pbot
 
 active_channel = []
 
@@ -36,7 +37,7 @@ async def channel_toggle(db, message: Message):
 # Enabled | Disable antichannel
 
 
-@user_admin(filters.command("antichannel") & ~filters.edited)
+@pbot(filters.command("antichannel") & ~filters.edited)
 @capture_err
 async def antichannel_status(_, message: Message):
     if len(message.command) != 2:
