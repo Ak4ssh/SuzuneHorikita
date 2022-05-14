@@ -94,7 +94,7 @@ pic_list = [
 ]
     
 
-SuzuneHorikitarobot_IMG = "https://telegra.ph/file/e4eb557540f5b666728f3.jpg"
+SuzuneHorikitarobot_IMG = random.choice(pic_list)
 
 PM_START_TEXT = """
 * Hello ||{}|| ♡︎ !*
