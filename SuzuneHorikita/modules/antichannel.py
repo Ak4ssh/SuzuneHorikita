@@ -2,10 +2,11 @@
 
 import asyncio
 from pyrogram import filters
-from SuzuneHorikita import pbot as app
+from SuzuneHorikita.events import register
 from pyrogram.types import Message
 from SuzuneHorikita import eor
 from SuzuneHorikita.utils.errors import capture_err
+from SuzuneHorikita.modules.helper_funcs.chat_status import user_admin
 
 active_channel = []
 
@@ -35,7 +36,7 @@ async def channel_toggle(db, message: Message):
 # Enabled | Disable antichannel
 
 
-@app.on_message(filters.command("antichannel") & ~filters.edited)
+@user_admin(filters.command("antichannel") & ~filters.edited)
 @capture_err
 async def antichannel_status(_, message: Message):
     if len(message.command) != 2:
@@ -45,10 +46,10 @@ async def antichannel_status(_, message: Message):
 
 
 
-@app.on_message(filters.text & ~filters.linked_channel, group=36)        
-@app.on_message(filters.media & ~filters.linked_channel, group=36)
-@app.on_message(filters.sticker & ~filters.linked_channel, group=36)
-@app.on_message(filters.via_bot & ~filters.linked_channel, group=36)
+@user_admin(filters.text & ~filters.linked_channel, group=36)        
+@user_admin(filters.media & ~filters.linked_channel, group=36)
+@user_admin(filters.sticker & ~filters.linked_channel, group=36)
+@user_admin(filters.via_bot & ~filters.linked_channel, group=36)
 async def anitchnl(_, message):
   chat_id = message.chat.id
   if message.sender_chat:
