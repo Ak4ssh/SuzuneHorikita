@@ -94,7 +94,7 @@ pic_list = [
 ]
     
 
-SuzuneHorikitarobot_IMG = random.choice(pic_list)
+SuzuneHorikitarobot_IMG = choice(pic_list)
 
 PM_START_TEXT = """
 * Hello {} ♡︎ !*
