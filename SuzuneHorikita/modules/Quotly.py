@@ -10,7 +10,7 @@ from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from telethon.tl import functions, types
 
-from DarlingRobot.events import register
+from SuzuneHorikita.events import register
 
 COLORS = [
     "#F07975",
