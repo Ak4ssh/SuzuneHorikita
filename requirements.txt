@@ -1,4 +1,6 @@
 opencv-python-headless
+youtube_search_python==1.4.9
+youtube_search
 future
 emoji
 lxml
