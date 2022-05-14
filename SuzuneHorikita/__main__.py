@@ -78,6 +78,9 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 
+pic_list = [
+    
+
 SuzuneHorikitarobot_IMG = "https://telegra.ph/file/e4eb557540f5b666728f3.jpg"
 
 PM_START_TEXT = """
