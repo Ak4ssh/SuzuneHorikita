@@ -8,6 +8,8 @@ from SuzuneHorikita import eor
 from SuzuneHorikita.utils.errors import capture_err
 from SuzuneHorikita.modules.helper_funcs.chat_status import user_admin
 from SuzuneHorikita import pbot
+from SuzuneHorikita import dispatcher 
+from telegram.ext import CommandHandler 
 
 active_channel = []
 
@@ -36,8 +38,6 @@ async def channel_toggle(db, message: Message):
 
 # Enabled | Disable antichannel
 
-
-@pbot.on_message(filters.command("antichannel"))
 @capture_err
 async def antichannel_status(_, message: Message):
     if len(message.command) != 2:
@@ -47,10 +47,10 @@ async def antichannel_status(_, message: Message):
 
 
 
-@pbot.on_message(filters.text & ~filters.linked_channel, group=36)        
-@pbot.on_message(filters.media & ~filters.linked_channel, group=36)
-@pbot.on_message(filters.sticker & ~filters.linked_channel, group=36)
-@pbot.on_message(filters.via_bot & ~filters.linked_channel, group=36)
+@pbot.on(filters.text & ~filters.linked_channel, group=36)        
+@pbot.on(filters.media & ~filters.linked_channel, group=36)
+@pbot.on(filters.sticker & ~filters.linked_channel, group=36)
+@pbot.on(filters.via_bot & ~filters.linked_channel, group=36)
 async def anitchnl(_, message):
   chat_id = message.chat.id
   if message.sender_chat:
@@ -71,5 +71,8 @@ __help__ = """
 ❂ /antichannel on *:*Disable anti channel mode 
 
 """
-
 __mod_name__ = "anti channel"        
+
+ANTICHANNEL_STATUS = CommandHandler("antichannel")
+
+dispatcher.add_handler(ANTICHANNEL_STATUS)
