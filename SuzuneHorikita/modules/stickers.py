@@ -18,7 +18,7 @@ from telegram import TelegramError, Update, CallbackQuery
 from telegram.ext import CallbackContext, CallbackQueryHandler
 from telegram.utils.helpers import mention_html
 from SuzuneHorikita import dispatcher
-from SuzuneHorikita import DisableAbleCommandHandler
+from SuzuneHorikita.modules.disable import DisableAbleCommandHandler 
 
 from SuzuneHorikita import convert_gif 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
