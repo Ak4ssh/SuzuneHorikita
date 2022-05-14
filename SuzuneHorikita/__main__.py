@@ -97,19 +97,18 @@ pic_list = [
 SuzuneHorikitarobot_IMG = random.choice(pic_list)
 
 PM_START_TEXT = """
-* Hello ||{}|| ♡︎ !*
-════════════════════════════
-• I'Aᴍ [「𝐒ᴜᴢᴜɴᴇ 𝐇ᴏʀɪᴋɪᴛᴀ」](https://telegra.ph/file/9cd0b9c94262fe74aae07.jpg)
-• 𝕿𝖍𝖊 𝕮𝖑𝖆𝖘𝖘 𝕽𝖔𝖔𝖒 𝕺𝖋 𝕰𝖑𝖎𝖙𝖊
-• *Aᴍ Vᴇʀʏ Fᴀꜱᴛ Aɴᴅ  Mᴏʀᴇ Eꜰꜰɪᴄɪᴇɴᴛ | Pʀᴏᴠɪᴅᴇ Aᴡᴇꜱᴏᴍᴇ  Fᴇᴀᴛᴜʀᴇꜱ!*
-════════════════════════════
-× *Uᴘᴛɪᴍᴇ:* {}
+* Hello {} ♡︎ !*
+
+My name is Suzune Horikita - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
+
+Join my [News Channel](@SuzuneSuperbot) to get information on all the latest updates.
+
 """
 
 buttons = [
     [
         InlineKeyboardButton(
-            text="➕Aᴅᴅ Mᴇ Tᴏ Yᴏᴜʀ Gʀᴏᴜᴘ➕", url="https://t.me/Suzune_Superbot?startgroup=true"),
+            text="Add Me To Your Group", url="https://t.me/Suzune_Superbot?startgroup=true"),
     ],
     [
         InlineKeyboardButton(text="Support Chat", url="https://t.me/Suzune_Support"),
