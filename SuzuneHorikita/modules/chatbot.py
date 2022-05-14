@@ -9,7 +9,7 @@ import SuzuneHorikita.modules.sql.kuki_sql as sql
 from time import sleep
 from telegram import ParseMode
 from SuzuneHorikita import dispatcher, updater, SUPPORT_CHAT
-from SuzuneBot.modules.log_channel import gloggable
+from SuzuneHorikita.modules.log_channel import gloggable
 from telegram import (CallbackQuery, Chat, MessageEntity, InlineKeyboardButton,
                       InlineKeyboardMarkup, Message, ParseMode, Update, Bot, User)
 
