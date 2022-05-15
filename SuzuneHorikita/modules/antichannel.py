@@ -73,6 +73,6 @@ __help__ = """
 """
 __mod_name__ = "anti channel"        
 
-ANTICHANNEL_STATUS = CommandHandler("antichannel")
+ANTICHANNEL_STATUS = CommandHandler("antichannel", antichannel_status, run_async=True)
 
 dispatcher.add_handler(ANTICHANNEL_STATUS)
