@@ -223,7 +223,16 @@ aiohttpsession = ClientSession()
 print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
-pbot = TelegramClient('pbot', API_ID, API_HASH).start(bot_token=TOKEN)
+pbot = Client(
+    ":memory:",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=TOKEN,
+    workers=min(32, os.cpu_count() + 4),
+)
+apps = []
+apps.append(pbot)
+loop = asyncio.get_event_loop()
 
 print("pbot Initialized!")
 
