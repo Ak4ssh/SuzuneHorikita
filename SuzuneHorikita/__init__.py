@@ -225,8 +225,6 @@ arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
 pbot = TelegramClient('pbot', API_ID, API_HASH).start(bot_token=TOKEN)
 
-pbot.start()
-
 print("pbot Initialized!")
 
 
