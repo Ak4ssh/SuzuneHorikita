@@ -5,7 +5,7 @@ This is part of @vexanafanclub so don't change anything....
 
 import asyncio
 from pyrogram import filters
-from vexana import pbot as app
+from SuzuneHorikita import pbot as app
 from pyrogram.types import Message
 from SuzuneHorikita.utils.errors import capture_err
 
