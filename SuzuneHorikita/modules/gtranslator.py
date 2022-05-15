@@ -42,7 +42,6 @@ __mod_name__ = "Translator"
 trans = Translator()
 
 
-@pbot.on_message(filters.command(["tl", "tr"]))
 async def translate(_, message: Message) -> None:
     reply_msg = message.reply_to_message
     if not reply_msg:
@@ -88,7 +87,8 @@ def languages(update: Update, context: CallbackContext) -> None:
         ),
     )
 
-
+TRANSHNDLR = CommandHandler("tr", translate, run_async=True)
 LANG_HANDLER = DisableAbleCommandHandler("langs", languages, run_async=True)
 
 dispatcher.add_handler(LANG_HANDLER)
+dispatcher.add_handler(TRANSHNDLR)
