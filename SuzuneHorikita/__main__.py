@@ -99,11 +99,11 @@ pic_list = [
 SuzuneHorikitarobot_IMG = choice(pic_list)
 
 PM_START_TEXT = """
-* Hello {} ♡︎ !*
+Hello {} ♡︎ !
 
 My name is Suzune Horikita - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
 
-Join my [News Channel](@SuzuneSuperbot) to get information on all the latest updates.
+Join my [News Channel](@SuzuneSuperbot). to get information on all the latest updates.
 
 """
 
@@ -127,7 +127,7 @@ HELP_STRINGS = """
 * 𝐒ᴜᴢᴜɴᴇ 𝐇ᴏʀɪᴋɪᴛᴀ Is Here with
 AI Chatbot, Anime, Music, Notes, Filters, NSFW and more!
  All commands can either be used with / or !.
- Reach out for support: @Suzune_Support.*)"""
+ Reach out for support: @Suzune_Support.*"""
 
 
 
