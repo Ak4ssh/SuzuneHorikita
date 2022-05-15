@@ -9,6 +9,7 @@ import traceback
 from sys import argv
 import SuzuneHorikita.modules.sql.users_sql as sql
 from typing import Optional
+from SuzuneHorikita import pbot, telethn 
 from random import choice
 from telegram import __version__ as peler
 from platform import python_version as memek
