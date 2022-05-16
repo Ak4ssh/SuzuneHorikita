@@ -99,7 +99,7 @@ pic_list = [
 SuzuneHorikitarobot_IMG = choice(pic_list)
 
 PM_START_TEXT = """
-Hello {} ♡︎ !
+Hello Dear ♡︎ !
 
 My name is Suzune Horikita - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
 
