@@ -30,7 +30,7 @@ def ping(update: Update, context: CallbackContext):
     )
 
 @register(pattern=("/wish"))
-async def awake(event):
+def ping(update: Update, context: CallbackContext):
     msg = update.effective_message
     rem = randint(1, 100)
     start_time = time.time()
