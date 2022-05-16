@@ -9,6 +9,5 @@ from SuzuneHorikita import telethn as tbot
 @register(pattern=("/wish"))
 async def awake(event):
     rem = randint(1, 100)
-    TEXT = f"Your wish has been cast.✨\n\nchance of success: {rem}%  "
-    await tbot.send_message(event.chat_id, caption=TEXT)
+    await tbot.reply(f"Your wish has been cast.✨\n\nchance of success: {rem}% ")
 
