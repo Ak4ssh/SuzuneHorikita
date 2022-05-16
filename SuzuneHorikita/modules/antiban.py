@@ -5,9 +5,9 @@ This is part of @vexanafanclub so don't change anything....
 
 import asyncio
 from pyrogram import filters
-from SuzuneHorikita import pbot as app
 from pyrogram.types import Message
 from SuzuneHorikita.utils.errors import capture_err
+from SuzuneHorikita import telethn as bot
 
 active_channel = []
 
@@ -37,7 +37,7 @@ async def channel_toggle(db, message: Message):
 
 
 
-@app.on_message(filters.command("channel") & ~filters.edited)
+@bot.on(filters.command("channel"))
 @capture_err
 async def channel_status(_, message: Message):
     if len(message.command) != 2:
@@ -47,10 +47,10 @@ async def channel_status(_, message: Message):
 
 
 
-@app.on_message(filters.text & ~filters.linked_channel, group=36)        
-@app.on_message(filters.media & ~filters.linked_channel, group=36)
-@app.on_message(filters.sticker & ~filters.linked_channel, group=36)
-@app.on_message(filters.via_bot & ~filters.linked_channel, group=36)
+@bot.on(filters.text & ~filters.linked_channel, group=36)        
+@bot.on(filters.media & ~filters.linked_channel, group=36)
+@bot.on(filters.sticker & ~filters.linked_channel, group=36)
+@bot.on(filters.via_bot & ~filters.linked_channel, group=36)
 async def anitchnl(_, message):
   chat_id = message.chat.id
   if message.sender_chat:
@@ -61,6 +61,6 @@ async def anitchnl(_, message):
         return
     else:
         await message.delete()
-        ti = await message.reply_text("**Chaneel Mess Deleted! chat id = '{chat_id}**")
+        ti = await message.reply_text("**Chaneel Mess Deleted! chat id =** {chat_id}")
         await asyncio.sleep(4)
         await ti.delete()        
