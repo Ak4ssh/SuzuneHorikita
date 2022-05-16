@@ -10,5 +10,5 @@ from SuzuneHorikita import telethn as tbot
 async def awake(event):
     rem = randint(1, 100)
     TEXT = f"Your wish has been cast.✨\n\nchance of success: {rem}%  "
-    await tbot.send_file(event.chat_id, caption=TEXT)
+    await tbot.send_message(event.chat_id, caption=TEXT)
 
