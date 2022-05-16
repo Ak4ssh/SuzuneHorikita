@@ -103,7 +103,7 @@ Hello {} ♡︎ !
 
 My name is Suzune Horikita - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
 
-Join my [News Channel](@SuzuneSuperbot). to get information on all the latest updates.
+Join My Updates Channel to get information on all the latest updates.
 
 """
 
