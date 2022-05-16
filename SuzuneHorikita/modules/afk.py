@@ -66,10 +66,10 @@ def no_longer_afk(update: Update, context: CallbackContext):
         try:
             options = [
                 "{} is still in contact with us.",
-                "{} is back again with same power and energy!",
-                "{} is now in the way of the destruction.",
+                "{} is back online!",
+                "{} is now in the Chat!",
                 "As You Can See {} Is Not Dead ",
-                "{} has recharged his pack and came online",
+                "Yes! Here Is {}",
                 "Hashh {} We Thought That You Were Dead.",
                 "Hey Kids Side Please {} Is Back",
                 "{} Are You Fine Now?",
