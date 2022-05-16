@@ -3,8 +3,8 @@ from google_trans_new import LANGUAGES, google_translator
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, run_async
 
-from SuzuneBot import dispatcher
-from SuzuneBot.modules.disable import DisableAbleCommandHandler
+from SuzuneHorikita import dispatcher
+from SuzuneHorikita.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
