@@ -17,6 +17,7 @@ from SuzuneHorikita.modules.helper_funcs.chat_status import (
     dev_plus,
     sudo_plus,
     whitelist_plus,
+    support_plus,
 )
 from SuzuneHorikita.modules.helper_funcs.extraction import extract_user
 from SuzuneHorikita.modules.log_channel import gloggable
@@ -39,7 +40,7 @@ def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
         reply = None
     return reply
 
-@dev_plus
+@support_plus
 @gloggable
 def gbanreq(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
