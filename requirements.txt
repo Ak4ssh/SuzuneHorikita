@@ -1,5 +1,5 @@
 opencv-python-headless
-youtube_search_python==1.4.9
+youtube_search_python==1.6.5
 youtube_search
 future
 emoji
