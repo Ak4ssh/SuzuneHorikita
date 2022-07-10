@@ -39,7 +39,8 @@ Just click on the button it will redirect you to Heroku website and deploy your 
 [![DEPLOY](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/desinobita/SuzuneHorikita.git)
 
 -----
-# Credit
+# [Contributors](https://github.com/desinobita/SuzuneHorikita/graphs/contributors) 
+
 * [Akash Tiwari](https://github.com/desinobita) `Owner`
 * [Captain Ezio](https://github.com/iamgojoof6eyes) `Dev`
 * [Aksr aashish](https://github.com/aksr-aashish) `Dev`
