@@ -41,9 +41,4 @@ Just click on the button it will redirect you to Heroku website and deploy your 
 -----
 # [Contributors](https://github.com/desinobita/SuzuneHorikita/graphs/contributors) 
 
-* [Akash Tiwari](https://github.com/desinobita) `Owner`
-* [Captain Ezio](https://github.com/iamgojoof6eyes) `Dev`
-* [Aksr aashish](https://github.com/aksr-aashish) `Dev`
-* [The RiZoeL](https://github.com/MrRizoel) `Dev`
-* [Zr Gang](https://github.com/akashti5) `Dev`
-
+[![Contributors](https://contrib.rocks/image?repo=desinobita/SuzuneHorikita)](https://github.com/desinobita/SuzuneHorikita/graphs/contributors)
