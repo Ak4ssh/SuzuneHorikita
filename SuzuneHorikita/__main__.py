@@ -118,7 +118,7 @@ buttons = [
             text="Updates Channel", url="https://t.me/SuzuneSuperbot"),
     ],
     [
-        InlineKeyboardButton(text="•Source Code•", url="https://github.com/desinobita/SuzuneHorikita"),
+        InlineKeyboardButton(text="•Source Code•", url="https://github.com/desinobita/SuzuneRobot"),
     ],
 ]
 
