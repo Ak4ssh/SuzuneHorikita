@@ -49,7 +49,7 @@ PyDictionary
 lyrics_extractor
 asyncio
 cloudscraper
-dateparser==1.1.1
+dateparser==1.1.2
 pymongo==4.2.0
 dnspython
 secureme
