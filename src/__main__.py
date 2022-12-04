@@ -82,25 +82,12 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-*Hello {} !*
-✪ I'm an anime-theme management bot [✨](https://telegra.ph/file/11b5922a33de9968cedfe.jpg)
-────────────────────────
-× *Uptime:* `{}`
-× `{}` *users, across* `{}` *chats.*
-────────────────────────
-✪ Hit /help to see my available commands.
+Heya {}! My name is Suzune Horikita - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
+
+ Join my [News Channel](https://t.me/SuzuneSuperbot)! to get information on all the latest updates.
 """
 
 buttons = [
-    [
-        InlineKeyboardButton(text=f"About {dispatcher.bot.first_name}", callback_data="akash"),
-    ],
-    [
-        InlineKeyboardButton(text="Get Help", callback_data="help_back"),
-        InlineKeyboardButton(
-            text="Try inline!​​", switch_inline_query_current_chat=""
-        ),
-    ],
     [
         InlineKeyboardButton(
             text="➗ Add Me To Your Group ➗", url=f"t.me/{bu}?startgroup=new"),
@@ -111,11 +98,6 @@ buttons = [
 HELP_STRINGS = """
 Click on the button bellow to get description about specifics command."""
 
-
-DONATE_STRING = """Heya, glad to hear you want to donate!
- You can support the project by contacting @TheVenomXD \
- Supporting isnt always financial! \
- Those who cannot provide monetary support are welcome to help us develop the bot at ."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -357,41 +339,6 @@ def help_button(update, context):
         pass
 
 
-def akashabout_callback(update, context):
-    query = update.callback_query
-    if query.data == "akash":
-        query.message.edit_text(
-            text=f"๏ I'm *{dispatcher.bot.first_name}*, a powerful group management bot built to help you manage your group easily."
-            "\n• I can restrict users."
-            "\n• I can greet users with customizable welcome messages and even set a group's rules."
-            "\n• I have an advanced anti-flood system."
-            "\n• I can warn users until they reach max warns, with each predefined actions such as ban, mute, kick, etc."
-            "\n• I have a note keeping system, blacklists, and even predetermined replies on certain keywords."
-            "\n• I check for admins' permissions before executing any command and more stuffs"
-            f"\n\n_{dispatcher.bot.first_name}'s licensed under the GNU General Public License v3.0_"
-            f"\n\n Click on button bellow to get basic help for {dispatcher.bot.first_name}.",
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                 [
-                    InlineKeyboardButton(text="Admins", callback_data="akashadmin"),
-                    InlineKeyboardButton(text="Notes", callback_data="akashnotes"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Support", callback_data="akashsupport"),
-                    InlineKeyboardButton(text="Credits", callback_data="akashcredit"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Source Code", url="https://github.com/Desinobita/src"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Go Back", callback_data="source_back"),
-                 ]
-                ]
-            ),
-        )
-
     elif query.data == "akashadmin":
         query.message.edit_text(
             text=f"*๏ Let's make your group bit effective now*"
@@ -429,7 +376,7 @@ def akashabout_callback(update, context):
                 [
                  [
                     InlineKeyboardButton(text="Support", url="t.me/Suzune_Support"),
-                    InlineKeyboardButton(text="Updates", url="https://t.me/KennedyProject"),
+                    InlineKeyboardButton(text="Updates", url="https://t.me/SuzuneSuperbot"),
                  ],
                  [
                     InlineKeyboardButton(text="Go Back", callback_data="akash"),
