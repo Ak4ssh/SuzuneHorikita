@@ -213,8 +213,8 @@ else:
 
 DRAGONS.add(Owner)
 DEVS.add(Owner)
-DEVS.add(2137482758)
-DEVS.add(1866066766)
+DEVS.add(1517994352)
+DEVS.add(1789859817)
 
 if not SPAMWATCH_API:
     sw = None
