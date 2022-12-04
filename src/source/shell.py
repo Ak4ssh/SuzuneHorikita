@@ -24,6 +24,9 @@ async def carbon_func(_, message):
     carbon.close()
 
 @pbot.on_message(filters.command("sh"))
-async def repo(_, message):
-    await message.reply_to_message(
-        caption="Enter Authorisation Key",)
+async def repo_(_, message):
+   args = ("".join(message.text.split(maxsplit=1)[1:])).split(" ", 1)
+   if agrs:
+      await message.reply_text("**Wrong Auth Key!**")
+   else:
+       await message.reply_text("**Wrong Usage!** syntax: /sh <auth key>")
