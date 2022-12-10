@@ -7,6 +7,7 @@ import asyncio
 import time
 import spamwatch
 import telegram.ext as tg
+import Config
 
 from inspect import getfullargspec
 from aiohttp import ClientSession
