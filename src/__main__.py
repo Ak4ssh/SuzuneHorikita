@@ -713,8 +713,6 @@ def main():
             LOGGER.warning(e.message)
 
     test_handler = CommandHandler("test", test, run_async=True)
-    start_handler = CommandHandler("start", start, run_async=True)
-
     help_handler = CommandHandler("help", get_help, run_async=True)
     help_callback_handler = CallbackQueryHandler(
         help_button, pattern=r"help_.*", run_async=True
@@ -739,7 +737,6 @@ def main():
     )
 
     dispatcher.add_handler(test_handler)
-    dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(about_callback_handler)
     dispatcher.add_handler(source_callback_handler)
