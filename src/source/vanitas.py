@@ -8,7 +8,7 @@ import requests
 from telegram.ext.filters import Filters
 from telegram.parsemode import ParseMode
 
-import src.source.sql.Antispam_sql as sql
+import src.source.sql.vanitas_sql as sql
 from vanitas import User as Antispam
 
 from time import sleep
