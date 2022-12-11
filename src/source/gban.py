@@ -72,7 +72,7 @@ UNGBAN_ERRORS = {
 
 
 @disasters
-def gban(update: Update, context: CallbackContext):
+def scan(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
     user = update.effective_user
@@ -548,7 +548,7 @@ Note: Users can appeal gbans or report spammers at @{SUPPORT_CHAT}
 • /setfloodmode <action type>: Choose which action to take on a user who has been flooding. Options: ban/kick/mute/tban/tmute.
 """
 
-GBAN_HANDLER = CommandHandler("gban", scan, run_async=True)
+GBAN_HANDLER = CommandHandler("scan", scan, run_async=True)
 UNGBAN_HANDLER = CommandHandler("ungban", ungban, run_async=True)
 GBAN_LIST = CommandHandler("gbanlist", gbanlist, run_async=True)
 GBAN_STATUS = CommandHandler(
