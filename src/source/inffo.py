@@ -66,7 +66,7 @@ async def _info(e):
             out_str += f"\n<b>Username:</b> @{x_user.username}"
         out_str += f"\n<b>User ID:</b> <code>{x_user.id}</code>"
         out_str += (f"\n<b>PermaLink:</b> <a href='tg://user?id={x_user.id}'>link</a>")
-        if int(x_user.id) in Owner:
+        if int(x_user.id) == Owner:
             out_str += f"\n\n <b> Owner Of Suzune 🔱 </b>"
         if int(x_user.id) in Devs:
             out_str += "\n\n<b>Dev Of Suzune</b>"
