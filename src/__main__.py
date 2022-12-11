@@ -84,7 +84,7 @@ def get_readable_time(seconds: int) -> str:
 PM_START_TEXT = """
 Heya {}! My name is Suzune Horikita - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
 
- Join my [News Channel](https://t.me/SuzuneSuperbot)! to get information on all the latest updates.
+ Join my [News Channel](https://t.me/SuzuneSuperbot) to get information on all the latest updates.
 """
 
 buttons = [
@@ -209,6 +209,7 @@ def start(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,
                 disable_web_page_preview=False,
+                link_preview=False
             )
     else:
         update.effective_message.reply_text(
