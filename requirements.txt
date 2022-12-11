@@ -28,6 +28,7 @@ zalgo-text==0.6
 fontTools==4.27.1
 pyrogram
 nekos.py==1.0.3
+git+https://github.com/python-telegram-bot/ptbcontrib
 telegraph==1.4.1
 tgcrypto==1.2.2
 youtube_dl==2021.6.6
