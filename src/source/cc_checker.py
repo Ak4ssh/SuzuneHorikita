@@ -95,7 +95,7 @@ async def alive(event):
         await k.edit(reply)
 
 
-@register(pattern="^/ss (.*)")
+@register(pattern="^/chk (.*)")
 async def alive(event):
     if event.is_group and not await is_register_admin(
         event.input_chat, event.message.sender_id
@@ -105,8 +105,8 @@ async def alive(event):
     fname = sender.first_name
     ok = event.pattern_match.group(1)
     k = await event.reply("**Wait for Result.**")
-    async with ubot.conversation("@Carol5_bot") as bot_conv:
-        await bot_conv.send_message(f"/ss {ok}")
+    async with ubot.conversation("@ccbotchk") as bot_conv:
+        await bot_conv.send_message(f"/chk {ok}")
         await asyncio.sleep(9)
         response = await bot_conv.get_response()
         if "Try again after" in response.text:
