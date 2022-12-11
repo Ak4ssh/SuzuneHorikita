@@ -4,7 +4,7 @@ from sqlalchemy import Boolean
 from sqlalchemy.sql.sqltypes import String
 from sqlalchemy import Column
 
-from src.modules.sql import BASE, SESSION
+from src.source.sql import BASE, SESSION
 
 
 class AntiChannelSettings(BASE):
