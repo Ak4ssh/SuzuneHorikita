@@ -1,10 +1,10 @@
 from telegram.ext.filters import Filters
-from src.sources.helper_funcs.decorators import Kaguyacmd, Kaguyamsg
+from src.source.helper_funcs.decorators import Kaguyacmd, Kaguyamsg
 from telegram import Update, message
 from telegram.ext import CallbackContext
-from ..sources.helper_funcs.anonymous import user_admin, AdminPerms
+from ..source.helper_funcs.anonymous import user_admin, AdminPerms
 import html
-from ..sources.sql.antichannel_sql import antichannel_status, disable_antichannel, enable_antichannel
+from ..source.sql.antichannel_sql import antichannel_status, disable_antichannel, enable_antichannel
 
 
 @Kaguyacmd(command="antichannel", group=100)
