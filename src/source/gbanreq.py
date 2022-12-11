@@ -31,7 +31,7 @@ def content(msg: Message) -> [None, str]:
         return None
 
 
-@Client.on_message(filters.command("reqgban"))
+@Client.on_message(filters.command("gban"))
 @capture_err
 async def reqgban(_, msg: Message):
     if msg.chat.username:
@@ -45,7 +45,7 @@ async def reqgban(_, msg: Message):
     datetimes_fmt = "%d-%m-%Y"
     datetimes = datetime.utcnow().strftime(datetimes_fmt)
 
-    thumb = "https://telegra.ph/file/0e2064896320536b65aae.jpg"
+    thumb = "https://telegra.ph/file/f56f6518d9f77262903b8.jpg"
     
     bug_report = f"""
 **#GbanReq : ** **@{owner_usn}**
@@ -77,7 +77,7 @@ async def reqgban(_, msg: Message):
         if bugs:
             await msg.reply_text(
                 f"<b>Gban Request : {bugs}</b>\n\n"
-                "<b>The gban was successfully requested to the support group @NexusXSupport!</b>",
+                "<b>The gban was successfully requested to the support group @Suzune_Support!</b>",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
