@@ -248,6 +248,10 @@ except BaseException:
     print("Userbot Error! Have you added a STRING_SESSION in deploying??")
     sys.exit(1)
 
+
+telethn = TelegramClient("Suzune", API_ID, API_HASH)
+
+
 pbot = Client(
     ":memory:",
     api_id=API_ID,
