@@ -3,7 +3,8 @@ import datetime
 
 from telethon.tl import functions, types
 
-from src import telethn, ubot
+from src import telethn
+from src import ubot2 as ubot
 from src.events import register
 
 
