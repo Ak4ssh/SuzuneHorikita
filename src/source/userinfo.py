@@ -35,7 +35,7 @@ from src.__main__ import STATS, TOKEN, USER_INFO
 from src.source.sql import SESSION
 import src.source.sql.userinfo_sql as sql
 from src.source.disable import DisableAbleCommandHandler
-from src.source.sql.gban_sql import is_user_gbanned
+from src.source.sql.global_bans_sql import is_user_gbanned
 from src.source.sql.afk_sql import is_afk, set_afk
 from src.source.sql.users_sql import get_user_num_chats
 from src.source.helper_funcs.chat_status import sudo_plus
