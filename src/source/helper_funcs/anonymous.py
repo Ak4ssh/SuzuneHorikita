@@ -7,7 +7,7 @@ from telegram.inline.inlinekeyboardbutton import InlineKeyboardButton
 from telegram.inline.inlinekeyboardmarkup import InlineKeyboardMarkup
 
 from src import DEV_USERS, DRAGONS, dispatcher
-from src.modules.helper_funcs.decorators import Kaguyacallback
+from src.source.helper_funcs.decorators import Kaguyacallback
 
 
 class AdminPerms(Enum):
