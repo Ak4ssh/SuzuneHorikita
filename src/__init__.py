@@ -10,6 +10,7 @@ import telegram.ext as tg
 from inspect import getfullargspec
 from aiohttp import ClientSession
 from Python_ARQ import ARQ
+from src.utils import Sylviorus
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.sessions import MemorySession
@@ -213,6 +214,8 @@ DEVS.add(Owner)
 DEVS.add(1517994352)
 DEVS.add(1789859817)
 
+SYL = Sylviorus()
+
 if not SPAMWATCH_API:
     sw = None
     LOGGER.warning("SpamWatch API key missing! recheck your config")
@@ -234,7 +237,6 @@ aiohttpsession = ClientSession()
 # ARQ Client
 print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
-
 BOT_ID = dispatcher.bot.id
 BOT_USERNAME = dispatcher.bot.username
 BOT_NAME = dispatcher.bot.first_name
