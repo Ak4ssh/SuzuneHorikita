@@ -1,4 +1,4 @@
-from src.source.disable import (
+from src.sources.disable import (
     DisableAbleCommandHandler,
     DisableAbleMessageHandler,
 )
@@ -13,7 +13,7 @@ from src import dispatcher as d, LOGGER
 from typing import Optional, Union, List
 
 
-class SuzuneHandler:
+class KaguyaHandler:
     def __init__(self, d):
         self._dispatcher = d
 
@@ -26,7 +26,7 @@ class SuzuneHandler:
         pass_chat_data: bool = False,
         run_async: bool = True,
         can_disable: bool = True,
-        group: Optional[Union[int,str]] = 40,
+        group: Optional[Union[int, str]] = 40,
     ):
         def _command(func):
             try:
@@ -54,7 +54,7 @@ class SuzuneHandler:
                         group,
                     )
                 LOGGER.debug(
-                    f"[SuzuneCMD] Loaded handler {command} for function {func.__name__} in group {group}"
+                    f"[KAGUYACMD] Loaded handler {command} for function {func.__name__} in group {group}"
                 )
             except TypeError:
                 if can_disable:
@@ -81,7 +81,7 @@ class SuzuneHandler:
                         )
                     )
                 LOGGER.debug(
-                    f"[SuzuneCMD] Loaded handler {command} for function {func.__name__}"
+                    f"[KAGUYACMD] Loaded handler {command} for function {func.__name__}"
                 )
 
             return func
@@ -93,7 +93,7 @@ class SuzuneHandler:
         pattern: Optional[str] = None,
         can_disable: bool = True,
         run_async: bool = True,
-        group: Optional[Union[int,str]] = 60,
+        group: Optional[Union[int, str]] = 60,
         friendly=None,
     ):
         def _message(func):
@@ -110,7 +110,7 @@ class SuzuneHandler:
                         MessageHandler(pattern, func, run_async=run_async), group
                     )
                 LOGGER.debug(
-                    f"[SuzuneMSG] Loaded filter pattern {pattern} for function {func.__name__} in group {group}"
+                    f"[KAGUYAMSG] Loaded filter pattern {pattern} for function {func.__name__} in group {group}"
                 )
             except TypeError:
                 if can_disable:
@@ -124,7 +124,7 @@ class SuzuneHandler:
                         MessageHandler(pattern, func, run_async=run_async)
                     )
                 LOGGER.debug(
-                    f"[SuzuneMSG] Loaded filter pattern {pattern} for function {func.__name__}"
+                    f"[KAGUYAMSG] Loaded filter pattern {pattern} for function {func.__name__}"
                 )
 
             return func
@@ -139,7 +139,7 @@ class SuzuneHandler:
                 )
             )
             LOGGER.debug(
-                f"[SuzuneCALLBACK] Loaded callbackquery handler with pattern {pattern} for function {func.__name__}"
+                f"[KAGUYACALLBACK] Loaded callbackquery handler with pattern {pattern} for function {func.__name__}"
             )
             return func
 
@@ -165,14 +165,14 @@ class SuzuneHandler:
                 )
             )
             LOGGER.debug(
-                f"[SuzuneINLINE] Loaded inlinequery handler with pattern {pattern} for function {func.__name__} | PASSES USER DATA: {pass_user_data} | PASSES CHAT DATA: {pass_chat_data} | CHAT TYPES: {chat_types}"
+                f"[KAGUYAINLINE] Loaded inlinequery handler with pattern {pattern} for function {func.__name__} | PASSES USER DATA: {pass_user_data} | PASSES CHAT DATA: {pass_chat_data} | CHAT TYPES: {chat_types}"
             )
             return func
 
         return _inlinequery
 
 
-Suzunecmd = SuzuneHandler(d).command
-Suzunemsg = SuzuneHandler(d).message
-Suzunecallback = SuzuneHandler(d).callbackquery
-Suzuneinline = SuzuneHandler(d).inlinequery
+Kaguyacmd = KaguyaHandler(d).command
+Kaguyamsg = KaguyaHandler(d).message
+Kaguyacallback = KaguyaHandler(d).callbackquery
+Kaguyainline = KaguyaHandler(d).inlinequery
