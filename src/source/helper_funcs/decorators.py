@@ -1,4 +1,4 @@
-from src.sources.disable import (
+from src.source.disable import (
     DisableAbleCommandHandler,
     DisableAbleMessageHandler,
 )
