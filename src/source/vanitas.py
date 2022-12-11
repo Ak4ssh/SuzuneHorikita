@@ -108,7 +108,7 @@ def bluemoon(update: Update, context: CallbackContext):
     )
 
 
-def vantiasban(update: Update, context: CallbackContext):
+def antispamban(update: Update, context: CallbackContext):
     user = update.effective_user
     chat_id = update.effective_chat.id
     is_antispam = sql.is_antispam(chat_id)
