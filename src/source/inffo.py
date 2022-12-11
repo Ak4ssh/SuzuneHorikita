@@ -8,7 +8,7 @@ from telethon import Button, custom, events, functions
 from src import telethn as Suzune
 from src.events import register
 from src import Owner
-from src import DEVS ad Devs
+from src import DEVS as Devs
 from telethon.tl.types import (
     Channel,
     DocumentAttributeAudio,
