@@ -5,8 +5,8 @@ from telethon import events, Button
 from telegram import __version__ as telever
 from telethon import __version__ as tlhver
 from pyrogram import __version__ as pyrover
-from SuzuneHorikita.events import register
-from SuzuneHorikita import telethn as tbot
+from src.events import register
+from src import telethn as tbot
 
 @register(pattern=("/start"))
 async def awake(event):
