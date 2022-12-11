@@ -13,7 +13,7 @@ from telegram.ext import (
 )
 from telegram.utils.helpers import mention_html
 
-import src.source.sql.gban_sql as sql
+import src.source.sql.global_bans_sql as sql
 from src.source.sql.users_sql import get_user_com_chats
 from src import (
     DEVS,
