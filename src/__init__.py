@@ -7,8 +7,6 @@ import asyncio
 import time
 import spamwatch
 import telegram.ext as tg
-import Config
-
 from inspect import getfullargspec
 from aiohttp import ClientSession
 from Python_ARQ import ARQ
@@ -20,7 +18,7 @@ from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
 from ptbcontrib.postgres_persistence import PostgresPersistence
-
+from src.config import Development as Config
 StartTime = time.time()
 
 def get_user_list(__init__, key):
