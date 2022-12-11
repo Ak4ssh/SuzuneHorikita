@@ -1,6 +1,6 @@
 import threading
 
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, Integer
 
 from src.source.sql import BASE, SESSION # import your file name
 
