@@ -3,7 +3,7 @@ import os
 import re
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.functions.users import GetFullUserRequest
-from src.source.sql import global_bans_sql as gban_sql
+from src.source.sql import global_bans_sql
 from telethon import Button, custom, events, functions
 from src import telethn as Suzune
 from src.events import register
