@@ -6,7 +6,7 @@ from telegram.ext import CallbackContext
 from telegram.inline.inlinekeyboardbutton import InlineKeyboardButton
 from telegram.inline.inlinekeyboardmarkup import InlineKeyboardMarkup
 
-from src import DEV_USERS, DRAGONS, dispatcher
+from src import Dev, DRAGONS, dispatcher
 from src.source.helper_funcs.decorators import Kaguyacallback
 
 
