@@ -70,7 +70,7 @@ async def _info(e):
             out_str += f"\n\n <b> Owner Of Suzune 🔱 </b>"
         if int(x_user.id) in Devs:
             out_str += "\n\n<b>Dev Of Suzune</b>"
-        if gban_sql.is_user_gbanned(x_user.id):
+        if global_bans_sql.is_user_gbanned(x_user.id):
             out_str += "\n\n<b>Globally Banned:</b> Yes"
         try:
            await e.reply(out_str, file=x_full.user.profile_photo, parse_mode="html")
