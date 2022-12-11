@@ -35,7 +35,6 @@ from src.utils.pluginhelper import convert_seconds_to_minutes as time_convert, f
 from src.help1.tasks import _get_tasks_text, all_tasks, rm_task
 from src.help1.types import InlineQueryResultCachedDocument
 from src.source.info import get_chat_info, get_user_info
-from src.source.music import download_youtube_audio
 from src.utils.functions import test_speedtest
 from src.utils.pastebin import paste
 
@@ -636,45 +635,6 @@ async def ping_func(answers):
             title=ping,
             input_message_content=InputTextMessageContent(f"__**{ping}**__"),
         )
-    )
-    return answers
-
-
-async def yt_music_func(answers, url):
-    if "http" not in url:
-        url = (await arq.youtube(url)).result[0]
-        url = f"https://youtube.com{url.url_suffix}"
-    loop = asyncio.get_running_loop()
-    music = await loop.run_in_executor(None, download_youtube_audio, url)
-    if not music:
-        msg = "**ERROR**\n__MUSIC TOO LONG__"
-        answers.append(
-            InlineQueryResultArticle(
-                title="ERROR",
-                description="MUSIC TOO LONG",
-                input_message_content=InputTextMessageContent(msg),
-            )
-        )
-        return answers
-    (
-        title,
-        performer,
-        duration,
-        audio,
-        thumbnail,
-    ) = music
-    m = await app.send_audio(
-        MESSAGE_DUMP_CHAT,
-        audio,
-        title=title,
-        duration=duration,
-        performer=performer,
-        thumb=thumbnail,
-    )
-    os.remove(audio)
-    os.remove(thumbnail)
-    answers.append(
-        InlineQueryResultCachedDocument(title=title, file_id=m.audio.file_id)
     )
     return answers
 
