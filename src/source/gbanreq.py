@@ -165,4 +165,6 @@ __User:__ {user.mention}
                  message_id=message_id,
                  text=f"**Request accepted by {callback.from_user.mention}! Check [logs](https://t.me/SuzuneLogs/{m.id}",
                  disable_web_page_preview=True,
-                 )    
+                 )
+    else:
+        await callback.answer("Only suzune owner can accept Gban Request!")
