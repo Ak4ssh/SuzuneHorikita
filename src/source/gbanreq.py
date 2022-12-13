@@ -19,7 +19,7 @@ from src import (
 from src.utils.errors import capture_err
 
 
-def user_and_reason(RiZoeL, message):
+async def user_and_reason(RiZoeL, message):
    args = ("".join(message.text.split(maxsplit=1)[1:])).split(" ", 2)
    if len(args) > 0:
       try:
@@ -57,7 +57,7 @@ async def reqgban(_, msg: Message):
     else:
         chat_username = (f"Private Group / `{msg.chat.id}`")
 
-    user, reason = user_and_reason(Client, msg)
+    user, reason = await user_and_reason(Client, msg)
     from = msg.from_user
     datetimes_fmt = "%d-%m-%Y"
     datetimes = datetime.utcnow().strftime(datetimes_fmt)
