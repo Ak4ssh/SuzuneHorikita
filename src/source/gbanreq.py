@@ -8,6 +8,7 @@ from pyrogram.types import (
     Message,
 )
 
+import src.source.sql.global_bans_sql as sql
 from src import pbot as Client
 from src import (
     Owner as owner_id,
@@ -17,18 +18,32 @@ from src import (
 from src.utils.errors import capture_err
 
 
-def content(msg: Message) -> [None, str]:
-    text_to_return = msg.text
+def user_and_reason(RiZoeL, message):
+   args = ("".join(message.text.split(maxsplit=1)[1:])).split(" ", 2)
+   if len(args) > 0:
+      try:
+         user = await RiZoeL.get_users(args[0])
+      except Exception as error:
+         await message.reply_text(str(error))
+         return
+      reason = args[1]
+      if not reason:
+         await message.reply_text("Gime reason!")
+         return
+   elif message.reply_to_message:
+      try:
+         user = await RiZoeL.get_users(message.reply_to_message.from_user.id)
+      except Exception as error:
+         user = message.reply_to_message.from_user
+      reason = args[0]
+      if not reason:
+         await message.reply_text("Gime reason!")
+         return
+   else:
+      await message.reply_text("You need to specify an user!")
+      return
 
-    if msg.text is None:
-        return None
-    if " " in text_to_return:
-        try:
-            return msg.text.split(None, 1)[1]
-        except IndexError:
-            return None
-    else:
-        return None
+   return user, reason
 
 
 @Client.on_message(filters.command("gban"))
@@ -39,9 +54,8 @@ async def reqgban(_, msg: Message):
     else:
         chat_username = (f"Private Group / `{msg.chat.id}`")
 
-    bugs = content(msg)
-    user_id = msg.from_user.id
-    mention = "["+msg.from_user.first_name+"](tg://user?id="+str(msg.from_user.id)+")"
+    user, reason = user_and_reason(Client, msg)
+    from = msg.from_user
     datetimes_fmt = "%d-%m-%Y"
     datetimes = datetime.utcnow().strftime(datetimes_fmt)
 
@@ -50,34 +64,22 @@ async def reqgban(_, msg: Message):
     bug_report = f"""
 **#GbanReq : ** **@{owner_usn}**
 
-**From User : ** **{mention}**
-**User ID : ** **{user_id}**
+**From User : ** {from.mention} ({from.id})
 **Group : ** **{chat_username}**
 
-**Gban Target : ** **{bugs}**
+**Gban Target : ** {user.mention} ({user.id})
+**Reason:** {reason}
 
 **Event Stamp : ** **{datetimes}**"""
 
-    
-    if msg.chat.type == "private":
-        await msg.reply_text("<b>This command only works in groups.</b>")
+    if user.id == owner_id or user.id == 1517994352:
+        await msg.reply_text("<b>How can be bot owner requesting gban??</b>")
         return
-
-    if user_id == owner_id:
-        if bugs:
+    else:
+        check = sql.is_user_gbanned(user.id)
+        if not check:
             await msg.reply_text(
-                "<b>How can be bot owner requesting gban??</b>",
-            )
-            return
-        else:
-            await msg.reply_text(
-                "No Useless Gbans!"
-            )
-    elif user_id != owner_id:
-        if bugs:
-            await msg.reply_text(
-                f"<b>Gban Request : {bugs}</b>\n\n"
-                "<b>The gban was successfully requested to the support group @Suzune_Support!</b>",
+                f"<b>Gban Request sent ✓</b>\n\n User: {user.mention} \n Reason: {reason}"
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -95,7 +97,9 @@ async def reqgban(_, msg: Message):
                     [
                         [
                             InlineKeyboardButton(
-                                "View Reason", url=f"{msg.link}")
+                                "View Reason", url=f"{msg.link}"),
+                            InlineKeyboardButton(
+                                "Accept Request", callback_data=f"greq:{from}:{user}")
                         ],
                         [
                             InlineKeyboardButton(
@@ -106,7 +110,7 @@ async def reqgban(_, msg: Message):
             )
         else:
             await msg.reply_text(
-                f"<b>No gban to request!</b>",
+                f"<b>User already in Gbanned list!</b>",
             )
         
 
@@ -125,3 +129,27 @@ async def close_send_photo(_, CallbackQuery):
         )
     else:
         await CallbackQuery.message.delete()
+
+@Client.on_callback_query(filters.regex(r'greq'))
+def Greport_callback(Akash: Client, callback: CallbackQuery):
+    query = callback.data.split(":")
+    chat_id = callback.message.chat.id
+    message_id = callback.message.id
+    if callback.from_user.id == owner_id or callback.from_user.id == 1517994352:
+      dev = callback.from_user
+      from = int(query[1])
+      user = str(query[2])
+      logs_msg = f"""
+**Gban Request accepted ✓**
+
+__By admin:__ {dev.mention}
+__Request by:__ {from.mention}
+__User:__ {user.mention}
+"""
+       sql.gban_user(user.id)
+       m = await Akash.send_message("SuzuneLogs", logs_msg)
+       await Akash.edit_message_text(
+                 chat_id=chat_id,
+                 message_id=message_id,
+                 text=f"**Request accepted by {dev.mention}! Check [logs](https://t.me/SuzuneLogs/{m.id}),
+                 disable_web_page_preview=True)    
