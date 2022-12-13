@@ -131,7 +131,7 @@ async def close_send_photo(_, CallbackQuery):
         await CallbackQuery.message.delete()
 
 @Client.on_callback_query(filters.regex(r'greq'))
-def Greport_callback(Akash: Client, callback: CallbackQuery):
+async def Greport_callback(Akash: Client, callback: CallbackQuery):
     query = callback.data.split(":")
     chat_id = callback.message.chat.id
     message_id = callback.message.id
