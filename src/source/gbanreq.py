@@ -21,27 +21,21 @@ from src.utils.errors import capture_err
 
 async def user_and_reason(RiZoeL, message):
    args = ("".join(message.text.split(maxsplit=1)[1:])).split(" ", 2)
-   if len(args) > 0:
+   if len(args) == 2:
       try:
          user = await RiZoeL.get_users(args[0])
       except Exception as error:
          await message.reply_text(str(error))
          return
       reason = args[1]
-      if not reason:
-         await message.reply_text("Gime reason!")
-         return
    elif message.reply_to_message:
       try:
          user = await RiZoeL.get_users(message.reply_to_message.from_user.id)
       except Exception as error:
          user = message.reply_to_message.from_user
       reason = args[0]
-      if not reason:
-         await message.reply_text("Gime reason!")
-         return
    else:
-      await message.reply_text("You need to specify an user!")
+      await message.reply_text("**Wrong Usage!** \n\n Syntax: /gban (user or Reply to user) (reason)")
       return
 
    return user, reason
@@ -82,8 +76,8 @@ async def reqgban(_, msg: Message):
     else:
         check = sql.is_user_gbanned(user.id)
         if not check:
-            await msg.reply_text(
-                f"<b>Gban Request sent ✓</b>\n\n User: {user.mention} \n Reason: {reason}",
+            await Client.send_message(msg.chat.id,
+                f"<b>Gban Request sent ✓</b>\n\n Request by: {msg.from_user.mention} \n User: {user.mention} \n Reason: {reason}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -163,7 +157,7 @@ __User:__ {user.mention}
       await Akash.edit_message_text(
                  chat_id=chat_id,
                  message_id=message_id,
-                 text=f"**Request accepted by {callback.from_user.mention}! Check [logs](https://t.me/SuzuneLogs/{m.id}",
+                 text=f"**Request accepted by {callback.from_user.mention}! Check [logs](https://t.me/SuzuneLogs/{m.id})",
                  disable_web_page_preview=True,
                  )
     else:
