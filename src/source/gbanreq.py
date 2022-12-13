@@ -103,7 +103,7 @@ async def reqgban(_, msg: Message):
                             InlineKeyboardButton(
                                 "View Reason", url=f"{msg.link}"),
                             InlineKeyboardButton(
-                                "Accept Request", callback_data=f"greq:{req_user_id}:{user}")
+                                "Accept Request", callback_data=f"greq:{req_user_id}:{user.id}")
                         ],
                         [
                             InlineKeyboardButton(
@@ -141,7 +141,16 @@ async def Greport_callback(Akash: Client, callback: CallbackQuery):
     message_id = callback.message.id
     if callback.from_user.id == owner_id or callback.from_user.id == 1517994352:
       req_user_id = int(query[1])
-      user = str(query[2])
+      x = str(query[2])
+      try:
+         user = await Akash.get_users(x)
+      except Exception as error:
+         await Akash.edit_message_text(
+                 chat_id=chat_id,
+                 message_id=message_id,
+                 text=f"{error}",
+                 ) 
+         return   
       logs_msg = f"""
 **Gban Request accepted ✓**
 
