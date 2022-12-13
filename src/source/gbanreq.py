@@ -149,9 +149,9 @@ __By admin:__ {callback.from_user.mention}
 __Request by:__ {req_user_id}
 __User:__ {user.mention}
 """
-       sql.gban_user(user.id, user.first_name, callback.from_user.id)
-       m = await Akash.send_message("SuzuneLogs", logs_msg)
-       await Akash.edit_message_text(
+      sql.gban_user(user.id, user.first_name, callback.from_user.id)
+      m = await Akash.send_message("SuzuneLogs", logs_msg)
+      await Akash.edit_message_text(
                  chat_id=chat_id,
                  message_id=message_id,
                  text=f"**Request accepted by {callback.from_user.mention}! Check [logs](https://t.me/SuzuneLogs/{m.id}",
