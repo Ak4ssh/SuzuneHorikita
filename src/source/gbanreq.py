@@ -58,7 +58,8 @@ async def reqgban(_, msg: Message):
         chat_username = (f"Private Group / `{msg.chat.id}`")
 
     user, reason = await user_and_reason(Client, msg)
-    from = msg.from_user
+    req_user_id = msg.from_user.id
+    req_user_mention = msg.from_user.mention
     datetimes_fmt = "%d-%m-%Y"
     datetimes = datetime.utcnow().strftime(datetimes_fmt)
 
@@ -67,7 +68,7 @@ async def reqgban(_, msg: Message):
     bug_report = f"""
 **#GbanReq : ** **@{owner_usn}**
 
-**From User : ** {from.mention} ({from.id})
+**From User : ** {req_user_mention} ({req_user_id})
 **Group : ** **{chat_username}**
 
 **Gban Target : ** {user.mention} ({user.id})
@@ -102,7 +103,7 @@ async def reqgban(_, msg: Message):
                             InlineKeyboardButton(
                                 "View Reason", url=f"{msg.link}"),
                             InlineKeyboardButton(
-                                "Accept Request", callback_data=f"greq:{from}:{user}")
+                                "Accept Request", callback_data=f"greq:{req_user_id}:{user}")
                         ],
                         [
                             InlineKeyboardButton(
@@ -139,14 +140,13 @@ async def Greport_callback(Akash: Client, callback: CallbackQuery):
     chat_id = callback.message.chat.id
     message_id = callback.message.id
     if callback.from_user.id == owner_id or callback.from_user.id == 1517994352:
-      dev = callback.from_user
-      from = int(query[1])
+      req_user_id = int(query[1])
       user = str(query[2])
       logs_msg = f"""
 **Gban Request accepted ✓**
 
-__By admin:__ {dev.mention}
-__Request by:__ {from.mention}
+__By admin:__ {callback.from_user.mention}
+__Request by:__ {req_user_id}
 __User:__ {user.mention}
 """
        sql.gban_user(user.id)
@@ -154,6 +154,6 @@ __User:__ {user.mention}
        await Akash.edit_message_text(
                  chat_id=chat_id,
                  message_id=message_id,
-                 text=f"**Request accepted by {dev.mention}! Check [logs](https://t.me/SuzuneLogs/{m.id}",
+                 text=f"**Request accepted by {callback.from_user.mention}! Check [logs](https://t.me/SuzuneLogs/{m.id}",
                  disable_web_page_preview=True,
                  )    
