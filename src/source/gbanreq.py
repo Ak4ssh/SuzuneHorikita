@@ -103,7 +103,7 @@ async def reqgban(_, msg: Message):
                             InlineKeyboardButton(
                                 "View Reason", url=f"{msg.link}"),
                             InlineKeyboardButton(
-                                "Accept Request", callback_data=f"greq:{req_user_id}:{user.id}")
+                                "Accept Request", callback_data=f"greq:{req_user_id}:{user.id}:")
                         ],
                         [
                             InlineKeyboardButton(
