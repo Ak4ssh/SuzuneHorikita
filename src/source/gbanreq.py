@@ -11,6 +11,7 @@ from pyrogram.types import (
 import src.source.sql.global_bans_sql as sql
 from src import pbot as Client
 from src import (
+    DEVS,
     Owner as owner_id,
     OWNER_USERNAME as owner_usn,
     SUPPORT_CHAT as log,
@@ -49,6 +50,8 @@ def user_and_reason(RiZoeL, message):
 @Client.on_message(filters.command("gban"))
 @capture_err
 async def reqgban(_, msg: Message):
+    if msg.from_user.id == owner_id or msg.from_user.id in DEVS:
+        return 
     if msg.chat.username:
         chat_username = (f"@{msg.chat.username} / `{msg.chat.id}`")
     else:
