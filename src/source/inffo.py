@@ -67,9 +67,9 @@ async def _info(e):
         out_str += f"\n<b>User ID:</b> <code>{x_user.id}</code>"
         out_str += (f"\n<b>PermaLink:</b> <a href='tg://user?id={x_user.id}'>link</a>")
         if int(x_user.id) == Owner:
-            out_str += f"\n\n <b> Owner Of Suzune 🔱 </b>"
+            out_str += f"\n\n <b> Owner Of Miku ❤️ </b>"
         if int(x_user.id) in Devs:
-            out_str += "\n\n<b>Dev Of Suzune</b>"
+            out_str += "\n\n<b>Dev Of Miku</b>"
         if global_bans_sql.is_user_gbanned(x_user.id):
             out_str += "\n\n<b>Globally Banned:</b> Yes"
         try:
