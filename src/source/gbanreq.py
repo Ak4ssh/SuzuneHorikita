@@ -83,7 +83,7 @@ async def reqgban(_, msg: Message):
         check = sql.is_user_gbanned(user.id)
         if not check:
             await msg.reply_text(
-                f"<b>Gban Request sent ✓</b>\n\n User: {user.mention} \n Reason: {reason}"
+                f"<b>Gban Request sent ✓</b>\n\n User: {user.mention} \n Reason: {reason}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
