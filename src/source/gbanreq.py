@@ -154,5 +154,6 @@ __User:__ {user.mention}
        await Akash.edit_message_text(
                  chat_id=chat_id,
                  message_id=message_id,
-                 text=f"**Request accepted by {dev.mention}! Check [logs](https://t.me/SuzuneLogs/{m.id}"),
-                 disable_web_page_preview=True)    
+                 text=f"**Request accepted by {dev.mention}! Check [logs](https://t.me/SuzuneLogs/{m.id}",
+                 disable_web_page_preview=True,
+                 )    
