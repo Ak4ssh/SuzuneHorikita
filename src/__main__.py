@@ -83,11 +83,12 @@ def get_readable_time(seconds: int) -> str:
 HELP_STRINGS = """
 Click on the button bellow to get description about specifics command."""
 
+PM_START_PIC = "https://telegra.ph/file/90bd376bb7a6d1539137d.mp4"
+
 PM_START_TEXT ="""
 Heya {} , My name is Miku - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
 
-Join my [News Channel](https://t.me/AstorBots) to get information on all the latest updates[.](https://telegra.ph/file/90bd376bb7a6d1539137d.mp4)"""
-
+Join my [News Channel](https://t.me/AstorBots) to get information on all the latest updates. """
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -232,6 +233,7 @@ def help_button(update, context):
                 + HELPABLE[module].saxsux
             )
             query.message.edit_text(
+                PM_START_PIC,
                 PM_START_TEXT, 
                 text=text,
                 parse_mode=ParseMode.MARKDOWN,
