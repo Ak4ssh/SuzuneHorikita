@@ -711,7 +711,7 @@ def main():
             dispatcher.bot.sendMessage(
                 f"@{SUPPORT_CHAT}", 
                 f"""Am Back to my job[.](https://telegra.ph/file/85fda588c0fb419756b81.jpg)""",
-                parse_mode=ParseMode.MARKDOWN
+                parse_mode=ParseMode.MARKDOWN, 
                 reply_markup=InlineKeyboardMarkup(
                 [
                   [                  
