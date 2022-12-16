@@ -710,9 +710,18 @@ def main():
         try:
             dispatcher.bot.sendMessage(
                 f"@{SUPPORT_CHAT}", 
-                "👋 Hi, i'm alive.",
+                f"""Am Back to my job[.](https://telegra.ph/file/85fda588c0fb419756b81.jpg)""",
                 parse_mode=ParseMode.MARKDOWN
-            )
+                reply_markup=InlineKeyboardMarkup(
+                [
+                  [                  
+                       InlineKeyboardButton(
+                             text="✦ ᴀᴅᴅ ᴍᴇ ✦",
+                             url="https://t.me/MikuProRobot?startgroup=true")
+                     ] 
+                ]
+            ), 
+         ) 
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!"
