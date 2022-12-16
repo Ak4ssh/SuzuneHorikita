@@ -426,6 +426,7 @@ def Source_about_callback(update, context):
         first_name = update.effective_user.first_name
         uptime = get_readable_time((time.time() - StartTime))
         query.message.edit_text(
+                PM_START_PIC, 
                 PM_START_TEXT.format(
                     escape_markdown(first_name)),
                 reply_markup=InlineKeyboardMarkup(                [
