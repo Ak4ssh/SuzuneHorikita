@@ -426,7 +426,11 @@ def Source_about_callback(update, context):
         query.message.edit_text(
                 PM_START_TEXT.format(
                     escape_markdown(first_name)),
-                reply_markup=InlineKeyboardMarkup(buttons),
+                reply_markup=InlineKeyboardMarkup(                [
+                 [
+                    InlineKeyboardButton(text="ADD ME", url="https://t.me/MikuProBot?startgroup=true")
+                 ]
+                ]),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,
                 disable_web_page_preview=False,
