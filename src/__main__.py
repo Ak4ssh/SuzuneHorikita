@@ -83,6 +83,11 @@ def get_readable_time(seconds: int) -> str:
 HELP_STRINGS = """
 Click on the button bellow to get description about specifics command."""
 
+PM_START_TEXT ="""
+Heya {} , My name is Miku - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
+
+Join my News Channel to get information on all the latest updates."""
+
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -420,10 +425,7 @@ def Source_about_callback(update, context):
         uptime = get_readable_time((time.time() - StartTime))
         query.message.edit_text(
                 PM_START_TEXT.format(
-                    escape_markdown(first_name),
-                    escape_markdown(uptime),
-                    sql.num_users(),
-                    sql.num_chats()),
+                    escape_markdown(first_name)),
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,
