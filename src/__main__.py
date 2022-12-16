@@ -140,8 +140,8 @@ for module_name in ALL_source:
 def send_help(chat_id, text, keyboard=None):
     if not keyboard:
      keyboard = InlineKeyboardMarkup(paginate_source(0, HELPABLE, "help"))
-    dispatcher.bot.send_animation(
-    animation="PM_START_PIC", caption = PM_START_TEXT, chat_id=chat_id, text=text) 
+    dispatcher.bot.send_video(
+    video=PM_START_PIC, caption = PM_START_TEXT, chat_id=chat_id, text=text) 
     parse_mode=ParseMode.MARKDOWN,
     disable_web_page_preview=True,
     reply_markup=keyboard,
@@ -424,8 +424,7 @@ def Source_about_callback(update, context):
     elif query.data == "source_back":
         first_name = update.effective_user.first_name
         uptime = get_readable_time((time.time() - StartTime))
-        query.message.edit_text(
-                PM_START_PIC, 
+        query.message.edit_text
                 PM_START_TEXT.format(
                     escape_markdown(first_name)),
                 reply_markup=InlineKeyboardMarkup(                [
