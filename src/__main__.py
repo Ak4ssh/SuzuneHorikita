@@ -139,13 +139,14 @@ for module_name in ALL_source:
 # do not async
 def send_help(chat_id, text, keyboard=None):
     if not keyboard:
-     keyboard = InlineKeyboardMarkup(paginate_source(0, HELPABLE, "help"))
-    dispatcher.bot.send_video(
-    video=PM_START_PIC, caption = PM_START_TEXT, chat_id=chat_id, text=text) 
-    parse_mode=ParseMode.MARKDOWN,
-    disable_web_page_preview=True,
-    reply_markup=keyboard,
-
+        keyboard = InlineKeyboardMarkup(paginate_source(0, HELPABLE, "help"))
+    dispatcher.bot.send_message(
+        chat_id=chat_id,
+        text=text,
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
+        reply_markup=keyboard,
+    )
 
 def test(update: Update, context: CallbackContext):
     # pprint(eval(str(update)))
