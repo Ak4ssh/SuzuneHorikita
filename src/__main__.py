@@ -232,7 +232,6 @@ def help_button(update, context):
                 + HELPABLE[module].saxsux
             )
             query.message.edit_text(
-                PM_START_TEXT, 
                 text=text,
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
