@@ -9,8 +9,10 @@ from telethon.tl.types import ChatBannedRights
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from telethon import functions
 from src.events import register
-from src import telethn as tbot, OWNER_ID
+from src import telethn as tbot
 from telethon import Button, custom, events
+
+OWNER_ID = 5490739290
 
 hehes = ChatBannedRights(
     until_date=None,
