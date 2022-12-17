@@ -88,7 +88,7 @@ PM_START_PIC = "https://telegra.ph/file/90bd376bb7a6d1539137d.mp4"
 PM_START_TEXT ="""
 Heya {} , My name is Miku - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
 
-Join my [News Channel](https://t.me/AstorBots) to get information on all the latest updates. """
+Join my [News Channel](https://t.me/MikuBotUpdates) to get information on all the latest updates. """
 
 IMPORTED = {}
 MIGRATEABLE = []
