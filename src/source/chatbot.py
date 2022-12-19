@@ -20,7 +20,7 @@ from src.source.helper_funcs.chat_status import TheRiZoeL, TheRiZoeL_no_reply
 from src import dispatcher, updater, SUPPORT_CHAT
 from src.source.log_channel import gloggable
 
-@user_admin_no_reply
+@TheRiZoeL_no_reply
 @gloggable
 def kukirm(update: Update, context: CallbackContext) -> str:
     query: Optional[CallbackQuery] = update.callback_query
