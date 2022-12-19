@@ -16,7 +16,7 @@ from telegram.error import BadRequest, RetryAfter, Unauthorized
 from telegram.utils.helpers import mention_html, mention_markdown, escape_markdown
 
 from src.source.helper_funcs.filters import CustomFilters
-from src.source.helper_funcs.chat_status import user_admin, user_admin_no_reply
+from src.source.helper_funcs.chat_status import TheRiZoeL, TheRiZoeL_no_reply
 from src import dispatcher, updater, SUPPORT_CHAT
 from src.source.log_channel import gloggable
 
@@ -45,7 +45,7 @@ def kukirm(update: Update, context: CallbackContext) -> str:
 
     return ""
 
-@user_admin_no_reply
+@TheRiZoeL_no_reply
 @gloggable
 def kukiadd(update: Update, context: CallbackContext) -> str:
     query: Optional[CallbackQuery] = update.callback_query
@@ -71,7 +71,7 @@ def kukiadd(update: Update, context: CallbackContext) -> str:
     return ""
 
 
-@user_admin
+@TheRiZoeL
 @gloggable
 def kuki(update: Update, context: CallbackContext):
     user = update.effective_user
