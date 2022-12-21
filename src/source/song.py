@@ -10,7 +10,7 @@ from requests import get
 
 from src import aiohttpsession as session
 from src import pbot, arq
-from src.utils.errors import capture_err
+from src.extras.errors import capture_err
 from src.utils.pastebin import paste
 
 is_downloading = False
