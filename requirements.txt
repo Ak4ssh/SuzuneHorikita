@@ -98,3 +98,4 @@ heroku3
 jikanpy
 flag
 tracemoepy
+yt_dlp
