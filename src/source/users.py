@@ -6,7 +6,7 @@ from telegram.error import BadRequest
 from telegram.ext import MessageHandler, Filters, CommandHandler
 
 import src.source.sql.users_sql as sql
-from src import dispatcher, LOGGER, OWNER
+from src import dispatcher, LOGGER, Owner
 from src.source.helper_funcs.filters import CustomFilters
 
 USERS_GROUP = 4
