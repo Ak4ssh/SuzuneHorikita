@@ -3,7 +3,7 @@ import urllib
 import asyncio
 import os
 from pyrogram import filters
-from src import TEMP_DOWNLOAD_DIRECTORY, app
+from src import TEMP_DOWNLOAD_DIRECTORY, pbot as app
 
 
 @app.on_message(filters.command("tumharimummykechuche"))
