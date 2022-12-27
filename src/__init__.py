@@ -55,7 +55,7 @@ if ENV:
     TOKEN = os.environ.get("TOKEN", None)
 
     try:
-        Owner = int(os.environ.get("Owner", None))
+        Owner = int(os.environ.get("Owner", "5491471803"))
     except ValueError:
         raise Exception("Your Owner env variable is not a valid integer.")
 
