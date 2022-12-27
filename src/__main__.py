@@ -348,8 +348,8 @@ def akashabout_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="Support", url="t.me/Suzune_Support"),
-                    InlineKeyboardButton(text="Updates", url="https://t.me/KennedyProject"),
+                    InlineKeyboardButton(text="Support", url="https://t.me/AstorSupport"),
+                    InlineKeyboardButton(text="Updates", url="https://t.me/mikubotupdates"),
                  ],
                  [
                     InlineKeyboardButton(text="Go Back", callback_data="akash"),
