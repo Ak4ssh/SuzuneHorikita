@@ -125,6 +125,9 @@ def __migrate__(old_chat_id, new_chat_id):
 
 __help__ = ""  # no help string
 
+def __stats__():
+    return f"× {sql.num_users()} users, across {sql.num_chats()} chats"
+
 __mod_name__ = "Users"
 
 BROADCAST_HANDLER = CommandHandler(
