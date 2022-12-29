@@ -3,7 +3,7 @@ import os
 from pyrogram import filters
 from pyrogram.types import Message
 
-from src import pbot
+from src import pbot as gram
 
 
 
