@@ -99,4 +99,4 @@ jikanpy
 flag
 tracemoepy
 yt_dlp
-pymongo
+pymongo==4.3.3
