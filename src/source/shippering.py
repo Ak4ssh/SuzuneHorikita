@@ -26,7 +26,7 @@ import random
 
 from src import pbot as pgram
 from src.extras.errors import capture_err
-from src.mongo.couples_mongo import get_couple, save_couple
+from src.mongo import get_couple, save_couple
 from pyrogram import filters
 from datetime import datetime
 
