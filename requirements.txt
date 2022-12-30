@@ -99,3 +99,4 @@ jikanpy
 flag
 tracemoepy
 yt_dlp
+pymongo
