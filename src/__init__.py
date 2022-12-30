@@ -244,7 +244,7 @@ BOT_USERNAME = dispatcher.bot.username
 BOT_NAME = dispatcher.bot.first_name
 
 print("[Miku]: Connecting To HQ")
-mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
+mongodb = MongoClient(MONGO_DB_URI, 27017)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
 db = motor[MONGO_DB]
 engine = AIOEngine(motor, MONGO_DB)
