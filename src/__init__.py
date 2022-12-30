@@ -8,6 +8,7 @@ import time
 import spamwatch
 import telegram.ext as tg
 from inspect import getfullargspec
+from motor import motor_asyncio
 from aiohttp import ClientSession
 from Python_ARQ import ARQ
 from src.utils import Sylviorus
@@ -238,9 +239,13 @@ aiohttpsession = ClientSession()
 print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 BOT_ID = dispatcher.bot.id
-db = motor[MONGO_DB]
 BOT_USERNAME = dispatcher.bot.username
 BOT_NAME = dispatcher.bot.first_name
+
+mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
+motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
+db = motor[MONGO_DB]
+engine = AIOEngine(motor, MONGO_DB)
 
 ubot2 = TelegramClient(StringSession(STRING_SESSION), API_ID, API_HASH)
 try:
