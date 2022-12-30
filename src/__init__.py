@@ -242,10 +242,13 @@ BOT_ID = dispatcher.bot.id
 BOT_USERNAME = dispatcher.bot.username
 BOT_NAME = dispatcher.bot.first_name
 
+print("[Miku]: Connecting To HQ")
 mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
 db = motor[MONGO_DB]
 engine = AIOEngine(motor, MONGO_DB)
+print("[INFO]: INITIALZING AIOHTTP SESSION")
+aiohttpsession = ClientSession()
 
 ubot2 = TelegramClient(StringSession(STRING_SESSION), API_ID, API_HASH)
 try:
