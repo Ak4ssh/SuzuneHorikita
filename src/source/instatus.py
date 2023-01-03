@@ -59,7 +59,7 @@ async def instatus(_, message):
 
 🎣 ᴄʜᴀᴛ ᴛʏᴘᴇ » {message.chat.type}
 
-⚡ᴄʜᴀᴛ ɪᴅ » {message.chat.id}
+⚡ᴄʜᴀᴛ ɪᴅ » `{message.chat.id}`
 
 💌 ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ » @{message.chat.username}
 ——————«•»——————
