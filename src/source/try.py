@@ -15,23 +15,23 @@ from telegram.ext import (
 )
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from FallenRobot import DRAGONS, LOGGER, dispatcher
-from FallenRobot.modules.connection import connected
-from FallenRobot.modules.disable import DisableAbleCommandHandler
-from FallenRobot.modules.helper_funcs.alternate import send_message, typing_action
-from FallenRobot.modules.helper_funcs.chat_status import user_admin
-from FallenRobot.modules.helper_funcs.extraction import extract_text
-from FallenRobot.modules.helper_funcs.filters import CustomFilters
-from FallenRobot.modules.helper_funcs.handlers import MessageHandlerChecker
-from FallenRobot.modules.helper_funcs.misc import build_keyboard_parser
-from FallenRobot.modules.helper_funcs.msg_types import get_filter_type
-from FallenRobot.modules.helper_funcs.string_handling import (
+from src import dispatcher, LOGGER, DRAGONS
+from src.source.connection import connected
+from src.source.disable import DisableAbleCommandHandler
+from src.source.helper_funcs.alternate import send_message, typing_action
+from src.source.helper_funcs.chat_status import user_admin
+from src.source.helper_funcs.extraction import extract_text
+from src.source.helper_funcs.filters import CustomFilters
+from src.source.helper_funcs.handlers import MessageHandlerChecker
+from src.source.helper_funcs.misc import build_keyboard_parser
+from src.source.helper_funcs.msg_types import get_filter_type
+from src.source.helper_funcs.string_handling import (
     button_markdown_parser,
     escape_invalid_curly_brackets,
     markdown_to_html,
     split_quotes,
 )
-from FallenRobot.modules.sql import cust_filters_sql as sql
+from src.source.sql import cust_filters_sql as sql
 
 HANDLER_GROUP = 10
 
@@ -606,36 +606,15 @@ def __chat_settings__(chat_id, user_id):
     return "There are `{}` custom filters here.".format(len(cust_filters))
 
 
-__help__ = """
- ❍ /filters*:* List all active filters saved in the chat.
 
-*Admin only:*
- ❍ /filter <keyword> <reply message>*:* Add a filter to this chat. The bot will now reply that message whenever 'keyword'\
-is mentioned. If you reply to a sticker with a keyword, the bot will reply with that sticker. NOTE: all filter \
-keywords are in lowercase. If you want your keyword to be a sentence, use quotes. eg: /filter "hey there" How you \
-doin?
- Separate diff replies by `%%%` to get random replies
- *Example:* 
- `/filter "filtername"
- Reply 1
- %%%
- Reply 2
- %%%
- Reply 3`
- ❍ /stop <filter keyword>*:* Stop that filter.
 
-*Chat creator only:*
- ❍ /removeallfilters*:* Remove all chat filters at once.
-
-*Note*: Filters also support markdown formatters like: {first}, {last} etc.. and buttons.
-
-FILTER_HANDLER = CommandHandler("filter", filters)
-STOP_HANDLER = CommandHandler("stop", stop_filter)
+FILTER_HANDLER = CommandHandler("sfilter", filters)
+STOP_HANDLER = CommandHandler("sstop", stop_filter)
 RMALLFILTER_HANDLER = CommandHandler(
-    "removeallfilters", rmall_filters, filters=Filters.group
+    "sremoveallfilters", rmall_filters, filters=Filters.group
 )
 RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback, pattern=r"filters_.*")
-LIST_HANDLER = DisableAbleCommandHandler("filters", list_handlers, admin_ok=True)
+LIST_HANDLER = DisableAbleCommandHandler("sfilters", list_handlers, admin_ok=True)
 CUST_FILTER_HANDLER = MessageHandler(
     CustomFilters.has_text & ~Filters.update.edited_message, reply_filter
 )
