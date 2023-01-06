@@ -32,7 +32,7 @@ from src.source.helper_funcs.string_handling import (
     markdown_to_html,
     split_quotes,
 )
-from src.source.sql import try_sql as sql
+from src.source.sql import cust_filters_sql as sql
 
 HANDLER_GROUP = 10
 
