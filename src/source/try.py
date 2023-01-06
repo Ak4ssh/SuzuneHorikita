@@ -20,7 +20,7 @@ from src import dispatcher, LOGGER, DRAGONS
 from src.source.connection import connected
 from src.source.disable import DisableAbleCommandHandler
 from src.source.helper_funcs.alternate import send_message, typing_action
-from src.source.helper_funcs.chat_status import user_admin
+from src.source.helper_funcs.chat_status import TheRiZoeL as user_admin
 from src.source.helper_funcs.extraction import extract_text
 from src.source.helper_funcs.filters import CustomFilters
 from src.source.helper_funcs.handlers import MessageHandlerChecker
