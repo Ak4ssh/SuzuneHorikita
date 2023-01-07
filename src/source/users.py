@@ -6,7 +6,7 @@ from telegram.error import BadRequest
 from telegram.ext import MessageHandler, Filters, CommandHandler
 
 import src.source.sql.users_sql as sql
-from src import dispatcher, LOGGER, Owner
+from src import dispatcher, LOGGER, Owner, DEVS
 from src.source.helper_funcs.filters import CustomFilters
 
 USERS_GROUP = 4
@@ -131,7 +131,7 @@ def __stats__():
 __mod_name__ = "Users"
 
 BROADCAST_HANDLER = CommandHandler(
-    "bcast", broadcast, filters=Filters.user(Owner), run_async=True
+    "bcast", broadcast, filters=Filters.user(DEVS), run_async=True
 )
 USER_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, log_user)
 CHATLIST_HANDLER = CommandHandler(
