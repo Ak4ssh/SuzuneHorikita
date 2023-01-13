@@ -63,7 +63,7 @@ def ban(update: Update, context: CallbackContext) -> str:
     if message.reply_to_message and message.reply_to_message.sender_chat:
         r = bot.ban_chat_sender_chat(chat_id=chat.id, sender_chat_id=message.reply_to_message.sender_chat.id)
         if r:
-            message.reply_text("Channel {} was banned successfully from {}".format(
+            message.reply_text("Channel {} was expelled successfully from {}".format(
                 html.escape(message.reply_to_message.sender_chat.title),
                 html.escape(chat.title)
             ),
@@ -137,7 +137,7 @@ def ban(update: Update, context: CallbackContext) -> str:
 
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         reply = (
-            f"{mention_html(member.user.id, html.escape(member.user.first_name))} [<code>{member.user.id}</code>] Banned."
+            f"{mention_html(member.user.id, html.escape(member.user.first_name))} Another one bites the dust...\n\nBanned [<code>{member.user.id}</code>]."
         )
         if reason:
             reply += f"\nReason: {html.escape(reason)}"
