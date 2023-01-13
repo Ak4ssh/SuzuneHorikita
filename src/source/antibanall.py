@@ -1,10 +1,10 @@
 #THEVENOMXD
 import os
-from src.source.sql.night_mode_sql import (
-    add_nightmode,
-    rmnightmode,
+from src.source.sql.antibansql import (
+    add_Antiban,
+    rmAntiban,
     get_all_chat_id,
-    is_nightmode_indb,
+    is_Antiban_indb,
 )
 from telethon.tl.types import ChatBannedRights
 from apscheduler.schedulers.asyncio import AsyncIOScheduler 
@@ -91,7 +91,7 @@ async def profanity(event):
             await event.reply("You are missing the following rights to use this command:CanChangeinfo")
             return
     if not input:
-        if is_nightmode_indb(str(event.chat_id)):
+        if is_Antiban_indb(str(event.chat_id)):
                 await event.reply(
                     "Currently Antiban is Enabled for this Chat"
                 )
@@ -102,21 +102,21 @@ async def profanity(event):
         return
     if "on" in input:
         if event.is_group:
-            if is_nightmode_indb(str(event.chat_id)):
+            if is_Antiban_indb(str(event.chat_id)):
                     await event.reply(
                         "Antiban is Already Turned ON for this Chat"
                     )
                     return
-            add_nightmode(str(event.chat_id))
+            add_Antiban(str(event.chat_id))
             await event.reply("Antiban turned on for this chat.")
     if "off" in input:
         if event.is_group:
-            if not is_nightmode_indb(str(event.chat_id)):
+            if not is_Antiban_indb(str(event.chat_id)):
                     await event.reply(
                         "Antiban is Already Off for this Chat"
                     )
                     return
-        rmnightmode(str(event.chat_id))
+        rmAntiban(str(event.chat_id))
         await event.reply("Antiban Disabled!")
     if not "off" in input and not "on" in input:
         await event.reply("Please Specify On or Off!")
