@@ -1,3 +1,4 @@
+#THEVENOMXD
 import os
 from src.source.sql.night_mode_sql import (
     add_nightmode,
