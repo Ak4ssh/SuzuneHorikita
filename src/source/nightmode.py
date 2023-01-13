@@ -9,12 +9,11 @@ from telethon.tl.types import ChatBannedRights
 from apscheduler.schedulers.asyncio import AsyncIOScheduler 
 from telethon import functions
 from src.events import register
-from src import telethn as tbot, Owner
+from src import telethn as tbot, OWNER_ID
 from telethon import Button, custom, events
 
 hehes = ChatBannedRights(
     until_date=None,
-    send_messages=True,
     send_media=True,
     send_stickers=True,
     send_gifs=True,
@@ -28,7 +27,6 @@ hehes = ChatBannedRights(
 
 openhehe = ChatBannedRights(
     until_date=None,
-    send_messages=False,
     send_media=False,
     send_stickers=False,
     send_gifs=False,
@@ -83,7 +81,7 @@ async def profanity(event):
     if event.is_private:
         return
     input = event.pattern_match.group(2)
-    if not event.sender_id == Owner:
+    if not event.sender_id == OWNER_ID:
         if not await is_register_admin(event.input_chat, event.sender_id):
            await event.reply("Only admins can execute this command!")
            return
@@ -131,7 +129,7 @@ async def job_close():
     for pro in chats:
         try:
             await tbot.send_message(
-              int(pro.chat_id), "12:00 Am, Group Is Closing Till 6 Am. Night Mode Started !**"
+              int(pro.chat_id), "12:00 Am, Group Is Closing Till 6 Am. Night Mode Started !"
             )
             await tbot(
             functions.messages.EditChatDefaultBannedRightsRequest(
@@ -139,10 +137,10 @@ async def job_close():
             )
             )
         except Exception as e:
-            logger.info(f"Unable To Close Group chat - {e}")
+            logger.info(f"Unable To Close Group {chat} - {e}")
 
 #Run everyday at 12am
-scheduler = AsyncIOScheduler(timezone="Asia/kolkata")
+scheduler = AsyncIOScheduler(timezone="Asia/Jakarta")
 scheduler.add_job(job_close, trigger="cron", hour=23, minute=59)
 scheduler.start()
 
@@ -153,7 +151,7 @@ async def job_open():
     for pro in chats:
         try:
             await tbot.send_message(
-              int(pro.chat_id), "06:00 Am, Group Is Opening.**"
+              int(pro.chat_id), "06:00 Am, Group Is Opening.\n**Powered By @emiexrobot"
             )
             await tbot(
             functions.messages.EditChatDefaultBannedRightsRequest(
@@ -164,6 +162,6 @@ async def job_open():
             logger.info(f"Unable To Open Group {pro.chat_id} - {e}")
 
 # Run everyday at 06
-scheduler = AsyncIOScheduler(timezone="Asia/kolkata")
+scheduler = AsyncIOScheduler(timezone="Asia/Jakarta")
 scheduler.add_job(job_open, trigger="cron", hour=5, minute=58)
 scheduler.start()
