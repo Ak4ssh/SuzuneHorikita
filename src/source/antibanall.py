@@ -139,11 +139,6 @@ async def job_close():
             await tbot.send_message(
                int(pro.chat_id), "12:00 Am, Taking All Admins Ban Rights!"
             )
-            await tbot(
-                functions.messages.EditChatDefaultBannedRightsRequest(
-                    peer=int(pro.chat_id), banned_rights=hehes
-            )
-            )
         except Exception as e:
             logger.info(f"Unable To Close Group {chat} - {e}")
 
@@ -169,11 +164,6 @@ async def job_open():
             await tbot.send_message(
               int(pro.chat_id), "06:00 Am, Giving Back All Admins There Ban Rights!"
             )
-            await tbot(
-            functions.messages.EditChatDefaultBannedRightsRequest(
-                peer=int(pro.chat_id), banned_rights=openhehe
-            )
-        )
         except Exception as e:
             logger.info(f"Unable To Open Group {pro.chat_id} - {e}")
 
