@@ -124,16 +124,24 @@ async def profanity(event):
 
 async def job_close():
     chats = get_all_chat_id()
+    admins = await event.client.get_participants(event.chat_id, filter=ChannelParticipantsAdmins)
+    admins_id = [i.id for i in admins]
     if len(chats) == 0:
         return
     for pro in chats:
         try:
+            if user.id in admins_id:
+                    tbot.promoteChatMember(
+            chat.id,
+            admins_id,
+            can_restrict_members=False)
+                    return
             await tbot.send_message(
-              int(pro.chat_id), "12:00 Am, Group Is Closing Till 6 Am. Night Mode Started !"
+               int(pro.chat_id), "12:00 Am, Group Is Closing Till 6 Am. Night Mode Started !"
             )
             await tbot(
-            functions.messages.EditChatDefaultBannedRightsRequest(
-                peer=int(pro.chat_id), banned_rights=hehes
+                functions.messages.EditChatDefaultBannedRightsRequest(
+                    peer=int(pro.chat_id), banned_rights=hehes
             )
             )
         except Exception as e:
@@ -146,10 +154,18 @@ scheduler.start()
 
 async def job_open():
     chats = get_all_chat_id()
+    admins = await event.client.get_participants(event.chat_id, filter=ChannelParticipantsAdmins)
+    admins_id = [i.id for i in admins]
     if len(chats) == 0:
         return
     for pro in chats:
         try:
+            if user.id in admins_id:
+                    tbot.promoteChatMember(
+            chat.id,
+            admins_id,
+            can_restrict_members=True)
+                    return
             await tbot.send_message(
               int(pro.chat_id), "06:00 Am, Group Is Opening."
             )
