@@ -13,7 +13,7 @@ from pyrogram.types import Message
 from pyrogram import enums
 from src.source.helper_funcs.chat_status import (
     TheRiZoeL,
-    TheVenomXD
+    TheVenomXD)
     
 def extract_status_change(chat_member_update: ChatMemberUpdated):
     try:
