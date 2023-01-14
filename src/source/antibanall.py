@@ -6,6 +6,7 @@ from telegram.chatmemberupdated import ChatMemberUpdated
 from telegram.ext import CallbackContext
 from telegram.ext.chatmemberhandler import ChatMemberHandler
 from src.source.sql import antibanall_sql as sql
+from src.source.log_channel import loggable
 from src import SUZUNE_PTB, pbot
 from pyrogram import filters
 from pyrogram.types import Message
