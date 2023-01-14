@@ -1,11 +1,15 @@
 import html
 from typing import Optional
-
+import re
 from telegram import ParseMode, Update
 from telegram.chatmemberupdated import ChatMemberUpdated
 from telegram.ext import CallbackContext
 from telegram.ext.chatmemberhandler import ChatMemberHandler
 from src.source.sql import antibanall_sql as sql
+from src import SUZUNE_PTB, pbot
+from pyrogram import filters
+from pyrogram.types import Message
+from pyrogram import enums
 
 def extract_status_change(chat_member_update: ChatMemberUpdated):
     try:
@@ -45,7 +49,7 @@ def antiban(update: Update, context: CallbackContext) -> Optional[str]:
         
            if oldstat != "kicked" and newstat == "kicked":
               if do_ban(chat):
-              checker = sql.get_bans(chat.id, user.id)
+                checker = sql.get_bans(chat.id, user.id)
               if not checker:
                 return
               bot.promoteChatMember(
@@ -67,19 +71,13 @@ def antiban(update: Update, context: CallbackContext) -> Optional[str]:
                     parse_mode=ParseMode.HTML,
                     )
 
-NEKO_PTB.add_handler(
+SUZUNE_PTB.add_handler(
     ChatMemberHandler(antiban, ChatMemberHandler.CHAT_MEMBER, run_async=True)
 )
 
 """ Used Pyrogram """
 
-import re
-from pyrogram import filters
-from pyrogram.types import Message
-from src import pbot
-from pyrogram import enums
-
-async def owner_check(_, __, msg: Message):
+async def owner_check(_, __, m, msg: Message):
     """if user is Owner or not."""
     if msg.from_user.id in [1517994352, 1789859817]:
         return True
@@ -94,25 +92,25 @@ async def owner_check(_, __, msg: Message):
             reply_ = "You're an admin only, stay in your limits!"
         else:
             reply_ = "Do you think that you can execute owner commands?"
-        await mag.reply_text(reply_)
+        await msg.reply_text(reply_)
 
     return status
 
 owner_only = filters.create(owner_check)
 
-@pbot.on_message(filters.group & owner_only & filters.command(["antibanall"))
+@pbot.on_message(filters.group & owner_only & filters.command)(["antibanall"])
 async def antibanall(RiZoeL: pbot, message: Message):
     user = message.from_user
     chat = message.chat
     if user.id != [1517994352, 1789859817]:
        return
-    if user.id
-    try:
+    if user.id:
+     try:
        args = message.text.split(" ", 1)[1].split(" ", 1)
-    except IndexError:
+       except IndexError:
        args = None
     if args:
-       txt = str(args[0]):
+       txt = str(args[0])
        if re.search("on|yes".lower(), txt.lower()):
          sql.add(chat.id)
          await message.reply_text(f"Anti-banall actived in {chat.title}")
