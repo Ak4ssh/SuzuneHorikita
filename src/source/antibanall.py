@@ -1,174 +1,132 @@
-#THEVENOMXD
-import os
-from src.source.sql.antibansql import (
-    add_Antiban,
-    rmAntiban,
-    get_all_chat_id,
-    is_Antiban_indb,
-)
-from telethon.tl.types import ChatBannedRights
-from apscheduler.schedulers.asyncio import AsyncIOScheduler 
-from telethon import functions
-from src.events import register
-from src import telethn as tbot, Owner
-from telethon import Button, custom, events
+import html
+from typing import Optional
 
-hehes = ChatBannedRights(
-    until_date=None,
-    send_media=True,
-    send_stickers=True,
-    send_gifs=True,
-    send_games=True,
-    send_inline=True,
-    send_polls=True,
-    invite_users=True,
-    pin_messages=True,
-    change_info=True,
+from telegram import ParseMode, Update
+from telegram.chatmemberupdated import ChatMemberUpdated
+from telegram.ext import CallbackContext
+from telegram.ext.chatmemberhandler import ChatMemberHandler
+from src.source.sql import antibanall_sql as sql
+
+def extract_status_change(chat_member_update: ChatMemberUpdated):
+    try:
+        status_change = chat_member_update.difference().get("status")
+    except AttributeError:  # no change in status
+        status_change = None
+
+    try:
+        title_change = chat_member_update.difference().get("custom_title")
+    except AttributeError:  # no change in title
+        title_change = None
+
+    return status_change, title_change
+
+
+def do_ban(chat):  # announce to chat or only to log channel?
+    return bool(chat.type != "chat" and sql.active(chat.id))
+
+
+@loggable
+def antiban(update: Update, context: CallbackContext) -> Optional[str]:
+    bot = context.bot
+    chat = update.effective_chat
+    message = update.effective_message
+    oldstat = str(status.split(",")[0])
+    status = ",".join(status_change)
+    newstat = str(status.split(",")[1])
+    result = extract_status_change(update.chat_member)
+    status_change, title_change = result
+
+    if (
+        title_change is not None and status_change is None
+    ):  # extract title changes for admins
+        oldtitle, newtitle = title_change
+        member_name = update.chat_member.new_chat_member.user.mention_html()
+        if oldtitle != newtitle:
+        
+           if oldstat != "kicked" and newstat == "kicked":
+              if do_ban(chat):
+              checker = sql.get_bans(chat.id, user.id)
+              if not checker:
+                return
+              bot.promoteChatMember(
+                    chat.id,
+                    user_id,
+                    can_change_info=False,
+                    can_post_messages=False,
+                    can_edit_messages=False,
+                    can_delete_messages=False,
+                    can_invite_users=False,
+                    can_restrict_members=False,
+                    can_pin_messages=False,
+                    can_promote_members=False,
+                    can_manage_voice_chats=False,
+                    )
+              bot.sendMessage(
+                    chat.id,
+                    f"<b> Anti banall active in this chat! I'm demoting to user {member_name}",
+                    parse_mode=ParseMode.HTML,
+                    )
+
+NEKO_PTB.add_handler(
+    ChatMemberHandler(antiban, ChatMemberHandler.CHAT_MEMBER, run_async=True)
 )
 
-openhehe = ChatBannedRights(
-    until_date=None,
-    send_media=False,
-    send_stickers=False,
-    send_gifs=False,
-    send_games=False,
-    send_inline=False,
-    send_polls=False,
-    invite_users=True,
-    pin_messages=True,
-    change_info=True,
-)
+""" Used Pyrogram """
 
-from telethon.tl.types import (
-    ChannelParticipantsAdmins,
-    ChatAdminRights,
-    MessageEntityMentionName,
-    MessageMediaPhoto,
-)
+import re
+from pyrogram import filters
+from pyrogram.types import Message
+from src import pbot
+from pyrogram import enums
 
-from telethon.tl.functions.channels import (
-    EditAdminRequest,
-    EditBannedRequest,
-    EditPhotoRequest,
-)
-
-async def is_register_admin(chat, user):
-    if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
-        return isinstance(
-            (
-                await tbot(functions.channels.GetParticipantRequest(chat, user))
-            ).participant,
-            (types.ChannelParticipantAdmin, types.ChannelParticipantCreator),
-        )
-    if isinstance(chat, types.InputPeerUser):
+async def owner_check(_, __, msg: Message):
+    """if user is Owner or not."""
+    if msg.from_user.id in [1517994352, 1789859817]:
         return True
 
-async def can_change_info(message):
-    result = await tbot(
-        functions.channels.GetParticipantRequest(
-            channel=message.chat_id,
-            user_id=message.sender_id,
-        )
-    )
-    p = result.participant
-    return isinstance(p, types.ChannelParticipantCreator) or (
-        isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.change_info
-    )
+    user = await m.chat.get_member(m.from_user.id)
 
-@register(pattern="^/(antiban) ?(.*)")
-async def profanity(event):
-    if event.fwd_from:
-        return
-    if event.is_private:
-        return
-    input = event.pattern_match.group(2)
-    if not event.sender_id == Owner:
-        if not await is_register_admin(event.input_chat, event.sender_id):
-           await event.reply("Only admins can execute this command!")
-           return
+    if user.status == enums.ChatMemberStatus.OWNER:
+        status = True
+    else:
+        status = False
+        if user.status == enums.ChatMemberStatus.ADMINISTRATOR:
+            reply_ = "You're an admin only, stay in your limits!"
         else:
-          if not await can_change_info(message=event):
-            await event.reply("You are missing the following rights to use this command:CanChangeinfo")
-            return
-    if not input:
-        if is_Antiban_indb(str(event.chat_id)):
-                await event.reply(
-                    "Currently Antiban is Enabled for this Chat"
-                )
-                return
-        await event.reply(
-            "Currently Antiban is Disabled for this Chat"
-        )
-        return
-    if "on" in input:
-        if event.is_group:
-            if is_Antiban_indb(str(event.chat_id)):
-                    await event.reply(
-                        "Antiban is Already Turned ON for this Chat"
-                    )
-                    return
-            add_Antiban(str(event.chat_id))
-            await event.reply("Antiban turned on for this chat.")
-    if "off" in input:
-        if event.is_group:
-            if not is_Antiban_indb(str(event.chat_id)):
-                    await event.reply(
-                        "Antiban is Already Off for this Chat"
-                    )
-                    return
-        rmAntiban(str(event.chat_id))
-        await event.reply("Antiban Disabled!")
-    if not "off" in input and not "on" in input:
-        await event.reply("Please Specify On or Off!")
-        return
+            reply_ = "Do you think that you can execute owner commands?"
+        await mag.reply_text(reply_)
 
+    return status
 
-async def job_close():
-    chats = get_all_chat_id()
-    admins = await event.client.get_participants(event.chat_id, filter=ChannelParticipantsAdmins)
-    admins_id = [i.id for i in admins]
-    if len(chats) == 0:
-        return
-    for pro in chats:
-        try:
-            if user.id in admins_id:
-                    tbot.promoteChatMember(
-            chat.id,
-            admins_id,
-            can_restrict_members=False)
-                    return
-            await tbot.send_message(
-               int(pro.chat_id), "12:00 Am, Taking All Admins Ban Rights!"
-            )
-        except Exception as e:
-            logger.info(f"Unable To Close Group {chat} - {e}")
+owner_only = filters.create(owner_check)
 
-#Run everyday at 12am
-scheduler = AsyncIOScheduler(timezone="Asia/Jakarta")
-scheduler.add_job(job_close, trigger="cron", hour=23, minute=59)
-scheduler.start()
-
-async def job_open():
-    chats = get_all_chat_id()
-    admins = await event.client.get_participants(event.chat_id, filter=ChannelParticipantsAdmins)
-    admins_id = [i.id for i in admins]
-    if len(chats) == 0:
-        return
-    for pro in chats:
-        try:
-            if user.id in admins_id:
-                    tbot.promoteChatMember(
-            chat.id,
-            admins_id,
-            can_restrict_members=True)
-                    return
-            await tbot.send_message(
-              int(pro.chat_id), "06:00 Am, Giving Back All Admins There Ban Rights!"
-            )
-        except Exception as e:
-            logger.info(f"Unable To Open Group {pro.chat_id} - {e}")
-
-# Run everyday at 06
-scheduler = AsyncIOScheduler(timezone="Asia/Jakarta")
-scheduler.add_job(job_open, trigger="cron", hour=5, minute=58)
-scheduler.start()
+@pbot.on_message(filters.group & owner_only & filters.command(["antibanall"))
+async def antibanall(RiZoeL: pbot, message: Message):
+    user = message.from_user
+    chat = message.chat
+    if user.id != [1517994352, 1789859817]:
+       return
+    if user.id
+    try:
+       args = message.text.split(" ", 1)[1].split(" ", 1)
+    except IndexError:
+       args = None
+    if args:
+       txt = str(args[0]):
+       if re.search("on|yes".lower(), txt.lower()):
+         sql.add(chat.id)
+         await message.reply_text(f"Anti-banall actived in {chat.title}")
+         return
+       elif re.search("off|of|no".lower(), txt.lower()): 
+         sql.remove(chat.id)
+         await message.reply_text(f"Anti-banall de-actived in {chat.title}")
+         return
+       else:
+         await message.reply_text("**Wrong Usage!** \n\nsyntax: /antibanall on/off")
+         return
+    else:
+       active = sql.active(chat.id)
+       if active:
+          await message.reply_text("Anti-Banall is actived in this chat!")
+       else:
+          await message.reply_text("Anti-Banall id not actived in this chat!")
