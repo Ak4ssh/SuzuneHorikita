@@ -105,10 +105,8 @@ async def antibanall(RiZoeL: pbot, message: Message):
     if user.id != [1517994352, 1789859817]:
        return
     if user.id:
-     try:
-       args = message.text.split(" ", 1)[1].split(" ", 1)    
-       except IndexError:
-       args = None 
+       args = message.text.split(" ", 1)[1].split(" ", 1)
+       args = None    
     if args:
        txt = str(args[0])
        if re.search("on|yes".lower(), txt.lower()):
