@@ -100,7 +100,7 @@ async def owner_check(_, __, m, msg: Message):
 owner_only = filters.create(owner_check)
 
 @pbot.on_message(filters.group & owner_only & filters.command)(["antibanall"])
-async def antibanall(RiZoeL: pbot, message: Message):
+async def antibanall(RiZoeL, message: Message):
     user = message.from_user
     chat = message.chat
     if user.id != [1517994352, 1789859817]:
