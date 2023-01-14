@@ -79,12 +79,12 @@ SUZUNE_PTB.add_handler(
 
 """ Used Pyrogram """
 
-async def owner_check(_, m, msg: Message):
+async def owner_check(_, msg: Message):
     """if user is Owner or not."""
     if msg.from_user.id in [1517994352, 1789859817]:
         return True
 
-    user = await m.chat.get_member(m.from_user.id)
+    user = await msg.chat.get_member(msg.from_user.id)
 
     if user.status == enums.ChatMemberStatus.OWNER:
         status = True
