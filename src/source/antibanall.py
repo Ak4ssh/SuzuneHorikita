@@ -1,20 +1,12 @@
 import html
 from typing import Optional
-import re
-from telegram import Update, message, ParseMode
+
+from telegram import ParseMode, Update
 from telegram.chatmemberupdated import ChatMemberUpdated
-from telegram.ext import CallbackContext, Filters, CommandHandler, run_async, CallbackQueryHandler
+from telegram.ext import CallbackContext
 from telegram.ext.chatmemberhandler import ChatMemberHandler
 from src.source.sql import antibanall_sql as sql
-from src.source.log_channel import loggable
-from src import SUZUNE_PTB, pbot
-from pyrogram import filters
-from pyrogram.types import Message
-from pyrogram import enums
-from src.source.helper_funcs.chat_status import (
-    TheRiZoeL,
-    TheVenomXD)
-    
+
 def extract_status_change(chat_member_update: ChatMemberUpdated):
     try:
         status_change = chat_member_update.difference().get("status")
@@ -53,7 +45,7 @@ def antiban(update: Update, context: CallbackContext) -> Optional[str]:
         
            if oldstat != "kicked" and newstat == "kicked":
               if do_ban(chat):
-                checker = sql.get_bans(chat.id, user.id)
+              checker = sql.get_bans(chat.id, user.id)
               if not checker:
                 return
               bot.promoteChatMember(
@@ -75,13 +67,19 @@ def antiban(update: Update, context: CallbackContext) -> Optional[str]:
                     parse_mode=ParseMode.HTML,
                     )
 
-SUZUNE_PTB.add_handler(
+NEKO_PTB.add_handler(
     ChatMemberHandler(antiban, ChatMemberHandler.CHAT_MEMBER, run_async=True)
 )
 
 """ Used Pyrogram """
 
-async def owner_check(_, __, m, msg: Message):
+import re
+from pyrogram import filters
+from pyrogram.types import Message
+from src import pbot
+from pyrogram import enums
+
+async def owner_check(_, __, msg: Message):
     """if user is Owner or not."""
     if msg.from_user.id in [1517994352, 1789859817]:
         return True
@@ -96,42 +94,39 @@ async def owner_check(_, __, m, msg: Message):
             reply_ = "You're an admin only, stay in your limits!"
         else:
             reply_ = "Do you think that you can execute owner commands?"
-        await msg.reply_text(reply_)
+        await mag.reply_text(reply_)
 
     return status
 
 owner_only = filters.create(owner_check)
 
-@TheVenomXD
-@TheRiZoeL
-def antibanall(update: Update, context: CallbackContext):
-    message = update.effective_message
+@pbot.on_message(filters.group & owner_only & filters.command(["antibanall"))
+async def antibanall(_, message: Message):
     user = message.from_user
     chat = message.chat
     if user.id != [1517994352, 1789859817]:
        return
-    if user.id:
+    if user.id
+    try:
        args = message.text.split(" ", 1)[1].split(" ", 1)
-       args = None    
+    except IndexError:
+       args = None
     if args:
-       txt = str(args[0])
+       txt = str(args[0]):
        if re.search("on|yes".lower(), txt.lower()):
          sql.add(chat.id)
-         message.reply_text(f"Anti-banall actived in {chat.title}")
+         await message.reply_text(f"Anti-banall actived in {chat.title}")
          return
        elif re.search("off|of|no".lower(), txt.lower()): 
          sql.remove(chat.id)
-         message.reply_text(f"Anti-banall de-actived in {chat.title}")
+         await message.reply_text(f"Anti-banall de-actived in {chat.title}")
          return
        else:
-         message.reply_text("**Wrong Usage!** \n\nsyntax: /antibanall on/off")
+         await message.reply_text("**Wrong Usage!** \n\nsyntax: /antibanall on/off")
          return
     else:
        active = sql.active(chat.id)
        if active:
-          message.reply_text("Anti-Banall is actived in this chat!")
+          await message.reply_text("Anti-Banall is actived in this chat!")
        else:
-          message.reply_text("Anti-Banall id not actived in this chat!")
-    
-ANTIBAN_HANDLER = CommandHandler("antibanall", antibanall, run_async=True)
-SUZUNE_PTB.add_handler(ANTIBAN_HANDLER)
+          await message.reply_text("Anti-Banall id not actived in this chat!")
