@@ -104,7 +104,7 @@ owner_only = filters.create(owner_check)
 
 @TheVenomXD
 @TheRiZoeL
- def antibanall(update: Update, context: CallbackContext):
+def antibanall(update: Update, context: CallbackContext):
     message = update.effective_message
     user = message.from_user
     chat = message.chat
@@ -117,21 +117,21 @@ owner_only = filters.create(owner_check)
        txt = str(args[0])
        if re.search("on|yes".lower(), txt.lower()):
          sql.add(chat.id)
-         await message.reply_text(f"Anti-banall actived in {chat.title}")
+         message.reply_text(f"Anti-banall actived in {chat.title}")
          return
        elif re.search("off|of|no".lower(), txt.lower()): 
          sql.remove(chat.id)
-         await message.reply_text(f"Anti-banall de-actived in {chat.title}")
+         message.reply_text(f"Anti-banall de-actived in {chat.title}")
          return
        else:
-         await message.reply_text("**Wrong Usage!** \n\nsyntax: /antibanall on/off")
+         message.reply_text("**Wrong Usage!** \n\nsyntax: /antibanall on/off")
          return
     else:
        active = sql.active(chat.id)
        if active:
-          await message.reply_text("Anti-Banall is actived in this chat!")
+          message.reply_text("Anti-Banall is actived in this chat!")
        else:
-          await message.reply_text("Anti-Banall id not actived in this chat!")
+          message.reply_text("Anti-Banall id not actived in this chat!")
     
 ANTIBAN_HANDLER = CommandHandler("antibanall", antibanall, run_async=True)
 SUZUNE_PTB.add_handler(ANTIBAN_HANDLER)
