@@ -45,7 +45,7 @@ def antiban(update: Update, context: CallbackContext) -> Optional[str]:
         
            if oldstat != "kicked" and newstat == "kicked":
               if do_ban(chat):
-              checker = sql.get_bans(chat.id, user.id)
+                 checker = sql.get_bans(chat.id, user.id)
               if not checker:
                 return
               bot.promoteChatMember(
@@ -106,13 +106,13 @@ async def antibanall(_, message: Message):
     chat = message.chat
     if user.id != [1517994352, 1789859817]:
        return
-    if user.id
+    if user.id:
     try:
        args = message.text.split(" ", 1)[1].split(" ", 1)
     except IndexError:
        args = None
     if args:
-       txt = str(args[0]):
+       txt = str(args[0])
        if re.search("on|yes".lower(), txt.lower()):
          sql.add(chat.id)
          await message.reply_text(f"Anti-banall actived in {chat.title}")
