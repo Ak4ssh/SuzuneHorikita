@@ -3,7 +3,7 @@ from typing import Optional
 import re
 from telegram import Update, message, ParseMode
 from telegram.chatmemberupdated import ChatMemberUpdated
-from telegram.ext import CallbackContext
+from telegram.ext import CallbackContext, Filters, CommandHandler, run_async, CallbackQueryHandler
 from telegram.ext.chatmemberhandler import ChatMemberHandler
 from src.source.sql import antibanall_sql as sql
 from src.source.log_channel import loggable
@@ -11,7 +11,10 @@ from src import SUZUNE_PTB, pbot
 from pyrogram import filters
 from pyrogram.types import Message
 from pyrogram import enums
-
+from src.source.helper_funcs.chat_status import (
+    TheRiZoeL,
+    TheVenomXD
+    
 def extract_status_change(chat_member_update: ChatMemberUpdated):
     try:
         status_change = chat_member_update.difference().get("status")
@@ -99,8 +102,9 @@ async def owner_check(_, __, m, msg: Message):
 
 owner_only = filters.create(owner_check)
 
-@pbot.on_message(filters.group & owner_only & filters.command)(["antibanall"])
-async def antibanall(update: Update, context: CallbackContext):
+@TheVenomXD
+@TheRiZoeL
+ def antibanall(update: Update, context: CallbackContext):
     message = update.effective_message
     user = message.from_user
     chat = message.chat
@@ -128,3 +132,6 @@ async def antibanall(update: Update, context: CallbackContext):
           await message.reply_text("Anti-Banall is actived in this chat!")
        else:
           await message.reply_text("Anti-Banall id not actived in this chat!")
+    
+ANTIBAN_HANDLER = CommandHandler("antibanall", antibanall, run_async=True)
+SUZUNE_PTB.add_handler(ANTIBAN_HANDLER)
