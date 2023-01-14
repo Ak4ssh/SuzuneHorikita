@@ -69,7 +69,7 @@ def antiban(update: Update, context: CallbackContext) -> Optional[str]:
                     )
                  bot.sendMessage(
                     chat.id,
-                    f"<b> Anti banall active in this chat! I'm demoting to user {member_name}",
+                    f"<b> Anti banall active in this chat! I'm demoting to user {member_name} </b>",
                     parse_mode=ParseMode.HTML,
                     )
 
