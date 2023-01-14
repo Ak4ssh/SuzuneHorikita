@@ -77,33 +77,12 @@ SUZUNE_PTB.add_handler(
     ChatMemberHandler(antiban, ChatMemberHandler.CHAT_MEMBER, run_async=True)
 )
 
-""" Used Pyrogram """
-
-async def owner_check(_, msg: Message):
-    """if user is Owner or not."""
-    if msg.from_user.id in [1517994352, 1789859817]:
-        return True
-
-    user = await msg.chat.get_member(msg.from_user.id)
-
-    if user.status == enums.ChatMemberStatus.OWNER:
-        status = True
-    else:
-        status = False
-        if user.status == enums.ChatMemberStatus.ADMINISTRATOR:
-            reply_ = "You're an admin only, stay in your limits!"
-        else:
-            reply_ = "Do you think that you can execute owner commands?"
-        await msg.reply_text(reply_)
-
-    return status
-
-owner_only = filters.create(owner_check)
-
-@pbot.on_message(filters.group & owner_only & filters.command(["antibanall"]))
+@pbot.on_message(filters.group & filters.command(["antibanall"]))
 async def antibanall(_, message: Message):
-    user = message.from_user
-    chat = message.chat
+  user = message.from_user
+  chat = message.chat
+  if user.id in [1517994352, 1789859817] or user.status == enums.ChatMemberStatus.OWNER:
+   
     try:
        args = message.text.split(" ", 1)[1].split(" ", 1)
     except IndexError:
@@ -127,3 +106,8 @@ async def antibanall(_, message: Message):
           await message.reply_text("Anti-Banall is actived in this chat!")
        else:
           await message.reply_text("Anti-Banall id not actived in this chat!")
+
+  elif user.status == enums.ChatMemberStatus.ADMINISTRATOR:
+       await message.reply_text("You're an admin only, stay in your limits!")
+  else:
+       await message.reply_text("Do you think that you can execute owner commands?")
