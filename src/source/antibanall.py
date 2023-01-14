@@ -52,8 +52,8 @@ def antiban(update: Update, context: CallbackContext) -> Optional[str]:
            if oldstat != "kicked" and newstat == "kicked":
               if do_ban(chat):
                  checker = sql.get_bans(chat.id, user.id)
-              if not checker:
-                return
+                 if not checker:
+                   return
               bot.promoteChatMember(
                     chat.id,
                     user_id,
