@@ -1,7 +1,7 @@
 import html
 from typing import Optional
 import re
-from telegram import ParseMode, Update
+from telegram import Update, message, ParseMode
 from telegram.chatmemberupdated import ChatMemberUpdated
 from telegram.ext import CallbackContext
 from telegram.ext.chatmemberhandler import ChatMemberHandler
@@ -100,7 +100,8 @@ async def owner_check(_, __, m, msg: Message):
 owner_only = filters.create(owner_check)
 
 @pbot.on_message(filters.group & owner_only & filters.command)(["antibanall"])
-async def antibanall(client, message):
+def antibanall(update: Update, context: CallbackContext):
+    message = update.effective_message
     user = message.from_user
     chat = message.chat
     if user.id != [1517994352, 1789859817]:
