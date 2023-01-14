@@ -104,13 +104,10 @@ owner_only = filters.create(owner_check)
 async def antibanall(_, message: Message):
     user = message.from_user
     chat = message.chat
-    if user.id != [1517994352, 1789859817]:
-       return
-    if user.id:
-     try:
+    try:
        args = message.text.split(" ", 1)[1].split(" ", 1)
     except IndexError:
-    args = None
+       args = None
     if args:
        txt = str(args[0])
        if re.search("on|yes".lower(), txt.lower()):
