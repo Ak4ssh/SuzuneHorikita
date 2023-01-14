@@ -6,7 +6,12 @@ from telegram.chatmemberupdated import ChatMemberUpdated
 from telegram.ext import CallbackContext
 from telegram.ext.chatmemberhandler import ChatMemberHandler
 from src.source.sql import antibanall_sql as sql
+import re
 from src.source.log_channel import loggable
+from pyrogram import filters
+from pyrogram.types import Message
+from src import pbot, SUZUNE_PTB
+from pyrogram import enums
 
 def extract_status_change(chat_member_update: ChatMemberUpdated):
     try:
@@ -68,19 +73,13 @@ def antiban(update: Update, context: CallbackContext) -> Optional[str]:
                     parse_mode=ParseMode.HTML,
                     )
 
-NEKO_PTB.add_handler(
+SUZUNE_PTB.add_handler(
     ChatMemberHandler(antiban, ChatMemberHandler.CHAT_MEMBER, run_async=True)
 )
 
 """ Used Pyrogram """
 
-import re
-from pyrogram import filters
-from pyrogram.types import Message
-from src import pbot
-from pyrogram import enums
-
-async def owner_check(_, __, msg: Message):
+async def owner_check(_, m, msg: Message):
     """if user is Owner or not."""
     if msg.from_user.id in [1517994352, 1789859817]:
         return True
@@ -95,7 +94,7 @@ async def owner_check(_, __, msg: Message):
             reply_ = "You're an admin only, stay in your limits!"
         else:
             reply_ = "Do you think that you can execute owner commands?"
-        await mag.reply_text(reply_)
+        await msg.reply_text(reply_)
 
     return status
 
