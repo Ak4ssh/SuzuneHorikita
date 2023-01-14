@@ -100,7 +100,7 @@ async def owner_check(_, __, msg: Message):
 
 owner_only = filters.create(owner_check)
 
-@pbot.on_message(filters.group & owner_only & filters.command(["antibanall"))
+@pbot.on_message(filters.group & owner_only & filters.command(["antibanall"]))
 async def antibanall(_, message: Message):
     user = message.from_user
     chat = message.chat
