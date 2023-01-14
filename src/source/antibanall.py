@@ -6,6 +6,7 @@ from telegram.chatmemberupdated import ChatMemberUpdated
 from telegram.ext import CallbackContext
 from telegram.ext.chatmemberhandler import ChatMemberHandler
 from src.source.sql import antibanall_sql as sql
+from src.source.log_channel import loggable
 
 def extract_status_change(chat_member_update: ChatMemberUpdated):
     try:
