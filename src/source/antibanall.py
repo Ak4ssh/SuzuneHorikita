@@ -54,7 +54,7 @@ def antiban(update: Update, context: CallbackContext) -> Optional[str]:
                  checker = sql.get_bans(chat.id, user.id)
                  if not checker:
                    return
-              bot.promoteChatMember(
+                 bot.promoteChatMember(
                     chat.id,
                     user_id,
                     can_change_info=False,
@@ -67,7 +67,7 @@ def antiban(update: Update, context: CallbackContext) -> Optional[str]:
                     can_promote_members=False,
                     can_manage_voice_chats=False,
                     )
-              bot.sendMessage(
+                 bot.sendMessage(
                     chat.id,
                     f"<b> Anti banall active in this chat! I'm demoting to user {member_name}",
                     parse_mode=ParseMode.HTML,
