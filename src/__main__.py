@@ -715,7 +715,7 @@ def main():
                   [                  
                        InlineKeyboardButton(
                              text="✦ ᴀᴅᴅ ᴍᴇ ✦",
-                             url="https://t.me/MikuProRobot?startgroup=true")
+                             url="https://t.me/MikuProbot?startgroup=true")
                      ] 
                 ]
             ), 
