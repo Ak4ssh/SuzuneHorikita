@@ -1,6 +1,6 @@
 import threading
 
-from sqlalchemy import BigInteger, Boolean, Column, String, UnicodeText, distinct, func
+from sqlalchemy import Column, String, UnicodeText, Boolean, Integer, distinct, func
 
 from src.source.helper_funcs.msg_types import Types
 from src.source.sql import BASE, SESSION
@@ -24,10 +24,10 @@ class CustomFilters(BASE):
 
     # NEW FILTER
     # alter table cust_filters add column reply_text text;
-    # alter table cust_filters add column file_type BigInteger default 1;
+    # alter table cust_filters add column file_type integer default 1;
     # alter table cust_filters add column file_id text;
     reply_text = Column(UnicodeText)
-    file_type = Column(BigInteger, nullable=False, default=1)
+    file_type = Column(Integer, nullable=False, default=1)
     file_id = Column(UnicodeText, default=None)
 
     def __init__(
@@ -78,7 +78,7 @@ class NewCustomFilters(BASE):
     chat_id = Column(String(14), primary_key=True)
     keyword = Column(UnicodeText, primary_key=True, nullable=False)
     text = Column(UnicodeText)
-    file_type = Column(BigInteger, nullable=False, default=1)
+    file_type = Column(Integer, nullable=False, default=1)
     file_id = Column(UnicodeText, default=None)
 
     def __init__(self, chat_id, keyword, text, file_type, file_id):
@@ -101,7 +101,7 @@ class NewCustomFilters(BASE):
 
 class Buttons(BASE):
     __tablename__ = "cust_filter_urls"
-    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     chat_id = Column(String(14), primary_key=True)
     keyword = Column(UnicodeText, primary_key=True)
     name = Column(UnicodeText, nullable=False)
@@ -384,10 +384,11 @@ def migrate_chat(old_chat_id, new_chat_id):
         for filt in chat_filters:
             filt.chat_id = str(new_chat_id)
         SESSION.commit()
-        old_filt = CHAT_FILTERS.get(str(old_chat_id))
-        if old_filt:
-            CHAT_FILTERS[str(new_chat_id)] = old_filt
-            del CHAT_FILTERS[str(old_chat_id)]
+        try:
+            CHAT_FILTERS[str(new_chat_id)] = CHAT_FILTERS[str(old_chat_id)]
+        except KeyError:
+            pass
+        del CHAT_FILTERS[str(old_chat_id)]
 
         with BUTTON_LOCK:
             chat_buttons = (
