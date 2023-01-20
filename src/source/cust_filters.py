@@ -29,7 +29,7 @@ from src.source.connection import connected
 from src.source.helper_funcs.alternate import send_message, typing_action
 from src.source.helper_funcs.decorators import Kaguyacmd, Kaguyamsg, Kaguyacallback
 
-from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
+from src.source.helper_funcs.anonymous import user_admin, AdminPerms
 
 HANDLER_GROUP = 10
 
