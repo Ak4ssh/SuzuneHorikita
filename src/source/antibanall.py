@@ -1,10 +1,10 @@
 import time
-from pyrogram import Client, Filters
+from pyrogram import Client, filters
 from src.events import register
 
 banned_users = {}
 
-@register.on_message(Filters.group)
+@register.on_message(filters.group)
 def ban_check(client, message):
     if message.from_user and message.new_chat_members:
         user_id = message.from_user.id
