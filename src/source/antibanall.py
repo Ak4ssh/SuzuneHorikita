@@ -1,11 +1,10 @@
 import time
-from pyrogram import Client, Filters
-
-app = Client("my_account")
+from pyrogram import Client, filters
+from src import pbot
 
 banned_users = {}
 
-@app.on_message(Filters.group)
+@pbot.on_message(filters.group)
 def ban_check(client, message):
     if message.from_user and message.new_chat_members:
         user_id = message.from_user.id
@@ -30,5 +29,3 @@ def ban_check(client, message):
                         client.send_message(admin_id, "Please keep an eye on the user that just banned 5 users in 5 seconds, they might be abusing their power.")
             
             banned_users[user_id].clear()
-
-app.run()
