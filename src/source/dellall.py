@@ -48,7 +48,7 @@ async def delete_user_messages(chat, user_id):
         await client.send_message(chat, "No messages found from user {}.".format(user_id))
 
 # Define an event handler for the command
-@client.on(events.NewMessage(pattern='/delete_user'))
+@client.on(events.NewMessage(pattern='/delall'))
 async def delete_user(event):
     # Check if the user is an admin
     if event.chat.admin_rights or event.chat.creator:
