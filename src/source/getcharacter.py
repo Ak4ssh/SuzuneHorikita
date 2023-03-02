@@ -2,7 +2,7 @@ import pyrogram
 import requests
 import io
 from google.cloud import vision_v1
-from google.cloud.vision_v1 import enums
+from google.cloud.vision_v1.types import enums
 from src import pbot
 
 
