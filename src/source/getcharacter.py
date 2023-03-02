@@ -1,46 +1,41 @@
 import pyrogram
 import requests
 import io
-from google.cloud import vision_v1
-from google.cloud.vision_v1.types import enums
+import pytesseract
+import re
 from src import pbot
 
-
-# Define function to get character name from image using Google Lens
+# Define function to get character name from image using OCR
 def get_character_name(image_url):
-    # Initialize Google Cloud Vision client and API request
-    client = vision_v1.ImageAnnotatorClient()
-    image = vision_v1.types.Image()
-    image.source.image_uri = image_url
-    features = [{'type': enums.Feature.Type.OBJECT_LOCALIZATION}]
-
-    # Send API request and extract object annotations
-    response = client.annotate_image({'image': image, 'features': features})
-    object_annotations = response.localized_object_annotations
-
-    # Extract the object with the highest score and return its name
-    highest_score = 0
-    character_name = None
-    for object in object_annotations:
-        if object.score > highest_score and object.name.lower() != "person":
-            highest_score = object.score
-            character_name = object.name
-    return character_name
+    # Download image and read text using OCR
+    image_data = requests.get(image_url).content
+    text = pytesseract.image_to_string(io.BytesIO(image_data), lang='eng')
+    
+    # Extract possible character names from text using regular expressions
+    character_names = re.findall(r'[A-Z][a-z]+\s?[A-Z][a-z]+', text)
+    
+    # Return the first character name found, if any
+    if character_names:
+        return character_names[0]
+    else:
+        return None
 
 # Define callback function to handle messages
 @pbot.on_message()
 def handle_message(client, message):
-    # Check if message is a command and a reply to a photo
-    if message.text and message.text.startswith('/identify') and message.reply_to_message and message.reply_to_message.photo:
-        # Get the largest available photo size
-        photo = message.reply_to_message.photo[-1]
-        # Download the photo and get its URL
-        file_path = client.download_media(photo.file_id)
-        image_url = "file://" + file_path
-        # Get the character name using Google Lens
+    # Check if message is a command and a reply to a photo or sticker
+    if message.text and message.text.startswith('/identify') and message.reply_to_message and (message.reply_to_message.photo or message.reply_to_message.sticker):
+        # Check if the replied message is a sticker and download it if necessary
+        if message.reply_to_message.sticker:
+            sticker = message.reply_to_message.sticker
+            image_url = f"https://api.telegram.org/file/bot{client.token}/{sticker.file_id}.webp"
+        else:
+            photo = message.reply_to_message.photo[-1]
+            image_url = f"https://api.telegram.org/file/bot{client.token}/{photo.file_id}.jpg"
+        # Get the character name using OCR
         character_name = get_character_name(image_url)
         # Reply with the character name
         if character_name:
-            message.reply(f"The character in this photo is {character_name}")
+            message.reply(f"The character in this photo/sticker is {character_name}")
         else:
-            message.reply("Could not identify any characters in this photo")
+            message.reply("Could not identify any characters in this photo/sticker")
