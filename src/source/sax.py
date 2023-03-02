@@ -7,7 +7,7 @@ group_count = 0
 user_count = 0
 
 # Define a handler for when the bot is added to a group
-@pbot.on_chat_member_join()
+@pbot.on_chat_members_added()
 async def on_chat_member_join(client, chat):
     global group_count
     if chat.type == 'group' or chat.type == 'supergroup':
