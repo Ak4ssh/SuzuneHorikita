@@ -1,18 +1,18 @@
 from telethon import TelegramClient, events
-from src import pbot
+from src import ubot2
 
 # Initialize counters for groups and users
 group_count = 0
 user_count = 0
 
 # Define event handlers for when the bot is added to a group or a user sends a message
-@pbot.on(events.NewMessage(incoming=True))
+@ubot2.on(events.NewMessage(incoming=True))
 async def handle_new_message(event):
     # Increment the user count whenever a message is received
     global user_count
     user_count += 1
 
-@pbot.on(events.ChatAction())
+@ubot2.on(events.ChatAction())
 async def handle_chat_action(event):
     # Increment the group count whenever the bot is added to a group
     if event.user_added and event.chat_id > 2867:
@@ -20,7 +20,7 @@ async def handle_chat_action(event):
         group_count += 1
 
 # Define a command handler for the !stats command
-@pbot.on(events.NewMessage(pattern='^/stat'))
+@ubot2.on(events.NewMessage(pattern='^/stat'))
 async def handle_stats_command(event):
     # Get the current number of groups and users
     global group_count, user_count
