@@ -267,3 +267,11 @@ def list_bots(client, message):
     bots_list = "\n".join(f"{bot.first_name} ({bot.id})" for bot in bots)
     # Send the list of bots as a message
     message.reply_text(f"List of bots:\n\n{bots_list}")
+
+@app.on_message(filters.regex("@admins") & filters.group)
+async def alert_admins_group(client, message):
+    # Get the list of administrators for the chat
+    admins = await client.get_chat_members(chat_id=message.chat.id, filter="administrators")
+    # Send an alert message to all admins in the group chat
+    for admin in admins:
+        await client.send_message(chat_id=admin.user.id, text=f"{message.from_user.first_name} mentioned '@admins' in {message.chat.title}.")
