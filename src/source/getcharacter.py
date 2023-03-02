@@ -1,45 +1,35 @@
+import pyrogram
 import os
 import requests
-import telethon
-import io
-import openai
-import re
+import json
 from src import pbot
-# Set up OpenAI API credentials
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+# Set up the OpenAI API credentials
+openai_key = os.environ.get('OPENAI_API_KEY')
 
-# Define function to get character name from image using OpenAI
-def get_character_name(image_url):
-    # Download image and create OpenAI API request
-    image_data = requests.get(image_url).content
-    prompt = f"Identify the character in this image: {image_url}"
-    response = openai.Completion.create(engine="davinci", prompt=prompt, max_tokens=1024, n=1, stop=None, temperature=0.5)
-    
-    # Extract possible character names from OpenAI response using regular expressions
-    character_names = re.findall(r'[A-Z][a-z]+\s?[A-Z][a-z]+', response.choices[0].text)
-    
-    # Return the first character name found, if any
-    if character_names:
-        return character_names[0]
+# Define a command handler
+@pbot.on_message(pyrogram.filters.command('identify', prefixes='/'))
+async def identify_character(client, message):
+    # Check if the message is a reply to a photo or sticker
+    if message.reply_to_message and (message.reply_to_message.photo or message.reply_to_message.sticker):
+        # Download the photo or sticker
+        file_id = message.reply_to_message.photo.file_id if message.reply_to_message.photo else message.reply_to_message.sticker.file_id
+        file_path = await client.download_media(file_id)
+        
+        # Send a message to indicate that we are processing the image
+        await message.reply_text('Processing the image...')
+        
+        # Use OpenAI to identify the character name
+        try:
+            url = 'https://api.openai.com/v1/images/gpt-3'
+            headers = {'Authorization': f'Bearer {openai_key}'}
+            files = {'image': open(file_path, 'rb')}
+            response = requests.post(url, headers=headers, files=files)
+            response_data = json.loads(response.text)
+            output_text = response_data['data'][0]['text']
+            await message.reply_text(f'The character in the image is likely to be {output_text}')
+        except Exception as e:
+            await message.reply_text(f'An error occurred while processing the image: {e}')
+            
+    # If the message is not a reply to a photo or sticker, inform the user
     else:
-        return None
-
-# Define command handler function
-@pbot.on(telethon.events.NewMessage(pattern="/identify"))
-async def handle_command(event):
-    # Check if message is a reply to a photo or sticker
-    if event.is_reply and (await event.get_reply_message()).photo or (await event.get_reply_message()).sticker:
-        # Check if the replied message is a sticker and download it if necessary
-        if (await event.get_reply_message()).sticker:
-            sticker = await (await event.get_reply_message()).download_media()
-            image_url = f"data:image/webp;base64,{sticker}"
-        else:
-            photo = await (await event.get_reply_message()).download_media()
-            image_url = f"data:image/jpeg;base64,{photo}"
-        # Get the character name using OpenAI
-        character_name = get_character_name(image_url)
-        # Reply with the character name
-        if character_name:
-            await event.reply(f"The character in this photo/sticker is {character_name}")
-        else:
-            await event.reply("Could not identify any characters in this photo/sticker")
+        await message.reply_text('Please reply to a photo or sticker to use this command.')
