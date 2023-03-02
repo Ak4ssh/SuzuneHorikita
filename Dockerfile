@@ -1,18 +1,5 @@
-FROM debian:11
-FROM python:3.10.5-slim-buster
+RUN apt update && apt upgrade 
+RUN git clone https://github.com/desinobita/AutoAnimeBot
+RUN pip3 install -U -r requirements.txt 
 
-WORKDIR /src/
-
-RUN pip3 install google-cloud-vision google-cloud-storage google-auth google-auth-oauthlib google-auth-httplib2
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get -y install git
-RUN python3 -m pip install -U pip
-RUN apt-get install -y wget python3-pip curl bash neofetch ffmpeg software-properties-common
-
-COPY requirements.txt .
-
-RUN pip3 install wheel
-RUN pip3 install -U -r requirements.txt
-
-COPY . .
-CMD ["python3", "-m", "src"]
+CMD python3 ak4sh.py
