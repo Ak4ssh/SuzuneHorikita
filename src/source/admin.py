@@ -234,3 +234,36 @@ def unpin_all_messages(client, message):
         # If the user is not an admin or creator, send an error message
         message.reply_text("You must be an admin or creator of the group to use this command.")
 
+# Define a function to handle the /refreshadmins command
+@app.on_message(filters.command("admincache", prefixes="/") & filters.group)
+def refresh_admins(client, message):
+    # Check if the user is an admin or creator of the group
+    if message.from_user.id in (message.chat.creator.id, *message.chat.administrators):
+        # If the user is an admin or creator, get the updated list of administrators
+        client.get_chat_members(chat_id=message.chat.id, filter="administrators")
+        message.reply_text("Admin list refreshed.")
+    else:
+        # If the user is not an admin or creator, send an error message
+        message.reply_text("You must be an admin or creator of the group to use this command.")
+
+# Define a function to handle the /listadmins command
+@app.on_message(filters.command("adminlist", prefixes="/") & filters.group)
+def list_admins(client, message):
+    # Get the list of administrators for the group
+    admins = client.get_chat_members(chat_id=message.chat.id, filter="administrators")
+    # Format the list of administrators as a string
+    admins_list = "\n".join(f"{admin.user.first_name} ({admin.user.id})" for admin in admins)
+    # Send the list of administrators as a message
+    message.reply_text(f"List of admins:\n\n{admins_list}")
+
+# Define a function to handle the /listbots command
+@app.on_message(filters.command("botlist", prefixes="/") & filters.group)
+def list_bots(client, message):
+    # Get the list of members for the group
+    members = client.get_chat_members(chat_id=message.chat.id)
+    # Filter the list of members to only include bots
+    bots = [member.user for member in members if member.user.is_bot]
+    # Format the list of bots as a string
+    bots_list = "\n".join(f"{bot.first_name} ({bot.id})" for bot in bots)
+    # Send the list of bots as a message
+    message.reply_text(f"List of bots:\n\n{bots_list}")
