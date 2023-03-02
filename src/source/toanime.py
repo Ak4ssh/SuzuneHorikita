@@ -4,13 +4,8 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from src import pbot as app
 
-# Define a filter to handle group messages
-@filters.group
-def group_filter(_, __, message: Message):
-    return True
-
 # Define a command to enhance the image
-@app.on_message(group_filter & filters.command("enhance"))
+@app.on_message(filters.group & filters.private & filters.command("enhance"))
 async def enhance(client, message):
     # Check if the message has a replied photo
     if not message.reply_to_message or not message.reply_to_message.photo:
