@@ -8,6 +8,26 @@ from src.source.helper_funcs.telethn.chatstatus import (
     user_is_admin,
 )
 
+async def delall(event):
+    # get the replied message
+    replied_msg = await event.get_reply_message()
+    
+    # get the user ID of the replied message
+    user_id = replied_msg.sender_id
+    
+    # define the counter
+    count = 0
+    
+    # iterate over all messages in the group
+    async for message in event.iter_messages(event.chat_id):
+        # check if the message is sent by the user
+        if message.sender_id == user_id:
+            # delete the message
+            await message.delete()
+            count += 1
+    
+    # send a message with the count of deleted messages
+    await event.send_message(event.chat_id, f"{count} messages deleted from user {user_id}.")
 
 async def purge_messages(event):
     start = time.perf_counter()
@@ -77,12 +97,14 @@ async def delete_messages(event):
     del_message = [message, event.message]
     await event.client.delete_messages(chat, del_message)
 
+DELL_ALL = delall, events.NewMessage(pattern="^[!/]delall$")
 PURGE_HANDLER = purge_messages, events.NewMessage(pattern="^[!/]purge$")
 DEL_HANDLER = delete_messages, events.NewMessage(pattern="^[!/]del$")
 
+telethn.add_event_handler(*DEL_ALL)
 telethn.add_event_handler(*PURGE_HANDLER)
 telethn.add_event_handler(*DEL_HANDLER)
 
 inline = "Purges"
-cmd = ["del", "purge"]
-hndrl = [PURGE_HANDLER, DEL_HANDLER]
+cmd = ["del", "purge", "delall"]
+hndrl = [PURGE_HANDLER, DEL_HANDLER, DELL_ALL]
