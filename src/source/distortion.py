@@ -13,7 +13,7 @@ def replied_media_filter(client, update):
 
 # Define a command to apply the distortion effect
 @pbot.on_message(filters.command("distort"))
-async def distort_video_or_gif(_, message):
+async def distort_video_or_gif(client, message):
     # Get the replied media file
     media = message.reply_to_message.video or message.reply_to_message.animation
     file_id = media.file_id
@@ -37,5 +37,5 @@ async def distort_video_or_gif(_, message):
     os.remove(file_path)
     os.remove(output_file_path)
 
-
+# Register the filter with Pyrogram
 pbot.filter(replied_media_filter)
