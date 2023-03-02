@@ -36,7 +36,7 @@ def ban_user(client, message):
 
 
 # Define a command handler to unban a user
-@app.on_message(filters.command("unban", prefixes="."))
+@app.on_message(filters.command("unban", prefixes="/"))
 def unban_user(client, message):
     # Check if the user is an admin
     if not message.from_user.is_admin:
@@ -69,7 +69,7 @@ def unban_user(client, message):
             message.reply_text("Please specify a user to unban.")
             
 # Define a command handler to promote a user
-@app.on_message(filters.command("promote", prefixes="."))
+@app.on_message(filters.command("promote", prefixes="/"))
 def promote_user(client, message):
     # Check if the user is an admin
     if not message.from_user.is_admin:
@@ -102,7 +102,7 @@ def promote_user(client, message):
             message.reply_text("Please specify a user to promote.")
 
 # Define a command handler to demote a user
-@app.on_message(filters.command("demote", prefixes="."))
+@app.on_message(filters.command("demote", prefixes="/"))
 def demote_user(client, message):
     # Check if the user is an admin
     if not message.from_user.is_admin:
@@ -133,3 +133,104 @@ def demote_user(client, message):
             message.reply_text("User has been demoted.")
         else:
             message.reply_text("Please specify a user to demote.")
+
+# Define a function to handle the /setdescription command
+@app.on_message(filters.command("setdesc", prefixes="/") & filters.group)
+def set_description(client, message):
+    # Check if the user is an admin or creator of the group
+    if message.from_user.id in (message.chat.creator.id, *message.chat.administrators):
+        # If the user is an admin or creator, check if a message is replied to
+        if message.reply_to_message:
+            # If a message is replied to, set the group description to the text of the message
+            description = message.reply_to_message.text
+            client.set_chat_description(chat_id=message.chat.id, description=description)
+            message.reply_text("Group description updated.")
+        elif len(message.command) > 1:
+            # If no message is replied to but text is given in the command, set the group description to the text
+            description = " ".join(message.command[1:])
+            client.set_chat_description(chat_id=message.chat.id, description=description)
+            message.reply_text("Group description updated.")
+        else:
+            # If no message is replied to and no text is given in the command, send an error message
+            message.reply_text("Please reply to a message or provide text to set as the group description.")
+    else:
+        # If the user is not an admin or creator, send an error message
+        message.reply_text("You must be an admin or creator of the group to use this command.")
+
+# Define a function to handle the /setgrouppic command
+@app.on_message(filters.command("setgpic", prefixes="/") & filters.group)
+def set_group_pic(client, message):
+    # Check if the user is an admin or creator of the group
+    if message.from_user.id in (message.chat.creator.id, *message.chat.administrators):
+        # If the user is an admin or creator, check if a photo is replied to
+        if message.reply_to_message and message.reply_to_message.photo:
+            # If a photo is replied to, set the group profile picture to the photo
+            photo = message.reply_to_message.photo[-1]
+            client.set_chat_photo(chat_id=message.chat.id, photo=photo.file_id)
+            message.reply_text("Group profile picture updated.")
+        else:
+            # If no photo is replied to, send an error message
+            message.reply_text("Please reply to a photo to set as the group profile picture.")
+    else:
+        # If the user is not an admin or creator, send an error message
+        message.reply_text("You must be an admin or creator of the group to use this command.")
+
+# Define a function to handle the /deletegrouppic command
+@app.on_message(filters.command("delgpic", prefixes="/") & filters.group)
+def delete_group_pic(client, message):
+    # Check if the user is an admin or creator of the group
+    if message.from_user.id in (message.chat.creator.id, *message.chat.administrators):
+        # If the user is an admin or creator, delete the group profile picture
+        client.delete_chat_photo(chat_id=message.chat.id)
+        message.reply_text("Group profile picture deleted.")
+    else:
+        # If the user is not an admin or creator, send an error message
+        message.reply_text("You must be an admin or creator of the group to use this command.")
+
+# Define a function to handle the /pin command
+@app.on_message(filters.command("pin", prefixes="/") & filters.group)
+def pin_message(client, message):
+    # Check if the user is an admin or creator of the group
+    if message.from_user.id in (message.chat.creator.id, *message.chat.administrators):
+        # If the user is an admin or creator, check if a message is replied to
+        if message.reply_to_message:
+            # If a message is replied to, pin the message
+            message.reply_to_message.pin()
+            message.reply_text("Message pinned.")
+        else:
+            # If no message is replied to, send an error message
+            message.reply_text("Please reply to a message to pin it.")
+    else:
+        # If the user is not an admin or creator, send an error message
+        message.reply_text("You must be an admin or creator of the group to use this command.")
+
+# Define a function to handle the /unpin command
+@app.on_message(filters.command("unpin", prefixes="/") & filters.group)
+def unpin_message(client, message):
+    # Check if the user is an admin or creator of the group
+    if message.from_user.id in (message.chat.creator.id, *message.chat.administrators):
+        # If the user is an admin or creator, check if a message is replied to
+        if message.reply_to_message:
+            # If a message is replied to, unpin the message
+            message.reply_to_message.unpin()
+            message.reply_text("Message unpinned.")
+        else:
+            # If no message is replied to, unpin the last message
+            message.unpin()
+            message.reply_text("Last message unpinned.")
+    else:
+        # If the user is not an admin or creator, send an error message
+        message.reply_text("You must be an admin or creator of the group to use this command.")
+
+# Define a function to handle the /unpinall command
+@app.on_message(filters.command("unpinall", prefixes="/") & filters.group)
+def unpin_all_messages(client, message):
+    # Check if the user is an admin or creator of the group
+    if message.from_user.id in (message.chat.creator.id, *message.chat.administrators):
+        # If the user is an admin or creator, unpin all messages
+        client.unpin_all_chat_messages(chat_id=message.chat.id)
+        message.reply_text("All messages unpinned.")
+    else:
+        # If the user is not an admin or creator, send an error message
+        message.reply_text("You must be an admin or creator of the group to use this command.")
+
