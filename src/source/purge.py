@@ -101,7 +101,7 @@ DELL_ALL = delall, events.NewMessage(pattern="^[!/]delall$")
 PURGE_HANDLER = purge_messages, events.NewMessage(pattern="^[!/]purge$")
 DEL_HANDLER = delete_messages, events.NewMessage(pattern="^[!/]del$")
 
-telethn.add_event_handler(*DEL_ALL)
+telethn.add_event_handler(*DELL_ALL)
 telethn.add_event_handler(*PURGE_HANDLER)
 telethn.add_event_handler(*DEL_HANDLER)
 
