@@ -12,7 +12,7 @@ def group_filter(_, __, message: Message):
     return True
 
 # Define a command to fetch the latest news for an anime
-@app.on_message(group_filter & filters.command("anime_news") & filters.chat_admin)
+@app.on_message(group_filter & filters.command("animenews") & filters.chat_admin)
 async def anime_news(client, message):
     # Get the anime name from the command arguments
     anime_name = " ".join(message.command[1:])
