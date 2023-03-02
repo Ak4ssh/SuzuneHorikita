@@ -1,30 +1,63 @@
-from telethon import TelegramClient, events, sync
-from telethon.tl import types
+from telethon import TelegramClient, events
+from telethon.errors import PeerIdInvalidError, ChannelPrivateError, ChatAdminRequiredError
+from telethon.tl.types import PeerUser, PeerChannel
+from telethon.tl.functions.messages import GetHistoryRequest, DeleteMessagesRequest
 from src import ubot2 as client
 
-# define the command filter and the admin filter
-command_filter = types.InputPeerUser()
-admin_filter = types.InputPeerUser()
+# Get the username of the admin of the group or channel
+async def get_admin_username(chat):
+    async for user in client.iter_participants(chat):
+        if user.status == 'creator' or user.status == 'administrator':
+            return user.username
 
-# define the function to delete the user's messages and send the number of deleted messages
-async def delete_user_messages(event):
-    # check if the user is an admin
-    if not await event.is_admin():
+# Define a function to delete all messages of a specific user in a group or channel
+async def delete_user_messages(chat, user_id):
+    # Get the admin username
+    admin_username = await get_admin_username(chat)
+
+    # Check if the user is an admin
+    try:
+        user = await client.get_entity(user_id)
+        if user.username == admin_username:
+            await client.send_message(chat, "You cannot delete messages of an admin.")
+            return
+    except ChatAdminRequiredError:
+        await client.send_message(chat, "You cannot delete messages of an admin.")
         return
-    # get the replied message
-    reply_msg = await event.get_reply_message()
-    # check if the replied message is a message and has a sender
-    if reply_msg and reply_msg.sender:
-        # delete all messages of the user in the chat
-        user_id = reply_msg.sender_id
-        count = 0
-        async for message in client.iter_messages(event.chat_id, from_user=user_id):
-            await message.delete()
-            count += 1
-        # send a message with the number of deleted messages
-        await event.respond(f"{count} messages deleted from user {user_id}.")
+    except Exception as e:
+        await client.send_message(chat, "An error occurred: {}".format(str(e)))
+        return
 
-# add the event handlers
-@client.on(events.NewMessage(func=lambda e: e.is_reply and isinstance(e.peer_id, command_filter) and isinstance(e.sender_id, admin_filter)))
-async def on_reply(event):
-    await delete_user_messages(event)
+    # Get the chat entity
+    try:
+        chat_entity = await client.get_entity(chat)
+    except (PeerIdInvalidError, ValueError):
+        await client.send_message(chat, "Invalid chat or channel.")
+        return
+
+    # Get the messages of the user
+    messages = []
+    async for message in client.iter_messages(chat_entity, from_user=user_id):
+        messages.append(message.id)
+
+    # Delete the messages
+    if messages:
+        await client(DeleteMessagesRequest(chat, messages))
+        await client.send_message(chat, "{} messages deleted from user {}.".format(len(messages), user_id))
+    else:
+        await client.send_message(chat, "No messages found from user {}.".format(user_id))
+
+# Define an event handler for the command
+@client.on(events.NewMessage(pattern='/delete_user'))
+async def delete_user(event):
+    # Check if the user is an admin
+    if event.chat.admin_rights or event.chat.creator:
+        # Check if there is a replied user
+        if event.is_reply:
+            # Get the user ID of the replied message
+            user_id = (await event.get_reply_message()).sender_id
+            await delete_user_messages(event.chat_id, user_id)
+        else:
+            await event.reply("Please reply to a user message to delete all messages.")
+    else:
+        await event.reply("You are not an admin of this group or channel.")
