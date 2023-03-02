@@ -6,7 +6,6 @@ from src import pbot
 # Set up the OpenAI API credentials
 openai_key = os.environ.get('OPENAI_API_KEY')
 
-# Define a command handler
 @pbot.on_message(pyrogram.filters.command('identify', prefixes='/'))
 async def identify_character(client, message):
     # Check if the message is a reply to a photo or sticker
@@ -25,7 +24,7 @@ async def identify_character(client, message):
             files = {'image': open(file_path, 'rb')}
             response = requests.post(url, headers=headers, files=files)
             response_data = json.loads(response.text)
-            output_text = response_data['data'][0]['text']
+            output_text = response_data['data'][0]['caption']
             await message.reply_text(f'The character in the image is likely to be {output_text}')
         except Exception as e:
             await message.reply_text(f'An error occurred while processing the image: {e}')
