@@ -1,8 +1,10 @@
 from telethon import TelegramClient, events, sync
 from src import ubot2 as client
+from telethon.tl import types
+
 # define the command filter and the admin filter
-command_filter = events.Filters.command(['delete_user_messages'])
-admin_filter = events.Filters.user(is_admin=True)
+command_filter = events.filters.command(['delete_user_messages'])
+admin_filter = events.filters.user(is_admin=True)
 
 # define the function to delete the user's messages and send the number of deleted messages
 async def delete_user_messages(event):
