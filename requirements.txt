@@ -98,8 +98,4 @@ heroku3
 jikanpy
 flag
 tracemoepy
-google-cloud-vision 
-google-cloud-storage 
-google-auth 
-google-auth-oauthlib 
-google-auth-httplib2
+pytesseract
