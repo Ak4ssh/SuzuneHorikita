@@ -99,3 +99,4 @@ jikanpy
 flag
 tracemoepy
 pytesseract
+openai
