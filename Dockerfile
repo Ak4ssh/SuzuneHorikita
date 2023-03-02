@@ -3,6 +3,7 @@ FROM python:3.10.5-slim-buster
 
 WORKDIR /src/
 
+RUN pip install google-cloud-vision google-cloud-storage google-auth google-auth-oauthlib google-auth-httplib2
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get -y install git
 RUN python3 -m pip install -U pip
