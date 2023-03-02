@@ -6,8 +6,8 @@ from src import pbot
 
 # Define a filter to handle messages that reply to a video or GIF
 @filters.video | filters.animation
-def replied_media_filter(_, message):
-    if message.reply_to_message and message.reply_to_message.video or message.reply_to_message.animation:
+def replied_media_filter(client, update):
+    if update.message.reply_to_message and update.message.reply_to_message.video or update.message.reply_to_message.animation:
         return True
     return False
 
