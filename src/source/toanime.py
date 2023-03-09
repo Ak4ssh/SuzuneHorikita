@@ -1,40 +1,22 @@
-import requests
-from io import BytesIO
+import os
+import subprocess
 from pyrogram import Client, filters
-from pyrogram.types import Message
 from src import pbot as app
 
-# Define a command to enhance the image
-@app.on_message(filters.group & filters.private & filters.command("enhance"))
-async def enhance(client, message):
-    # Check if the message has a replied photo
-    if not message.reply_to_message or not message.reply_to_message.photo:
-        await message.reply("❌ Please reply to a photo to enhance it.")
-        return
+# Define the command to enhance replied photos
+@app.on_message(filters.command("enhance") & filters.reply & filters.photo & filters.private)
+async def enhance_photo(client, message):
 
-    # Get the photo file ID
-    photo_file_id = message.reply_to_message.photo[-1].file_id
+    # Get the photo file ID and download the photo
+    photo_file_id = message.reply_to_message.photo.file_id
+    photo_file = await client.download_media(photo_file_id)
 
-    # Download the photo file
-    photo_url = await client.download_media(photo_file_id)
-    photo_file = open(photo_url, "rb")
+    # Run waifu2x-caffe on the downloaded photo file
+    subprocess.run(["waifu2x-caffe-cui.exe", "-i", photo_file, "-o", photo_file + "_enhanced.png"])
 
-    # Send the photo file to the waifu2x API to enhance it
-    waifu2x_url = "https://waifu2x.booru.pics/api"
-    waifu2x_params = {"url": "file://" + photo_url, "scale": 2, "noise": 1}
-    waifu2x_response = requests.get(waifu2x_url, params=waifu2x_params)
-    waifu2x_response.raise_for_status()
+    # Send the enhanced photo as a message to the chat
+    await client.send_photo(chat_id=message.chat.id, photo=photo_file + "_enhanced.png")
 
-    # Get the enhanced image as a bytes buffer
-    enhanced_image_bytes = BytesIO(waifu2x_response.content)
-
-    # Send the enhanced image as a reply
-    await message.reply_photo(
-        photo=enhanced_image_bytes,
-        caption="Enhanced with waifu2x.",
-        reply_to_message_id=message.reply_to_message.message_id,
-        disable_notification=True,
-    )
-
-    # Close the photo file
-    photo_file.close()
+    # Delete the downloaded and enhanced photo files
+    os.remove(photo_file)
+    os.remove(photo_file + "_enhanced.png")
