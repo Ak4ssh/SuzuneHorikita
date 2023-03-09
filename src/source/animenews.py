@@ -21,10 +21,10 @@ async def send_and_pin_latest_anime(client, message):
             html = html[end_index:]
 
         # Send the latest anime news to the group
-        message = await client.send_message(message.chat.id, latest_anime)
+        message = await app.send_message(message.chat.id, latest_anime)
 
         # Pin the latest anime news message to the group
-        await client.pin_chat_message(chat_id=message.chat.id, message_id=message.message_id)
+        await app.pin_chat_message(chat_id=message.chat.id, message_id=message.message_id)
 
     # If the request was not successful, send an error message to the group
     else:
