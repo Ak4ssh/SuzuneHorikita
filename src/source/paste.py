@@ -1,6 +1,7 @@
 from src.events import register
 from src import telethn as tbot
 from telethon import events
+import requests
 
 PASTEBIN_API_KEY = "d_7U4cLo2nHK056m2Sci82c7z78WFMXg"
 PASTEBIN_URL = "https://pastebin.com/api/api_post.php"
