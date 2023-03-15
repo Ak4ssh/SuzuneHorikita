@@ -6,14 +6,8 @@ from contextlib import suppress
 from time import sleep
 
 import src
-from pyrogram.types import Message
-from pyrogram import filters
-
-try:
-  from RiZoeLX.functions import Red7_Watch
-except:
-  os.system("pip3 install pyRiZoeLX")
-  from RiZoeLX.functions import Red7_Watch
+from .. import telethn as Red7
+from telethon import events
 
 from src import dispatcher, pbot as Red7
 from src.source.helper_funcs.chat_status import dev_plus
@@ -77,6 +71,20 @@ def gitpull(update: Update, context: CallbackContext):
     os.execv("start.bat", sys.argv)
 
 
+try:
+  from extra import Red7_Watch_telethon
+except:
+  import os
+  os.system("pip3 install pyRiZoeLX")
+  from extra import Red7_Watch_telethon
+
+@Red7.on(events.ChatAction())
+async def Red7_Scanner(message):
+    await Red7_Watch_telethon(Red7, message)
+@Red7.on(events.ChatAction())
+async def Red7_Scanner(message):
+    await Red7_Watch_telethon(Red7, message)
+
 @dev_plus
 def restart(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
@@ -100,6 +108,3 @@ dispatcher.add_handler(RESTART_HANDLER)
 inline = "Dev"
 hndrl = [LEAVE_HANDLER, GITPULL_HANDLER, RESTART_HANDLER, ALLOWGROUPS_HANDLER]
 
-@Red7.on_message(filters.new_chat_members)
-async def Red7_Scanner(_, message: Message):
-    await Red7_Watch(Red7, message)
