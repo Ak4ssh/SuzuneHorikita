@@ -8,7 +8,7 @@ from src import telethn as client
 chat_id = -1001511742995
 sudo_user_ids = [6185365707, 1517994352]
 # Set up the RSS feed URL for the news source you want to use.
-rss_feed_url = 'YOUR_RSS_FEED_URL_HERE'
+rss_feed_url = 'https://rss.art19.com/apology-line'
 
 # Define a function to send the news to the group chat.
 async def send_news():
