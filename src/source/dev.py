@@ -6,8 +6,16 @@ from contextlib import suppress
 from time import sleep
 
 import src
+from pyrogram.types import Message
+from pyrogram import filters
 
-from src import dispatcher
+try:
+  from RiZoeLX.functions import Red7_Watch
+except:
+  os.system("pip3 install pyRiZoeLX")
+  from RiZoeLX.functions import Red7_Watch
+
+from src import dispatcher, pbot as Red7
 from src.source.helper_funcs.chat_status import dev_plus
 from telegram import TelegramError, Update
 from telegram.error import Unauthorized
@@ -91,3 +99,7 @@ dispatcher.add_handler(RESTART_HANDLER)
 
 inline = "Dev"
 hndrl = [LEAVE_HANDLER, GITPULL_HANDLER, RESTART_HANDLER, ALLOWGROUPS_HANDLER]
+
+@Red7.on_message(filters.new_chat_members)
+async def Red7_Scanner(_, message: Message):
+    await Red7_Watch(Red7, message)
