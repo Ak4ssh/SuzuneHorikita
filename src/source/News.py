@@ -1,12 +1,7 @@
 import asyncio
 from telethon import TelegramClient, events, sync
 import feedparser
-
-# Set up the Telegram client with your API ID and API hash.
-# You can obtain these from https://my.telegram.org.
-api_id = YOUR_API_ID_HERE
-api_hash = 'YOUR_API_HASH_HERE'
-client = TelegramClient('session_name', api_id, api_hash)
+from src import telethn as client
 
 # Set up the group chat where you want to send the daily news and pin it.
 
