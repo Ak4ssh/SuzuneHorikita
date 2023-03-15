@@ -2,7 +2,10 @@ from src.events import register
 from src import telethn as tbot
 from telethon import events
 
-@register.on(events.NewMessage(pattern='/paste'))
+PASTEBIN_API_KEY = "d_7U4cLo2nHK056m2Sci82c7z78WFMXg"
+PASTEBIN_URL = "https://pastebin.com/api/api_post.php"
+
+@register(pattern=("/paste"))
 async def paste_to_pastebin(event):
     # check if there is a replied message or file
     if event.is_reply and event.reply_to_msg_id:
