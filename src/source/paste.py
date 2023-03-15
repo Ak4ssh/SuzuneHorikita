@@ -19,7 +19,7 @@ async def paste_to_pastebin(client: Client, message: Message):
             # if the replied message is a file, get the text
             document = message.reply_to_message.document
             file_id = document.file_id
-            file_path = await client.download_media(document=file_id)
+            file_path = await client.download_media(media=document)
             with open(file_path, "r") as f:
                 text = f.read()
             os.remove(file_path)
@@ -40,4 +40,5 @@ async def paste_to_pastebin(client: Client, message: Message):
         else:
             await message.reply_text("Sorry, I couldn't get the text.")
     else:
-        await message.reply_text("Please reply to a message or file to get the")
+        await message.reply_text("Please reply to a message or file to get the text.")
+
