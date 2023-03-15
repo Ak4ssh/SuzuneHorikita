@@ -18,7 +18,7 @@ async def paste_to_pastebin(event):
         elif replied_msg.media:
             # if the replied message is a file, get the text
             media = replied_msg.media
-            file_path = await client.download_media(media, file=os.path.join(os.getcwd(), 'downloads'))
+            file_path = await tbot.download_media(media, file=os.path.join(os.getcwd(), 'downloads'))
             with open(file_path, 'r') as f:
                 text = f.read()
             os.remove(file_path)
