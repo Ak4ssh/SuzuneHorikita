@@ -120,7 +120,7 @@ if ENV:
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
     WELCOME_DELAY_KICK_SEC = os.environ.get("WELCOME_DELAY_KICL_SEC", None)
-    ARQ_API_URL = os.environ.get("ARQ_API_URL", "https://arq.hamker.in")
+    ARQ_API_URL = os.environ.get("ARQ_API_URL", "https://arq.hamker.dev")
     ARQ_API_KEY = os.environ.get("ARQ_API_KEY", "BCYKVF-KYQWFM-JCMORU-RZWOFQ-ARQ")
     MONGO_PORT = os.environ.get("MONGO_PORT")
     MONGO_DB = os.environ.get("MONGO_DB", "Suzune")
