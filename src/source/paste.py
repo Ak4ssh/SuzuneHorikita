@@ -1,72 +1,43 @@
-import asyncio
 import os
-import re
-
-import aiofiles
-from pykeyboard import InlineKeyboard
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton
-
-from src import aiohttpsession as session
+import requests
+from pyrogram import Client, filters
+from pyrogram.types import Message
 from src import pbot as app
-from src.utils.errors import capture_err
-from src.utils.pastebin import paste
 
-inline = "Paste​"
+PASTE_BIN_API_KEY = "d_7U4cLo2nHK056m2Sci82c7z78WFMXg"
+PASTE_BIN_URL = "https://pastebin.com/api/api_post.php"
 
-pattern = re.compile(
-    r"^text/|json$|yaml$|xml$|toml$|x-sh$|x-shellscript$"
-)
-
-
-async def isPreviewUp(preview: str) -> bool:
-    for _ in range(7):
-        try:
-            async with session.head(preview, timeout=2) as resp:
-                status = resp.status
-                size = resp.content_length
-        except asyncio.exceptions.TimeoutError:
-            return False
-        if status == 404 or (status == 200 and size == 0):
-            await asyncio.sleep(0.4)
-        else:
-            return True if status == 200 else False
-    return False
-
-
-@app.on_message(filters.command("paste"))
-@capture_err
-async def paste_func(_, message):
-    if not message.reply_to_message:
-        return await message.reply_text(
-            "Reply To A Message With /paste"
-        )
-    m = await message.reply_text("Pasting...")
-    if message.reply_to_message.text:
-        content = str(message.reply_to_message.text)
-    elif message.reply_to_message.document:
-        document = message.reply_to_message.document
-        if document.file_size > 1048576:
-            return await m.edit(
-                "You can only paste files smaller than 1MB."
-            )
-        if not pattern.search(document.mime_type):
-            return await m.edit("Only text files can be pasted.")
-        doc = await message.reply_to_message.download()
-        async with aiofiles.open(doc, mode="r") as f:
-            content = await f.read()
-        os.remove(doc)
-    link = await paste(content)
-    preview = link + "/preview.png"
-    button = InlineKeyboard(row_width=1)
-    button.add(InlineKeyboardButton(text="Paste Link", url=link))
-
-    if await isPreviewUp(preview):
-        try:
+@app.on_message(filters.command(["paste"]))
+async def paste_to_pastebin(client: Client, message: Message):
+    # check if there is a replied message or file
+    if message.reply_to_message:
+        text = ""
+        if message.reply_to_message.text:
+            # if the replied message is text
+            text = message.reply_to_message.text
+        elif message.reply_to_message.document:
+            # if the replied message is a file, get the text
+            document = message.reply_to_message.document
+            file_id = document.file_id
+            file_path = await client.download_media(document=file_id)
+            with open(file_path, "r") as f:
+                text = f.read()
+            os.remove(file_path)
+        if text:
+            # send the text to Pastebin and get the URL
+            data = {
+                "api_dev_key": PASTE_BIN_API_KEY,
+                "api_option": "paste",
+                "api_paste_code": text
+            }
+            response = requests.post(PASTE_BIN_URL, data=data)
+            pastebin_url = response.text
+            # send the photo of the full text
             await message.reply_photo(
-                photo=preview, quote=False, reply_markup=button
+                photo=f"https://chart.googleapis.com/chart?cht=tx&chl={pastebin_url}",
+                caption=f"Full text: {pastebin_url}"
             )
-            return await m.delete()
-        except Exception:
-            pass
-    return await m.edit(link)
+        else:
+            await message.reply_text("Sorry, I couldn't get the text.")
+    else:
+        await message.reply_text("Please reply to a message or file to get the")
