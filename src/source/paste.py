@@ -1,44 +1,39 @@
-import os
-import requests
-from pyrogram import Client, filters
-from pyrogram.types import Message
-from src import pbot as app
+from src.events import register
+from src import telethn as tbot
+from telethon import events
 
-PASTE_BIN_API_KEY = "d_7U4cLo2nHK056m2Sci82c7z78WFMXg"
-PASTE_BIN_URL = "https://pastebin.com/api/api_post.php"
-
-@app.on_message(filters.command(["paste"]))
-async def paste_to_pastebin(client: Client, message: Message):
+@register.on(events.NewMessage(pattern='/paste'))
+async def paste_to_pastebin(event):
     # check if there is a replied message or file
-    if message.reply_to_message:
-        text = ""
-        if message.reply_to_message.text:
+    if event.is_reply and event.reply_to_msg_id:
+        replied_msg = await event.get_reply_message()
+        text = ''
+        if replied_msg.text:
             # if the replied message is text
-            text = message.reply_to_message.text
-        elif message.reply_to_message.document:
+            text = replied_msg.text
+        elif replied_msg.media:
             # if the replied message is a file, get the text
-            document = message.reply_to_message.document
-            file_id = document.file_id
-            file_path = await client.download_media(media=document)
-            with open(file_path, "r") as f:
+            media = replied_msg.media
+            file_path = await client.download_media(media, file=os.path.join(os.getcwd(), 'downloads'))
+            with open(file_path, 'r') as f:
                 text = f.read()
             os.remove(file_path)
         if text:
             # send the text to Pastebin and get the URL
             data = {
-                "api_dev_key": PASTE_BIN_API_KEY,
-                "api_option": "paste",
-                "api_paste_code": text
+                'api_dev_key': PASTEBIN_API_KEY,
+                'api_option': 'paste',
+                'api_paste_code': text
             }
-            response = requests.post(PASTE_BIN_URL, data=data)
+            response = requests.post(PASTEBIN_URL, data=data)
             pastebin_url = response.text
             # send the photo of the full text
-            await message.reply_photo(
-                photo=f"https://chart.googleapis.com/chart?cht=tx&chl={pastebin_url}",
-                caption=f"Full text: {pastebin_url}"
+            await tbot.send_file(
+                event.chat_id,
+                file=f'https://chart.googleapis.com/chart?cht=tx&chl={pastebin_url}',
+                caption=f'Full text: {pastebin_url}'
             )
         else:
-            await message.reply_text("Sorry, I couldn't get the text.")
+            await event.reply('Sorry, I couldn\'t get the text.')
     else:
-        await message.reply_text("Please reply to a message or file to get the text.")
-
+        await event.reply('Please reply to a message or file to get the text.')
