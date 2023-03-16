@@ -1,15 +1,21 @@
-from pyrogram import Client, filters
-from pyrogram.types import ChatMember
-from src import pbot
+import asyncio
+from telethon import TelegramClient, events, sync
+from src import telethn as client
 
-@pbot.on_message(filters.command(["botlist"]))
-def get_bot_list(client, message):
-    # Get the list of members in the chat
-    members = client.get_chat_members(message.chat.id)
-    
-    # Filter the members to include only the bots
-    bots = [member.user for member in members if isinstance(member, ChatMember) and member.user.is_bot]
-    
-    # Send the list of bots as a reply to the message
-    bot_names = "\n".join([f"{bot.first_name} (@{bot.username})" for bot in bots])
-    message.reply_text(f"List of bots in this group:\n{bot_names}")
+# Define a function to get the list of all the bots in the group chat
+async def get_bots_list(chat):
+    # Get all the members in the group chat
+    async for member in client.iter_participants(chat):
+        # Check if the member is a bot
+        if member.bot:
+            # Send the bot's username to the group chat
+            await client.send_message(chat, f'🤖 @{member.username}')
+
+# Define an event handler to trigger when an admin sends the /bots command
+@client.on(events.NewMessage(pattern='/bots', from_users='admin'))
+async def handler(event):
+    # Get the chat where the command was sent
+    chat = await event.get_chat()
+
+    # Get the list of all the bots in the group chat
+    await get_bots_list(chat)
