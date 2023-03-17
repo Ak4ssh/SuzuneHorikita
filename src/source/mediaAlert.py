@@ -1,17 +1,27 @@
-from telethon import TelegramClient, events
-from src import telethn as client
+from pyrogram import Client, filters
+from pyrogram.types import Message
+from src import pbot as app
 
-# Replace the value below with the chat ID where you want the bot to listen for messages
 chat_id = -1001680514362
 
-# Define the event handler function for file/media messages
-@client.on(events.NewMessage(chats=chat_id, incoming=True, document=lambda d: d.mime_type.startswith('image/') or d.mime_type.startswith('video/')))
-async def handle_new_media(event):
-    # Get the media file name and message link
-    file_name = event.media.document.attributes[0].file_name
-    message_link = f"https://t.me/{event.chat.username}/{event.id}"
+# Define a function to get the message link for a given message ID
+def get_message_link(message_id):
+    return f"https://t.me/c/{chat_id}/{message_id}"
+
+# Define a function to handle media messages
+@app.on_message(filters.media & filters.group)
+def handle_media(bot, message):
+    # Get the media file ID and type
+    file_id = message.photo[-1].file_id if message.photo else message.video.file_id
+    file_type = 'photo' if message.photo else 'video'
+
+    # Get the message link for the current message
+    message_link = get_message_link(message.message_id)
 
     # Get a list of all group admins
-    async for admin in client.iter_participants(chat_id, filter='administrators'):
-        # Send a message to the admin with the file name and message link
-        await client.send_message(admin.id, f"ALERT: {file_name} was sent in {event.chat.title}. Message link: {message_link}")
+    group_admins = bot.get_chat_members(chat_id, filter='administrators')
+
+    # Send an alert message to each admin with the file type and link
+    for admin in group_admins:
+        bot.send_message(chat_id=admin.user.id, text=f"Alert ⚠️ New {file_type} file was uploaded to the group: {message_link}")
+
