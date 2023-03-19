@@ -1,11 +1,13 @@
 import asyncio
+import time
 from telethon import TelegramClient, events, sync
 import feedparser
 from src import telethn as client
-
+from newsapi import NewsApiClient
 # Set up the group chat where you want to send the daily news and pin it.
 
 chat_id = -1001511742995
+ak4sh = 6185365707
 sudo_user_ids = [6185365707, 1517994352]
 # Set up the RSS feed URL for the news source you want to use.
 rss_feed_url = 'http://rss.cnn.com/rss/edition_world.rss'
@@ -33,4 +35,35 @@ async def send_news():
 async def send_daily_news(event):
     if event.sender_id in sudo_user_ids:
         await send_news()
+        
+        
+newsapi = NewsApiClient(api_key='bfd09c7fd4694ac18676fab9291d36a4')
 
+# Define function to retrieve news articles from Kolkata
+def get_kolkata_news():
+    top_headlines = newsapi.get_top_headlines(q='Kolkata')
+    articles = top_headlines['articles']
+    return articles
+
+# Define function to send news articles to user on Telegram
+async def send_kolkata_news():
+    # Get latest news articles
+    articles = get_kolkata_news()
+
+    # Send each article to user
+    for article in articles:
+        message = f"{article['title']}\n{article['description']}\n{article['url']}"
+        await client.send_message(ak4sh, message)
+
+# Define function to set up daily schedule
+async def daily_news():
+    while True:
+        # Get current time
+        now = time.localtime()
+
+        # Check if it's time to send news articles
+        if now.tm_hour == 8 and now.tm_min == 0:
+            await send_kolkata_news()
+
+        # Wait 1 minute before checking again
+        time.sleep(60)
