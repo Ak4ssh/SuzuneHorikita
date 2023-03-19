@@ -1,27 +1,30 @@
-from pyrogram import Client, filters
-from pyrogram.types import Message
-from src import pbot as app
+import telethon
+from telethon import TelegramClient, events
+from src import telethn as client
 
-chat_id = -1001680514362
+# Define function to send a message to the admin in DM
+async def send_alert(file_link):
+    await client.send_message('ADMIN_USER', f"A non-admin user has sent a media file: {file_link}")
 
-# Define a function to get the message link for a given message ID
-def get_message_link(message_id):
-    return f"https://t.me/c/{chat_id}/{message_id}"
+# Define event handler for media messages
+@client.on(events.NewMessage(func=lambda e: e.media))
+async def handle_media(event):
+    # Check if user is an admin
+    chat = await event.get_chat()
+    user = await event.get_user()
+    if not chat.admin_rights and not chat.creator:
+        # Get link to media file
+        if event.media.document:
+            file_link = await event.client.get_messages(chat.id, ids=event.message.id).then(lambda msg: msg.file)
+        elif event.media.photo:
+            file_link = await event.client.get_messages(chat.id, ids=event.message.id).then(lambda msg: msg.photo)
+        elif event.media.audio:
+            file_link = await event.client.get_messages(chat.id, ids=event.message.id).then(lambda msg: msg.audio)
+        elif event.media.voice:
+            file_link = await client.get_messages(chat.id, ids=event.message.id).then(lambda msg: msg.voice)
+        else:
+            file_link = None
 
-# Define a function to handle media messages
-@app.on_message(filters.media & filters.group)
-def handle_media(bot, message):
-    # Get the media file ID and type
-    file_id = message.photo[-1].file_id if message.photo else message.video.file_id
-    file_type = 'photo' if message.photo else 'video'
-
-    # Get the message link for the current message
-    message_link = get_message_link(message.message_id)
-
-    # Get a list of all group admins
-    group_admins = bot.get_chat_members(chat_id, filter='administrators')
-
-    # Send an alert message to each admin with the file type and link
-    for admin in group_admins:
-        bot.send_message(chat_id=admin.user.id, text=f"Alert ⚠️ New {file_type} file was uploaded to the group: {message_link}")
-
+        # Send alert message to admin
+        if file_link:
+            await send_alert(file_link)
