@@ -3,9 +3,9 @@ import requests
 import io
 from PIL import Image
 from src import telethn as client
+from src.events import register
 
-# Define a function to handle incoming messages
-@client.on(events.NewMessage(pattern='/whatanime'))
+@register(pattern="^/whatanime(.*)")
 async def whatanime(event):
     # Check if the message has a reply
     if not event.reply_to_msg_id:
