@@ -42,7 +42,7 @@ User [{user}](tg://user?id={user}) is officially
 Scanned by Team Red7 | Phoenix API ;)
 Appeal [Here](https://t.me/Red7WatchSupport)
     """
-    SCANLIST = update_scanlist(9
+    SCANLIST = update_scanlist()
     if user in SCANLIST:
       try:
          await tbot(functions.channels.EditBannedRequest(message.chat_id, user, BANNED_RIGHTS))
