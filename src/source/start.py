@@ -7,7 +7,6 @@ from telethon import __version__ as tlhver
 from pyrogram import __version__ as pyrover
 from src.events import register
 from src import telethn as tbot
-from twatcher import Red7_Watch_telethon
 
 
 VENOM = "https://telegra.ph/file/7c97605753018dfa4f832.mp4"
@@ -18,7 +17,3 @@ async def awake(event):
   TEXT += "Join my [News Channel](t.me/SuzuneSuperbot) to get information on all the latest updates."
   BUTTON = [[Button.url("➕Add Me To Your Group➕", "https://t.me/Suzune_Superbot?startgroup=true"),]]
   await tbot.send_file(event.chat_id, VENOM, caption=TEXT, buttons=BUTTON)   
-
-@tbot.on(events.ChatAction)
-async def Red7Scanner(message):
-  await Red7_Watch_telethon(tbot, message)
