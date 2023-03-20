@@ -2,7 +2,7 @@
 
 import threading
 import time
-from Harita.modules.sql import BASE, SESSION
+from src.source.data import BASE, SESSION
 from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
 
 
