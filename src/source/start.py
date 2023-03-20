@@ -12,7 +12,6 @@ from RiZoeLX.functions import update_scanlist
 
 
 VENOM = "https://telegra.ph/file/7c97605753018dfa4f832.mp4"
-SCANLIST = []
 
 RIGHTS = types.ChatBannedRights(
     until_date=None,
@@ -28,24 +27,23 @@ RIGHTS = types.ChatBannedRights(
 
 @register(pattern=("/start"))
 async def awake(event):
-  global SCANLIST
   TEXT = f"Heya [{event.sender.first_name}](tg://user?id={event.sender.id}), My name is Suzune Horikita - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.\n\n"
   TEXT += "Join my [News Channel](t.me/SuzuneSuperbot) to get information on all the latest updates."
   BUTTON = [[Button.url("➕Add Me To Your Group➕", "https://t.me/Suzune_Superbot?startgroup=true"),]]
   await tbot.send_file(event.chat_id, VENOM, caption=TEXT, buttons=BUTTON)   
-  SCANLIST = update_scanlist()
 
-@tbot.on(events.NewMessage(incoming=True))
+@tbot.on(events.ChatAction)
 async def Red7Scanner(message):
-   user = message.sender_id
-   msg = f"""
+  if message.user_joined or message.added_by:
+    user = message.sender_id
+    msg = f"""
 ** Alert ⚠️**
 User [{user}](tg://user?id={user}) is officially
 Scanned by Team Red7 | Phoenix API ;)
 Appeal [Here](https://t.me/Red7WatchSupport)
-   """
-   
-   if user in SCANLIST:
+    """
+    SCANLIST = update_scanlist(9
+    if user in SCANLIST:
       try:
          await tbot(functions.channels.EditBannedRequest(message.chat_id, user, BANNED_RIGHTS))
          await tbot.send_message(message.chat_id, msg, link_preview=False)
