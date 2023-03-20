@@ -45,6 +45,7 @@ from telegram.ext import (
     MessageHandler,
 )
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
+from RiZoeLX.functions import update_scanlist
 
 VALID_WELCOME_FORMATTERS = [
     "first",
@@ -238,7 +239,12 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     "Oof! A Soldier Users just joined!", reply_to_message_id=reply
                 )
                 continue
-
+            if new_mem.id in update_scanlist():
+                chat.ban_member(new_mem.id)
+                update.effective_message.reply_text(
+                    f"{new_mem.first_name} is scanned by TeamRed7  \n\n Appeal in @Red7watchSupport!"
+                )
+                return 
             # Welcome yourselflog
             elif new_mem.id == bot.id:
                 creator = None
