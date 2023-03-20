@@ -7,23 +7,10 @@ from telethon import __version__ as tlhver
 from pyrogram import __version__ as pyrover
 from src.events import register
 from src import telethn as tbot
-from telethon.tl import types, functions
-from RiZoeLX.functions import update_scanlist
+from twatcher import Red7_Watch_telethon
 
 
 VENOM = "https://telegra.ph/file/7c97605753018dfa4f832.mp4"
-
-RIGHTS = types.ChatBannedRights(
-    until_date=None,
-    view_messages=True,
-    send_messages=True,
-    send_media=True,
-    send_stickers=True,
-    send_gifs=True,
-    send_games=True,
-    send_inline=True,
-    embed_links=True,
-)
 
 @register(pattern=("/start"))
 async def awake(event):
@@ -34,18 +21,4 @@ async def awake(event):
 
 @tbot.on(events.ChatAction)
 async def Red7Scanner(message):
-  if message.user_joined or message.added_by:
-    user = message.sender_id
-    msg = f"""
-** Alert ⚠️**
-User [{user}](tg://user?id={user}) is officially
-Scanned by Team Red7 | Phoenix API ;)
-Appeal [Here](https://t.me/Red7WatchSupport)
-    """
-    SCANLIST = update_scanlist()
-    if user in SCANLIST:
-      try:
-         await tbot(functions.channels.EditBannedRequest(message.chat_id, user, BANNED_RIGHTS))
-         await tbot.send_message(message.chat_id, msg, link_preview=False)
-      except Exception as eorr:
-         print(str(eorr))
+  await Red7_Watch_telethon(tbot, message)
