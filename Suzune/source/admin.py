@@ -12,16 +12,17 @@ def is_admin(chat_id, user_id):
 def ban_user(client, message):
     # check if the user is an admin in the chat
     if not is_admin(message.chat.id, message.from_user.id):
+        client.send_message(message.chat.id, "You are not an admin in this chat.")
         return
 
     # get the user ID or username from the command or replied message
-    user_id = None
-    if len(message.command) > 1:
+    if len(message.command) > 2:
         user_id = message.command[1]
+        ban_reason = " ".join(message.command[2:])
     elif message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
-
-    if user_id is None:
+        ban_reason = " ".join(message.command[1:])
+    else:
         # no user ID or username specified
         return
 
@@ -37,7 +38,7 @@ def ban_user(client, message):
     client.kick_chat_member(message.chat.id, user_id)
 
     # send a message to the chat to announce that the user has been banned
-    ban_reason = "Violating the community guidelines."
     client.send_message(
         message.chat.id, 
-        f"The user {user_id} has been banned from the chat")
+        f"The user {user_id} has been banned from the chat for the following reason: {ban_reason}"
+    )
