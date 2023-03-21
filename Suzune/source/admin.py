@@ -7,7 +7,11 @@ from Suzune import suzune as app
 @app.on_message(filters.command("ban") & filters.group)
 def ban_user(client, message):
     # check if user is an admin
-    if message.from_user.is_admin:
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+
+    chat_member = client.get_chat_member(chat_id, user_id)
+    if chat_member.status in ["creator", "administrator"]:
         # get the user to ban
         if message.reply_to_message:
             user_id = message.reply_to_message.from_user.id
