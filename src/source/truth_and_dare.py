@@ -1,24 +1,24 @@
-import pyrogram
-import requests
+import html
 import random
-from src import pbot as app
+import src.source.truth_and_dare_string as truth_and_dare_string
+from src import dispatcher
+from telegram import ParseMode, Update, Bot
+from src.source.disable import DisableAbleCommandHandler
+from telegram.ext import CallbackContext, run_async
 
-# Define a function to get a random truth or dare question from an API
-def get_question(category):
-    url = f"https://api.truthordarebot.xyz/{category}"
-    response = requests.get(url)
-    data = response.json()
-    question = data["result"]["question"]
-    return question
 
-# Define a handler for the /truth command
-@app.on_message(pyrogram.filters.command("truth"))
-def truth_command_handler(client, message):
-    question = get_question("truth")
-    client.send_message(message.chat.id, f"Truth question: {question}")
+def truth(update: Update, context: CallbackContext):
+    args = context.args
+    update.effective_message.reply_text(random.choice(truth_and_dare_string.TRUTH))
 
-# Define a handler for the /dare command
-@app.on_message(pyrogram.filters.command("dare"))
-def dare_command_handler(client, message):
-    question = get_question("dare")
-    client.send_message(message.chat.id, f"Dare question: {question}")
+
+def dare(update: Update, context: CallbackContext):
+    args = context.args
+    update.effective_message.reply_text(random.choice(truth_and_dare_string.DARE))
+
+
+TRUTH_HANDLER = DisableAbleCommandHandler("truth", truth, run_async=True)
+DARE_HANDLER = DisableAbleCommandHandler("dare", dare, run_async=True)
+
+dispatcher.add_handler(TRUTH_HANDLER)
+dispatcher.add_handler(DARE_HANDLER)
