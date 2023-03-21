@@ -52,7 +52,7 @@ def handle_callback(client, callback_query):
 
         # try to ban the user
         try:
-            client.kick_chat_member(callback_query.message.chat.id, user_id)
+            client.kick_member(callback_query.message.chat.id, user_id)
             callback_query.answer("User has been banned.")
         except UserAdminInvalid:
             callback_query.answer("I can't ban that user because they're an admin.")
