@@ -1,63 +1,43 @@
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.enums import ChatMembersFilter as CMF
-from pyrogram.errors import UserAdminInvalid
+from pyrogram.types import Message
 from Suzune import suzune as app
 
-admins_cache = {}
+# define a filter to check if the user is an admin in the chat
+def is_admin(chat_id, user_id):
+    chat_member = app.get_chat_member(chat_id, user_id)
+    return chat_member.status in ("creator", "administrator")
 
-def admincache(client, chat_id):
-    if chat_id not in admins_cache:
-        admins = []
-        # get all members in the chat
-        chat_members = app.get_chat_members(chat_id, filter = CMF.ADMINISTRATORS)
-        # filter the list to get only the admins
-        admins = [member.user.id for member in chat_members]
-        admins_cache[chat_id] = admins
-    return admins_cache[chat_id]
-
-# define the command to ban a user
-@app.on_message(filters.command("ban") & filters.group)
+# define a command handler for /ban
+@app.on_message(filters.command("ban", prefixes="/") & filters.private)
 def ban_user(client, message):
-    # check if user is an admin
-    chat_id = message.chat.id
-    user_id = message.from_user.id
-
-    if user_id not in admincache(client, chat_id):
-        message.reply("You must be an admin to use this command.")
+    # check if the user is an admin in the chat
+    if not is_admin(message.chat.id, message.from_user.id):
         return
 
-    # get the user to ban
-    if message.reply_to_message:
-        user_id = message.reply_to_message.from_user.id
-    elif len(message.command) == 2:
+    # get the user ID or username from the command or replied message
+    user_id = None
+    if len(message.command) > 1:
         user_id = message.command[1]
-    else:
-        message.reply("Usage: /ban (user id) /ban @username /ban (replied user)")
+    elif message.reply_to_message:
+        user_id = message.reply_to_message.from_user.id
+
+    if user_id is None:
+        # no user ID or username specified
         return
 
-    # ask for confirmation with an inline button
-    confirm_markup = InlineKeyboardMarkup([
-        [InlineKeyboardButton("Yes", callback_data=f"ban_{user_id}"), InlineKeyboardButton("No", callback_data="cancel")]
-    ])
-    message.reply(f"Are you sure you want to ban {user_id}?", reply_markup=confirm_markup)
-
-
-# handle inline button callbacks
-@app.on_callback_query()
-def handle_callback(client, callback_query):
-    if callback_query.data.startswith("ban_"):
-        # get the user to ban from the callback data
-        chat_id = chat.id
-        user_id = int(callback_query.data.split("_")[1])
-        chat = app.get_chat(chat_id)
-        # try to ban the user
-        try:
-            chat.kick_member(callback_query.message.chat.id, user_id)
-            callback_query.answer("User has been banned.")
-        except UserAdminInvalid:
-            callback_query.answer("I can't ban that user because they're an admin.")
-    elif callback_query.data == "cancel":
-        callback_query.answer("Action canceled.")
+    # check if the user ID is a number (i.e., it's a user ID)
+    if user_id.isdigit():
+        user_id = int(user_id)
     else:
-        callback_query.answer("Unknown callback data.")
+        # it's not a user ID, so it must be a username
+        user = client.get_users(user_id)
+        user_id = user.id
+
+    # ban the user
+    client.kick_chat_member(message.chat.id, user_id)
+
+    # send a message to the chat to announce that the user has been banned
+    ban_reason = "Violating the community guidelines."
+    client.send_message(
+        message.chat.id, 
+        f"The user {user_id} has been banned from the chat")
