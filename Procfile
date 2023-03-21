@@ -1,1 +1,1 @@
-ak4sh: python3 ak4sh.py
+ak4sh: python3 -m Suzune
