@@ -1,8 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaVideo
-from Suzune import suzune as app
 
-@app.on_message(filters.command("start"))
+@Client.on_message(filters.command("start"))
 def start_command(client, message):
     video = "https://telegra.ph/file/7c97605753018dfa4f832.mp4"
     TEXT = f"Heya [{client.sender.first_name}](tg://user?id={client.sender.id}), My name is Suzune Horikita - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.\n\n"
