@@ -3,15 +3,15 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import UserAdminInvalid
 from Suzune import suzune as app
 
-# define the admincache function to cache group admins
 admins_cache = {}
+
 def admincache(client, chat_id):
     if chat_id not in admins_cache:
         admins = []
-        members = client.iter_chat_members(chat_id)
-        for member in members:
-            if member.status in ("administrator", "creator"):
-                admins.append(member.user.id)
+        # get all members in the chat
+        chat_members = app.get_chat_members(chat_id)
+        # filter the list to get only the admins
+        admins = [member.user.id for member in chat_members if member.status in ("administrator", "creator")]
         admins_cache[chat_id] = admins
     return admins_cache[chat_id]
 
