@@ -48,6 +48,7 @@ def ban_user(client, message):
 def handle_callback(client, callback_query):
     if callback_query.data.startswith("ban_"):
         # get the user to ban from the callback data
+        chat_id = chat.id
         user_id = int(callback_query.data.split("_")[1])
         chat = app.get_chat(chat_id)
         # try to ban the user
