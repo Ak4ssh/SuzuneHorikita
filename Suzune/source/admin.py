@@ -1,10 +1,9 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from Suzune import suzune as app
 
 admin_filter = filters.create(lambda _, __, message: message.from_user.is_admin)
 
-@app.on_message(filters.command("ban") & admin_filter)
+@Client.on_message(filters.command("ban") & admin_filter)
 def ban_user(client, message):
     if message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
@@ -20,7 +19,7 @@ def ban_user(client, message):
     reply_markup = InlineKeyboardMarkup(keyboard)
     message.reply(f"Are you sure you want to ban user {user_id}?", reply_markup=reply_markup)
 
-@app.on_callback_query(filters.regex(r"^ban_(\d+)$"))
+@Client.on_callback_query(filters.regex(r"^ban_(\d+)$"))
 def confirm_ban(client, callback_query):
     chat_id = callback_query.message.chat.id
     user_id = callback_query.from_user.id
@@ -33,7 +32,7 @@ def confirm_ban(client, callback_query):
     client.kick_chat_member(chat_id, banned_user_id)
     callback_query.answer("User banned.")
 
-@app.on_callback_query(filters.regex(r"^cancel_ban$"))
+@Client.on_callback_query(filters.regex(r"^cancel_ban$"))
 def cancel_ban(client, callback_query):
     callback_query.answer("Ban cancelled.")
 
