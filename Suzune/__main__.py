@@ -1,15 +1,12 @@
-import asyncio
-
+import sys
 from pyrogram import idle
-
 from . import suzune
-               
-async def startup():
-    # STARTING CLIENTS
-    await suzune.start()
 
-print("started!")
-    
-loop = asyncio.get_event_loop()
 if __name__ == "__main__":
-    loop.run_until_complete(startup())
+    try:
+       suzune.start()
+       print("Bot Started!")
+    except Exception as eror:
+       print(str(error))
+       sys.exit()
+    idle()
