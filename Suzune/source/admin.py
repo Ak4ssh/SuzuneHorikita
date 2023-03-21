@@ -49,10 +49,10 @@ def handle_callback(client, callback_query):
     if callback_query.data.startswith("ban_"):
         # get the user to ban from the callback data
         user_id = int(callback_query.data.split("_")[1])
-
+        chat = app.get_chat(chat_id)
         # try to ban the user
         try:
-            client.kick_member(callback_query.message.chat.id, user_id)
+            chat.kick_member(callback_query.message.chat.id, user_id)
             callback_query.answer("User has been banned.")
         except UserAdminInvalid:
             callback_query.answer("I can't ban that user because they're an admin.")
