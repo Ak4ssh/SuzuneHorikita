@@ -16,3 +16,12 @@ async def admin_check(c: app, m: Message):
         return False
 
     return True
+
+async def extract_user(message: Message) -> (int, str):
+    """extracts the user from a message"""
+    user_id = None
+    user_first_name = None
+
+    if message.reply_to_message:
+        user_id = message.reply_to_message.from_user.id
+        user_first_name = message.reply_to_message.from_user.first_name
