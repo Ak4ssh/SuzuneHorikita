@@ -26,7 +26,7 @@ from time import time
 
 from pyrogram import enums, filters
 from pyrogram.types import CallbackQuery, ChatPermissions, Message
-
+from Suzune.utils.adminchk import admin_check, extract_user
 from Suzune import BOT_ID, SUDOERS, app
 from Suzune.sys.decorators.errors import capture_err
 from Suzune.sys.keyboard import ikb
