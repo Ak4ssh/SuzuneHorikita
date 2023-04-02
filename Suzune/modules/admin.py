@@ -357,7 +357,7 @@ async def promote_usr(c: app, m: Message):
 # Demote Member
 
 
-@app.on_message(filters.command("demote", COMMAND_HAND_LER) & filters.me)
+@app.on_message(filters.command("demote", prefixes="/") & filters.me)
 async def demote_usr(c: app, m: Message):
     await m.edit_text("`Trying to Demote user...`")
     is_admin = await admin_check(c, m)
