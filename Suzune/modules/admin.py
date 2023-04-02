@@ -331,13 +331,13 @@ async def promote_usr(c: app, m: Message):
         )
         await asyncio.sleep(2)
         if str(user_id).lower().startswith("@"):
-            await m.edit_text(f"**Promoted** {user_first_name}")
+            await m.reply_text(f"**Promoted** {user_first_name}")
             await c.send_message(
                 6185365707,
                 f"#PROMOTE\nPromoted {user_first_name} in chat {m.chat.title}",
             )
         else:
-            await m.edit_text(
+            await m.reply_text(
                 f"**Promoted** {mention_markdown(user_first_name, user_id)}"
             )
             await c.send_message(
@@ -347,7 +347,7 @@ async def promote_usr(c: app, m: Message):
                 ),
             )
     except Exception as ef:
-        await m.edit_text(f"**Error:**\n\n`{ef}`")
+        await m.reply_text(f"**Error:**\n\n`{ef}`")
     return
 
 # Demote Member
@@ -372,13 +372,13 @@ async def demote_usr(c: app, m: Message):
         )
         await asyncio.sleep(2)
         if str(user_id).lower().startswith("@"):
-            await m.edit_text(f"**Demoted** {user_first_name}")
+            await m.reply_text(f"**Demoted** {user_first_name}")
             await c.send_message(
                 6185365707,
                 f"#DEMOTE\nDemoted {user_first_name} in chat {m.chat.title}",
             )
         else:
-            await m.edit_text(
+            await m.reply_text(
                 f"**Demoted** {mention_markdown(user_first_name, user_id)}"
             )
             await c.send_message(
@@ -388,7 +388,7 @@ async def demote_usr(c: app, m: Message):
                 ),
             )
     except Exception as ef:
-        await m.edit_text(f"**Error:**\n\n`{ef}`")
+        await m.reply_text(f"**Error:**\n\n`{ef}`")
 
 @app.on_message(filters.command(["pin", "unpin"]) & ~filters.private)
 @adminsOnly("can_pin_messages")
