@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo
-from Suzune as app
+from Suzune import app
 
 def send_video(bot, update):
     caption = f"Heya {update.from_user.first_name}, My name is Suzune Horikita - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.\n\nJoin my [News Channel](http://t.me/SuzuneSuperbot) to get information on all the latest updates."
