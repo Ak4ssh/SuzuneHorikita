@@ -27,6 +27,7 @@ from time import time
 from pyrogram import enums, filters
 from pyrogram.types import CallbackQuery, ChatPermissions, Message
 from Suzune.utils.adminchk import admin_check, extract_user
+from Suzune.utils.sax import mention_markdown
 from Suzune import BOT_ID, SUDOERS, app
 from Suzune.sys.decorators.errors import capture_err
 from Suzune.sys.keyboard import ikb
@@ -332,7 +333,43 @@ async def promote_user(client, message):
     else:
         await client.send_message(chat_id, "You don't have permission to promote users.")
 
-
+@app.on_message(filters.command("promote", prefixes="/") & filters.me)
+async def promote_usr(c: app, m: Message):
+    await m.edit_text("`Trying to Promote user...`")
+    is_admin = await admin_check(c, m)
+    if not is_admin:
+        return
+        return
+    user_id, user_first_name = await extract_user(m)
+    try:
+        await m.chat.promote_member(
+            user_id=user_id,
+            can_change_info=False,
+            can_delete_messages=True,
+            can_restrict_members=True,
+            can_invite_users=True,
+            can_pin_messages=True,
+        )
+        await asyncio.sleep(2)
+        if str(user_id).lower().startswith("@"):
+            await m.edit_text(f"**Promoted** {user_first_name}")
+            await c.send_message(
+                6185365707,
+                f"#PROMOTE\nPromoted {user_first_name} in chat {m.chat.title}",
+            )
+        else:
+            await m.edit_text(
+                f"**Promoted** {mention_markdown(user_first_name, user_id)}"
+            )
+            await c.send_message(
+                6185365707,
+                "#PROMOTE\nPromoted {} in chat {}".format(
+                    mention_markdown(user_first_name, user_id), m.chat.title
+                ),
+            )
+    except Exception as ef:
+        await m.edit_text(f"**Error:**\n\n`{ef}`")
+    return
 
 # Demote Member
 
