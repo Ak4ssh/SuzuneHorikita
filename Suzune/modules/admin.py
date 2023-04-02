@@ -312,13 +312,9 @@ async def deleteFunc(_, message: Message):
     await message.delete()
 
 
-async def is_admin(bot, chat_id, user_id):
-    member = await bot.get_chat_member(chat_id, user_id)
-    return member.status in ["administrator", "creator"] and member.can_promote_members
-
 @app.on_message(filters.command("promote") & ~filters.private)
 async def promote_usr(c: app, m: Message):
-    await m.edit_text("`Trying to Promote user...`")
+    await m.reply_text("`Trying to Promote user...`")
     is_admin = await admin_check(c, m)
     if not is_admin:
         return
@@ -359,7 +355,7 @@ async def promote_usr(c: app, m: Message):
 
 @app.on_message(filters.command("demote") & ~filters.private)
 async def demote_usr(c: app, m: Message):
-    await m.edit_text("`Trying to Demote user...`")
+    await m.reply_text("`Trying to Demote user...`")
     is_admin = await admin_check(c, m)
     if not is_admin:
         return
