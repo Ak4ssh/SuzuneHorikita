@@ -311,45 +311,26 @@ async def deleteFunc(_, message: Message):
     await message.delete()
 
 
-# Promote Members
-@app.on_message(filters.command(["promote", "fullpromote"]) & ~filters.private)
-@adminsOnly("can_promote_members")
-async def promoteFunc(_, message: Message):
-    user_id = await extract_user(message)
-    umention = (await app.get_users(user_id)).mention
-    if not user_id:
-        return await message.reply_text("I can't find that user.")
-    bot = await app.get_chat_member(message.chat.id, BOT_ID)
-    if user_id == BOT_ID:
-        return await message.reply_text("I can't promote myself.")
-    if not bot.can_promote_members:
-        return await message.reply_text("I don't have enough permissions")
-    if message.command[0][0] == "f":
-        await message.chat.promote_member(
-            user_id=user_id,
-            can_change_info=bot.can_change_info,
-            can_invite_users=bot.can_invite_users,
-            can_delete_messages=bot.can_delete_messages,
-            can_restrict_members=bot.can_restrict_members,
-            can_pin_messages=bot.can_pin_messages,
-            can_promote_members=True,
-            can_manage_chat=bot.can_manage_chat,
-            can_manage_voice_chats=bot.can_manage_voice_chats,
-        )
-        return await message.reply_text(f"Fully Promoted! {umention}")
+def is_admin(bot, chat_id, user_id):
+    member = bot.get_chat_member(chat_id, user_id)
+    return member.status in ["administrator", "creator"] and member.can_promote_members
 
-    await message.chat.promote_member(
-        user_id=user_id,
-        can_change_info=False,
-        can_invite_users=bot.can_invite_users,
-        can_delete_messages=bot.can_delete_messages,
-        can_restrict_members=False,
-        can_pin_messages=False,
-        can_promote_members=False,
-        can_manage_chat=bot.can_manage_chat,
-        can_manage_voice_chats=bot.can_manage_voice_chats,
-    )
-    await message.reply_text(f"Promoted! {umention}")
+@app.on_message(filters.command("promote", prefixes="/") & filters.reply)
+def promote_user(client, message):
+    chat_id = message.chat.id
+    user_id = message.reply_to_message.from_user.id
+    if is_admin(client, chat_id, message.from_user.id):
+        if is_admin(client, chat_id, user_id):
+            client.send_message(chat_id, "This user is already an admin.")
+        else:
+            client.promote_chat_member(chat_id, user_id, can_change_info=False,
+                                        can_post_messages=True, can_edit_messages=True,
+                                        can_delete_messages=True, can_invite_users=True,
+                                        can_restrict_members=True, can_pin_messages=True,
+                                        can_promote_members=False)
+            client.send_message(chat_id, f"{message.reply_to_message.from_user.mention} has been promoted to admin.")
+    else:
+        client.send_message(chat_id, "You don't have permission to promote users.")
 
 
 # Demote Member
