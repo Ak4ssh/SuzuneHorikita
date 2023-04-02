@@ -100,39 +100,6 @@ async def start_bot():
     print("[INFO]: Turned off!")
 
 
-home_keyboard_pm = InlineKeyboardMarkup(
-    [
-        [
-            InlineKeyboardButton(
-                text="Commands ❓", callback_data="bot_commands"
-            ),
-            InlineKeyboardButton(
-                text="Repo ❤️",
-                url="https://github.com/DesiNobita/SuzuneBot",
-            ),
-        ],
-        [
-            InlineKeyboardButton(
-                text="System Stats 🖥",
-                callback_data="stats_callback",
-            ),
-        ],
-        [
-            InlineKeyboardButton(
-                text="Add Me To Your Group⚡",
-                url=f"http://t.me/{BOT_USERNAME}?startgroup=new",
-            )
-        ],
-    ]
-)
-
-home_text_pm = (
-    f"Hey there! My name is {BOT_NAME}. I can manage your "
-    + "group with lots of useful features, feel free to "
-    + "add me to your group."
-)
-
-
 keyboard = InlineKeyboardMarkup(
     [
         [
@@ -142,7 +109,7 @@ keyboard = InlineKeyboardMarkup(
             ),
             InlineKeyboardButton(
                 text="Repo 🛠",
-                url="https://github.com/DesiNobita/SuzuneBot",
+                url="https://github.com/DesiNobita/SuzuneHorikita",
             ),
         ],
         [
@@ -153,42 +120,6 @@ keyboard = InlineKeyboardMarkup(
         ],
     ]
 )
-
-
-@app.on_message(filters.command("start"))
-async def start(_, message):
-    if message.chat.type != enums.ChatType.PRIVATE:
-        return await message.reply_photo(
-            photo="https://cdn.awwni.me/2gj9h.jpg",
-            caption="Pm Me For More Details.",
-            reply_markup=keyboard,
-        )
-    if len(message.text.split()) > 1:
-        name = (message.text.split(None, 1)[1]).lower()
-        if name == "mkdwn_help":
-            await message.reply(
-                MARKDOWN, parse_mode="html", disable_web_page_preview=True
-            )
-        elif "_" in name:
-            module = name.split("_", 1)[1]
-            text = (
-                f"Here is the help for **{HELPABLE[module].source_dict}**:\n"
-                + HELPABLE[module].help_dict
-            )
-            await message.reply(text, disable_web_page_preview=True)
-        elif name == "help":
-            text, keyb = await help_parser(message.from_user.first_name)
-            await message.reply(
-                text,
-                reply_markup=keyb,
-            )
-    else:
-        await message.reply_photo(
-            photo="https://cdn.awwni.me/2gj9h.jpg",
-            caption=home_text_pm,
-            reply_markup=home_keyboard_pm,
-        )
-    return
 
 
 @app.on_message(filters.command("help"))
