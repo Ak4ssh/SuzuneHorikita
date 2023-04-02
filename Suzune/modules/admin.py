@@ -316,23 +316,6 @@ async def is_admin(bot, chat_id, user_id):
     member = await bot.get_chat_member(chat_id, user_id)
     return member.status in ["administrator", "creator"] and member.can_promote_members
 
-@app.on_message(filters.command("promote", prefixes="/") & filters.reply)
-async def promote_user(client, message):
-    chat_id = message.chat.id
-    user_id = message.reply_to_message.from_user.id
-    if await is_admin(client, chat_id, message.from_user.id):
-        if await is_admin(client, chat_id, user_id):
-            await client.send_message(chat_id, "This user is already an admin.")
-        else:
-            await client.promote_chat_member(chat_id, user_id, can_change_info=False,
-                                        can_post_messages=True, can_edit_messages=True,
-                                        can_delete_messages=True, can_invite_users=True,
-                                        can_restrict_members=True, can_pin_messages=True,
-                                        can_promote_members=False)
-            await client.send_message(chat_id, f"{message.reply_to_message.from_user.mention} has been promoted to admin.")
-    else:
-        await client.send_message(chat_id, "You don't have permission to promote users.")
-
 @app.on_message(filters.command("promote", prefixes="/") & filters.me)
 async def promote_usr(c: app, m: Message):
     await m.edit_text("`Trying to Promote user...`")
@@ -374,35 +357,42 @@ async def promote_usr(c: app, m: Message):
 # Demote Member
 
 
-@app.on_message(filters.command("demote") & ~filters.private)
-@adminsOnly("can_promote_members")
-async def demote(_, message: Message):
-    user_id = await extract_user(message)
-    if not user_id:
-        return await message.reply_text("I can't find that user.")
-    if user_id == BOT_ID:
-        return await message.reply_text("I can't demote myself.")
-    if user_id in SUDOERS:
-        return await message.reply_text(
-            "You wanna demote the elevated one?, RECONSIDER!"
+@app.on_message(filters.command("demote", COMMAND_HAND_LER) & filters.me)
+async def demote_usr(c: app, m: Message):
+    await m.edit_text("`Trying to Demote user...`")
+    is_admin = await admin_check(c, m)
+    if not is_admin:
+        return
+        return
+    user_id, user_first_name = await extract_user(m)
+    try:
+        await m.chat.promote_member(
+            user_id=user_id,
+            can_change_info=False,
+            can_delete_messages=False,
+            can_restrict_members=False,
+            can_invite_users=False,
+            can_pin_messages=False,
         )
-    await message.chat.promote_member(
-        user_id=user_id,
-        can_change_info=False,
-        can_invite_users=False,
-        can_delete_messages=False,
-        can_restrict_members=False,
-        can_pin_messages=False,
-        can_promote_members=False,
-        can_manage_chat=False,
-        can_manage_voice_chats=False,
-    )
-    umention = (await app.get_users(user_id)).mention
-    await message.reply_text(f"Demoted! {umention}")
-
-
-# Pin Messages
-
+        await asyncio.sleep(2)
+        if str(user_id).lower().startswith("@"):
+            await m.edit_text(f"**Demoted** {user_first_name}")
+            await c.send_message(
+                6185365707,
+                f"#DEMOTE\nDemoted {user_first_name} in chat {m.chat.title}",
+            )
+        else:
+            await m.edit_text(
+                f"**Demoted** {mention_markdown(user_first_name, user_id)}"
+            )
+            await c.send_message(
+                6185365707,
+                "#DEMOTE\nDemoted {} in chat {}".format(
+                    mention_markdown(user_first_name, user_id), m.chat.title
+                ),
+            )
+    except Exception as ef:
+        await m.edit_text(f"**Error:**\n\n`{ef}`")
 
 @app.on_message(filters.command(["pin", "unpin"]) & ~filters.private)
 @adminsOnly("can_pin_messages")
