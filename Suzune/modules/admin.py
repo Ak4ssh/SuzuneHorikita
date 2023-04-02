@@ -376,15 +376,16 @@ async def pin(_, message: Message):
     if message.command[0] == "unpin":
         await r.unpin()
         return await message.reply_text(f"Unpinned {r.link}!")
-    if message.command[1] != "loud":
-        await r.pin(disable_notification=True)
+    if len(message.command) > 1 and message.command[1] == "loud":
+        disable_notification = False
     else:
-        await r.pin(disable_notification=False)
+        disable_notification = True
+    await r.pin(disable_notification=disable_notification)
     await message.reply(
         f"**Pinned [this]({r.link}) message.**",
         disable_web_page_preview=True,
     )
-    msg = "Please check the pinned message: ~ " + f"[Check, {r.link}]"
+    msg = f"Please check the pinned message: {r.link}"
     filter_ = dict(type="text", data=msg)
     await save_filter(message.chat.id, "~pinned", filter_)
 
