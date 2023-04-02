@@ -311,26 +311,27 @@ async def deleteFunc(_, message: Message):
     await message.delete()
 
 
-def is_admin(bot, chat_id, user_id):
-    member = bot.get_chat_member(chat_id, user_id)
+async def is_admin(bot, chat_id, user_id):
+    member = await bot.get_chat_member(chat_id, user_id)
     return member.status in ["administrator", "creator"] and member.can_promote_members
 
 @app.on_message(filters.command("promote", prefixes="/") & filters.reply)
-def promote_user(client, message):
+async def promote_user(client, message):
     chat_id = message.chat.id
     user_id = message.reply_to_message.from_user.id
-    if is_admin(client, chat_id, message.from_user.id):
-        if is_admin(client, chat_id, user_id):
-            client.send_message(chat_id, "This user is already an admin.")
+    if await is_admin(client, chat_id, message.from_user.id):
+        if await is_admin(client, chat_id, user_id):
+            await client.send_message(chat_id, "This user is already an admin.")
         else:
-            client.promote_chat_member(chat_id, user_id, can_change_info=False,
+            await client.promote_chat_member(chat_id, user_id, can_change_info=False,
                                         can_post_messages=True, can_edit_messages=True,
                                         can_delete_messages=True, can_invite_users=True,
                                         can_restrict_members=True, can_pin_messages=True,
                                         can_promote_members=False)
-            client.send_message(chat_id, f"{message.reply_to_message.from_user.mention} has been promoted to admin.")
+            await client.send_message(chat_id, f"{message.reply_to_message.from_user.mention} has been promoted to admin.")
     else:
-        client.send_message(chat_id, "You don't have permission to promote users.")
+        await client.send_message(chat_id, "You don't have permission to promote users.")
+
 
 
 # Demote Member
