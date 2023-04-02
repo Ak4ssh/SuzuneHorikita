@@ -77,7 +77,7 @@ aiohttpsession = ClientSession()
 
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
-app = Client("Suzune", Token=Token, api_id=API_ID, api_hash=API_HASH)
+app = Client("Suzune", TOKEN=TOKEN, api_id=API_ID, api_hash=API_HASH)
 
 print("[INFO]: STARTING BOT CLIENT")
 app.start()
