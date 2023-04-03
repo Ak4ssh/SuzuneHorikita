@@ -23,12 +23,18 @@ SOFTWARE.
 """
 import asyncio
 from time import time
-
+from html import escape
+from Suzune.utils.cache import (ADMIN_CACHE, TEMP_ADMIN_CACHE_BLOCK,
+                                  admin_cache_reload)
+from pyrogram.errors import (ChatAdminInviteRequired, ChatAdminRequired,
+                             FloodWait, RightForbidden, RPCError,
+                             UserAdminInvalid)
+from pyrogram.enums import ChatType
 from pyrogram import enums, filters
-from pyrogram.types import CallbackQuery, ChatPermissions, Message
+from pyrogram.types import CallbackQuery, ChatPermissions, Message, ChatPrivileges
 from Suzune.utils.adminchk import admin_check, extract_user
-from Suzune.utils.sax import mention_markdown
-from Suzune import BOT_ID, SUDOERS, app
+from Suzune.utils.sax import mention_markdown, mention_html
+from Suzune import BOT_ID, SUDOERS, app, LOGGER
 from Suzune.sys.decorators.errors import capture_err
 from Suzune.sys.keyboard import ikb
 from Suzune.utils.dbfunctions import (
