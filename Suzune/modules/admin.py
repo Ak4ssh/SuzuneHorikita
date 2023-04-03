@@ -24,6 +24,7 @@ SOFTWARE.
 import asyncio
 from time import time
 from html import escape
+from traceback import format_exc
 from Suzune.utils.cache import (ADMIN_CACHE, TEMP_ADMIN_CACHE_BLOCK,
                                   admin_cache_reload)
 from pyrogram.errors import (ChatAdminInviteRequired, ChatAdminRequired,
@@ -320,41 +321,98 @@ async def deleteFunc(_, message: Message):
 
 @app.on_message(filters.command("promote") & ~filters.private)
 async def promote_usr(c: app, m: Message):
-    await m.reply_text("`Trying to Promote user...`")
-    is_admin = await admin_check(c, m)
-    if not is_admin:
+    global ADMIN_CACHE
+    if len(m.text.split()) == 1 and not m.reply_to_message:
+        await m.reply_text(
+            text="Please provide a user_id/username or reply to a message"
+        )
         return
+    try:
+        user_id, user_first_name, user_name = await extract_user(c, m)
+    except Exception:
         return
-    user_id, user_first_name = await extract_user(m)
+    bot = await c.get_chat_member(m.chat.id, BOT_ID)
+    if user_id == BOT_ID:
+        await m.reply_text("I can't promote myself.")
+        return
+    if not bot.privileges.can_promote_members:
+        return await m.reply_text(
+            "I don't have enough permissions",
+        )  # This should be here
+    # If user is alreay admin
+    try:
+        admin_list = {i[0] for i in ADMIN_CACHE[m.chat.id]}
+    except KeyError:
+        admin_list = {
+            i[0] for i in (await admin_cache_reload(m, "promote_cache_update"))
+        }
+    if user_id in admin_list:
+        await m.reply_text(
+            "This user is already an admin, how am I supposed to re-promote them?",
+        )
+        return
     try:
         await m.chat.promote_member(
             user_id=user_id,
-            can_change_info=False,
-            can_delete_messages=True,
-            can_restrict_members=True,
-            can_invite_users=True,
-            can_pin_messages=True,
+            privileges=ChatPrivileges(
+                can_change_info=bot.privileges.can_change_info,
+                can_invite_users=bot.privileges.can_invite_users,
+                can_delete_messages=bot.privileges.can_delete_messages,
+                can_restrict_members=bot.privileges.can_restrict_members,
+                can_pin_messages=bot.privileges.can_pin_messages,
+                can_manage_chat=bot.privileges.can_manage_chat,
+                can_manage_video_chats=bot.privileges.can_manage_video_chats,
+            ),
         )
-        await asyncio.sleep(2)
-        if str(user_id).lower().startswith("@"):
-            await m.reply_text(f"**Promoted** {user_first_name}")
-            await c.send_message(
-                6185365707,
-                f"#PROMOTE\nPromoted {user_first_name} in chat {m.chat.title}",
-            )
-        else:
-            await m.reply_text(
-                f"**Promoted** {mention_markdown(user_first_name, user_id)}"
-            )
-            await c.send_message(
-                6185365707,
-                "#PROMOTE\nPromoted {} in chat {}".format(
-                    mention_markdown(user_first_name, user_id), m.chat.title
-                ),
-            )
-    except Exception as ef:
-        await m.reply_text(f"**Error:**\n\n`{ef}`")
+        title = ""
+        if m.chat.type in [ChatType.SUPERGROUP, ChatType.GROUP]:
+            title = "-Admin-"  # Deafult title
+            if len(m.text.split()) == 3 and not m.reply_to_message:
+                title = m.text.split()[2]
+            elif len(m.text.split()) == 2 and m.reply_to_message:
+                title = m.text.split()[1]
+            if title and len(title) > 16:
+                title = title[0:16]  # trim title to 16 characters
+
+            try:
+                await c.set_administrator_title(m.chat.id, user_id, title)
+            except RPCError as e:
+                LOGGER.error(e)
+        LOGGER.info(
+            f"{m.from_user.id} promoted {user_id} in {m.chat.id} with title '{title}'",
+        )
+        await m.reply_text(
+            ("{promoter} promoted {promoted} in chat <b>{chat_title}</b>!").format(
+                promoter=(await mention_html(m.from_user.first_name, m.from_user.id)),
+                promoted=(await mention_html(user_first_name, user_id)),
+                chat_title=f"{escape(m.chat.title)} title set to {title}"
+                if title
+                else f"{escape(m.chat.title)} title set to default",
+            ),
+        )
+        try:
+            inp1 = user_name or user_first_name
+            admins_group = ADMIN_CACHE[m.chat.id]
+            admins_group.append((user_id, inp1))
+            ADMIN_CACHE[m.chat.id] = admins_group
+        except KeyError:
+            await admin_cache_reload(m, "promote_key_error")
+    except ChatAdminRequired:
+        await m.reply_text(text="I'm not admin or I don't have rights.")
+    except RightForbidden:
+        await m.reply_text(text="I don't have enough rights to promote this user.")
+    except UserAdminInvalid:
+        await m.reply_text(
+            text="Cannot act on this user, maybe I wasn't the one who changed their permissions."
+        )
+    except RPCError as e:
+        await m.reply_text(
+            text=f"Some error occured, report to @Suzune_Support \n <b>Error:</b> <code>{e}</code>"
+        )
+        LOGGER.error(e)
+        LOGGER.error(format_exc())
     return
+        
 
 # Demote Member
 
