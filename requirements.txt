@@ -19,6 +19,7 @@ youtube_dl
 bs4
 python-dotenv
 feedparser
+cachetools==5.2.0; python_version >= "3.7" and python_version < "4.0"
 pyromod
 fuzzysearch
 img2pdf
