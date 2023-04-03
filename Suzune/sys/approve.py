@@ -1,7 +1,7 @@
 from threading import RLock
 
 from Suzune import LOGGER
-from Suzune import MongoDB
+from Suzune.sys import MongoDB
 
 INSERTION_LOCK = RLock()
 
