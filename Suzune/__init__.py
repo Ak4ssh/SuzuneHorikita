@@ -26,7 +26,8 @@ import asyncio
 import time
 from inspect import getfullargspec
 from os import path
-
+from logging import (INFO, WARNING, FileHandler, StreamHandler, basicConfig,
+                     getLogger)
 from aiohttp import ClientSession
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client
@@ -51,6 +52,8 @@ print("[INFO]: INITIALIZING DATABASE")
 mongo_client = MongoClient(MONGO_URL)
 db = mongo_client.Suzune
 
+getLogger("pyrogram").setLevel(WARNING)
+LOGGER = getLogger(__name__)
 
 async def load_sudoers():
     global SUDOERS
