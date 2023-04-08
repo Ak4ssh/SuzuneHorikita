@@ -2,14 +2,14 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaVideo
 from Suzune import app
 
-def send_video(bot, update):
+async def send_video(bot, update):
     caption = f"Heya {update.from_user.first_name}, My name is Suzune Horikita - I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.\n\nJoin my [News Channel](http://t.me/SuzuneSuperbot) to get information on all the latest updates."
 
     inline_keyboard = InlineKeyboardMarkup([
         [InlineKeyboardButton("Add me in your group", url="http://t.me/SuzuneSuperbot?startgroup=new")],
     ])
 
-    bot.send_video(
+    await bot.send_video(
         chat_id=update.chat.id,
         video="https://graph.org/file/1f2a07be0b1bc76f75fe3.mp4",
         caption=caption,
@@ -19,5 +19,5 @@ def send_video(bot, update):
     )
 
 @app.on_message(filters.command("start"))
-def start_command(bot, update):
-    send_video(bot, update)
+async def start_command(bot, update):
+    await send_video(bot, update)
