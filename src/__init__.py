@@ -184,6 +184,7 @@ else:
     HEROKU_API_KEY = Config.HEROKU_API_KEY
     HEROKU_APP_NAME = Config.HEROKU_APP_NAME
     DEL_CMDS = Config.DEL_CMDS
+    BOT_API_URL = "https://api.telegram.org/bot"
     STRICT_GBAN = Config.STRICT_GBAN
     WORKERS = Config.WORKERS
     REM_BG_API_KEY = Config.REM_BG_API_KEY
@@ -229,7 +230,13 @@ else:
 from src.source.sql import SESSION
 
 defaults = tg.Defaults(run_async=True)
-updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
+updater = tg.Updater(
+    token=TOKEN,
+    base_url=BOT_API_URL,
+    workers=min(32, os.cpu_count() + 4),
+    request_kwargs={"read_timeout": 10, "connect_timeout": 10},
+    use_context=True,
+)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
 print("[INFO]: INITIALIZING AIOHTTP SESSION")
