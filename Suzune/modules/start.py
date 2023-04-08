@@ -12,3 +12,17 @@ async def start_command(client, message):
     )
     await app.send_video(chat_id=message.chat.id, video=video_file_id, caption=caption, reply_markup=keyboard)
 
+@pbot.on_message(filters.command("play"))
+def handle_music(client, message):
+    # create an inline keyboard with a button
+    button = InlineKeyboardButton(
+        "Yurri Music Bot",
+        url="https://t.me/YurriMusicBot"
+    )
+    keyboard = InlineKeyboardMarkup([[button]])
+
+    # send a message with the inline keyboard
+    message.reply_text(
+        "**Notice**: Due to `FloodWaitError` Music Services Has Been Shifted.\nTap below to be redirected to the music bot.",
+        reply_markup=keyboard
+    )
