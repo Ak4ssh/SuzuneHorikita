@@ -8,6 +8,7 @@ from pyrogram import __version__ as pyrover
 from src.events import register
 from src import telethn as tbot
 from src import pbot
+from pyrogram import Client, InlineKeyboardButton, InlineKeyboardMarkup, filters
 
 VENOM = "https://telegra.ph/file/7c97605753018dfa4f832.mp4"
 
