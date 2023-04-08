@@ -12,7 +12,7 @@ async def start_command(client, message):
     )
     await app.send_video(chat_id=message.chat.id, video=video_file_id, caption=caption, reply_markup=keyboard)
 
-@pbot.on_message(filters.command("play"))
+@app.on_message(filters.command("play"))
 def handle_music(client, message):
     # create an inline keyboard with a button
     button = InlineKeyboardButton(
