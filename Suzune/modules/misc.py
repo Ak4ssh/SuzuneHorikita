@@ -125,27 +125,6 @@ async def rtfm(_, message):
         "Are You Lost? READ THE FUCKING DOCS!"
     )
 
-# Define the logs channel ID here
-logs_channel_id = -1001442340523
-
-# Handle new chat members
-@app.on_chat_member_updated()
-async def on_chat_member_updated(client, message, new_members):
-    # Check if the bot itself is one of the new members
-    for member in new_members:
-        if member.username == client.get_me().username:
-            # Send a welcome message to the group
-            await client.send_message(
-                message.chat.id,
-                f"Hello, {message.chat.title}!\n\nThanks for adding me to your group.\n\nTo use me, just type /help in the chat.\n\nIf you have any questions or issues, feel free to contact my owner at @TheVenomXD."
-            )
-
-            # Send a notification to the logs channel
-            await client.send_message(
-                logs_channel_id,
-                f"🆕 New group: {message.chat.title}\n\n🆔 Chat ID: {message.chat.id}\n\n👤 Owner: @{message.chat.username}"
-            )
-
 @app.on_message(filters.command("runs"))
 async def runs(_, message):
     await message.reply_text((await random_line("wbb/utils/runs.txt")))
