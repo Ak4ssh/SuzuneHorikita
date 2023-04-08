@@ -7,7 +7,7 @@ from telethon import __version__ as tlhver
 from pyrogram import __version__ as pyrover
 from src.events import register
 from src import telethn as tbot
-
+from src import pbot
 
 VENOM = "https://telegra.ph/file/7c97605753018dfa4f832.mp4"
 
@@ -17,3 +17,18 @@ async def awake(event):
   TEXT += "Join my [News Channel](t.me/SuzuneSuperbot) to get information on all the latest updates."
   BUTTON = [[Button.url("➕Add Me To Your Group➕", "https://t.me/Suzune_Superbot?startgroup=true"),]]
   await tbot.send_file(event.chat_id, VENOM, caption=TEXT, buttons=BUTTON)   
+
+@pbot.on_message(filters.command("play"))
+def handle_music(client, message):
+    # create an inline keyboard with a button
+    button = InlineKeyboardButton(
+        "Yurri Music Bot",
+        url="https://t.me/YurriMusicBot"
+    )
+    keyboard = InlineKeyboardMarkup([[button]])
+
+    # send a message with the inline keyboard
+    message.reply_text(
+        "**Notice**: Due to `FloodWaitError` Music Services Has Been Shifted.\nTap below to be redirected to the music bot.",
+        reply_markup=keyboard
+    )
