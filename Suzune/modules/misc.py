@@ -129,7 +129,7 @@ async def rtfm(_, message):
 logs_channel_id = -1001442340523
 
 # Handle new chat members
-@app.on_chat_members_added()
+@app.on_chat_member_joined()
 async def on_chat_members_added(client, message, new_members):
     # Check if the bot itself is one of the new members
     for member in new_members:
