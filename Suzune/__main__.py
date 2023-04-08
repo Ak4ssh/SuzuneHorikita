@@ -295,4 +295,4 @@ if __name__ == "__main__":
     with closing(loop):
         with suppress(asyncio.exceptions.CancelledError):
             loop.run_until_complete(start_bot())
-        loop.run_until_complete(asyncio.sleep(3.0))  # task cancel wait
+        loop.run_until_complete(asyncio.sleep(0.3))  # task cancel wait
