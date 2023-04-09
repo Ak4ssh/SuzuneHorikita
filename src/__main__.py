@@ -763,6 +763,5 @@ def main():
 
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded source: " + str(ALL_source))
-    telethn.start(bot_token=TOKEN)
     pbot.start()
     main()
