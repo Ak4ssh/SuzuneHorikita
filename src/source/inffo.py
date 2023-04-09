@@ -7,7 +7,7 @@ from src import Owner
 from src import pbot as app
 
 from src.utils.sections import section
-from src.utils.dbfunctions import is_gbanned_user
+from src.source.sql import global_bans_sql
 
 async def get_user_info(user, already=False):
     if not already:
@@ -29,7 +29,7 @@ async def get_user_info(user, already=False):
         "Username": [("@" + username) if username else "Null"],
         "Mention": [mention],
         "Sudo": is_sudo,
-        "Gbanned": is_gbanned,
+        "Gbanned": is_user_gbanned,
     }
     caption = section("User info", body)
     return [caption, photo_id]
