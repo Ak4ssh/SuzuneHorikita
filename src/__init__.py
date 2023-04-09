@@ -196,9 +196,7 @@ else:
     SUPPORT_CHAT = Config.SUPPORT_CHAT
     SPAMWATCH_SUPPORT_CHAT = Config.SPAMWATCH_SUPPORT_CHAT
     SPAMWATCH_API = Config.SPAMWATCH_API
-    SESSION_STRING = Config.SESSION_STRING
     INFOPIC = Config.INFOPIC
-    STRING_SESSION = Config.STRING_SESSION
     LASTFM_API_KEY = Config.LASTFM_API_KEY
     CF_API_KEY = Config.CF_API_KEY
     MONGO_DB = Config.MONGO_DB
@@ -238,7 +236,7 @@ updater = tg.Updater(
     use_context=True,
     persistence=PostgresPersistence(session=SESSION),
 )
-telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
+
 dispatcher = updater.dispatcher
 print("[INFO]: INITIALIZING AIOHTTP SESSION")
 aiohttpsession = ClientSession()
@@ -248,17 +246,6 @@ arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 BOT_ID = dispatcher.bot.id
 BOT_USERNAME = dispatcher.bot.username
 BOT_NAME = dispatcher.bot.first_name
-
-ubot2 = TelegramClient(StringSession(STRING_SESSION), API_ID, API_HASH)
-try:
-    ubot2.start()
-except BaseException:
-    print("Userbot Error! Have you added a STRING_SESSION in deploying??")
-    sys.exit(1)
-
-
-telethn = TelegramClient("Suzune", API_ID, API_HASH)
-
 
 pbot = Client(
     ":memory:",
