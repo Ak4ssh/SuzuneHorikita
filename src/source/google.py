@@ -1,279 +1,66 @@
-from bs4 import BeautifulSoup
-import urllib
-import glob
-import io
-import os
-import re
-import aiohttp
-import urllib.request
-from urllib.parse import urlencode
+from pyrogram import Client, filters
 import requests
 from bs4 import BeautifulSoup
-from PIL import Image
-from search_engine_parser import GoogleSearch
-
-import bs4
-import html2text
-from bing_image_downloader import downloader
-from telethon import *
-from telethon.tl import functions
-from telethon.tl import types
-from telethon.tl.types import *
-
-from src import *
-
-from src.events import register
-from src import telethn as tbot
-
-opener = urllib.request.build_opener()
-useragent = "Mozilla/5.0 (Linux; Android 9; SM-G960F Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.157 Mobile Safari/537.36"
-opener.addheaders = [("User-agent", useragent)]
+from src import pbot as app 
 
 
-@register(pattern="^/google (.*)")
-async def _(event):
-    if event.fwd_from:
-        return
+@app.on_message(filters.command(["Google"]))
+async def google_search(client, message):
+    query = message.text.split(" ", 1)[1]
+    search_url = f"https://www.google.com/search?q={query}&num=5"
+    response = requests.get(search_url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    results = soup.find_all("div", class_="BNeawe s3v9rd AP7Wnd")
+    output = ""
+    for result in results:
+        output += result.get_text() + "\n"
+    await client.send_message(message.chat.id, output)
 
-    webevent = await event.reply("searching........")
-    match = event.pattern_match.group(1)
-    page = re.findall(r"page=\d+", match)
-    try:
-        page = page[0]
-        page = page.replace("page=", "")
-        match = match.replace("page=" + page[0], "")
-    except IndexError:
-        page = 1
-    search_args = (str(match), int(page))
-    gsearch = GoogleSearch()
-    gresults = await gsearch.async_search(*search_args)
-    msg = ""
-    for i in range(len(gresults["links"])):
-        try:
-            title = gresults["titles"][i]
-            link = gresults["links"][i]
-            desc = gresults["descriptions"][i]
-            msg += f"❍[{title}]({link})\n**{desc}**\n\n"
-        except IndexError:
+
+
+
+@app.on_message(filters.command(["img"]))
+async def image_search(client, message):
+    query = message.text.split(" ", 1)[1]
+    search_url = f"https://www.google.com/search?q={query}&source=lnms&tbm=isch"
+    response = requests.get(search_url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    image_results = soup.find_all("img", class_="rg_i")
+    output = ""
+    for i in range(5):
+        if i >= len(image_results):
             break
-    await webevent.edit(
-        "**Search Query:**\n`" + match + "`\n\n**Results:**\n" + msg, link_preview=False
-    )
+        img_url = image_results[i]["src"]
+        output += f"{i + 1}. {img_url}\n"
+        await client.send_photo(
+            chat_id=message.chat.id,
+            photo=img_url,
+            caption=f"Image {i + 1} of {len(image_results)}",
+        )
+    if not output:
+        await message.reply_text("No results found.")
 
 
-@register(pattern="^/image (.*)")
-async def img_sampler(event):
-    if event.fwd_from:
+@app.on_message(filters.command(["reverse"]))
+async def reverse_search(client, message):
+    if not message.reply_to_message or not message.reply_to_message.photo:
+        await message.reply_text("Please reply to a photo.")
         return
 
-    query = event.pattern_match.group(1)
-    jit = f'"{query}"'
-    downloader.download(
-        jit,
-        limit=4,
-        output_dir="store",
-        adult_filter_off=False,
-        force_replace=False,
-        timeout=60,
-    )
-    os.chdir(f'./store/"{query}"')
-    types = ("*.png", "*.jpeg", "*.jpg")  # the tuple of file types
-    files_grabbed = []
-    for files in types:
-        files_grabbed.extend(glob.glob(files))
-    await tbot.send_file(event.chat_id, files_grabbed, reply_to=event.id)
-    os.chdir("/app")
-    os.system("rm -rf store")
-
-
-opener = urllib.request.build_opener()
-useragent = "Mozilla/5.0 (Linux; Android 9; SM-G960F Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.157 Mobile Safari/537.36"
-opener.addheaders = [("User-agent", useragent)]
-
-
-@register(pattern=r"^/reverse(?: |$)(\d*)")
-async def okgoogle(img):
-    """For .reverse command, Google search images and stickers."""
-    if os.path.isfile("okgoogle.png"):
-        os.remove("okgoogle.png")
-
-    message = await img.get_reply_message()
-    if message and message.media:
-        photo = io.BytesIO()
-        await tbot.download_media(message, photo)
+    photo_url = message.reply_to_message.photo.file_id
+    search_url = f"https://www.google.com/searchbyimage?image_url={photo_url}"
+    response = requests.get(search_url, headers={"User-Agent": "Mozilla/5.0"})
+    soup = BeautifulSoup(response.text, "html.parser")
+    link_tags = soup.find_all("a", class_="iu-card-header")
+    output = ""
+    for link_tag in link_tags:
+        url = link_tag["href"]
+        if not url.startswith("/search"):
+            output += f"{url}\n"
+    if output:
+        await message.reply_text(output)
     else:
-        await img.reply("`Reply to photo or sticker nigger.`")
-        return
-
-    if photo:
-        dev = await img.reply("`Processing...`")
-        try:
-            image = Image.open(photo)
-        except OSError:
-            await dev.edit("`Unsupported sexuality, most likely.`")
-            return
-        name = "okgoogle.png"
-        image.save(name, "PNG")
-        image.close()
-        # https://stackoverflow.com/questions/23270175/google-reverse-image-search-using-post-request#28792943
-        searchUrl = "https://www.google.com/searchbyimage/upload"
-        multipart = {"encoded_image": (name, open(name, "rb")), "image_content": ""}
-        response = requests.post(searchUrl, files=multipart, allow_redirects=False)
-        fetchUrl = response.headers["Location"]
-
-        if response != 400:
-            await dev.edit(
-                "`Image successfully uploaded to Google. Maybe.`"
-                "\n`Parsing source now. Maybe.`"
-            )
-        else:
-            await dev.edit("`Google told me to fuck off.`")
-            return
-
-        os.remove(name)
-        match = await ParseSauce(fetchUrl + "&preferences?hl=en&fg=1#languages")
-        guess = match["best_guess"]
-        imgspage = match["similar_images"]
-
-        if guess and imgspage:
-            await dev.edit(f"[{guess}]({fetchUrl})\n\n`Looking for this Image...`")
-        else:
-            await dev.edit("`Can't find this piece of shit.`")
-            return
-
-        if img.pattern_match.group(1):
-            lim = img.pattern_match.group(1)
-        else:
-            lim = 3
-        images = await scam(match, lim)
-        yeet = []
-        for i in images:
-            k = requests.get(i)
-            yeet.append(k.content)
-        try:
-            await tbot.send_file(
-                entity=await tbot.get_input_entity(img.chat_id),
-                file=yeet,
-                reply_to=img,
-            )
-        except TypeError:
-            pass
-        await dev.edit(
-            f"[{guess}]({fetchUrl})\n\n[Visually similar images]({imgspage})"
-        )
-
-
-async def ParseSauce(googleurl):
-    """Parse/Scrape the HTML code for the info we want."""
-
-    source = opener.open(googleurl).read()
-    soup = BeautifulSoup(source, "html.parser")
-
-    results = {"similar_images": "", "best_guess": ""}
-
-    try:
-        for similar_image in soup.findAll("input", {"class": "gLFyf"}):
-            url = "https://www.google.com/search?tbm=isch&q=" + urllib.parse.quote_plus(
-                similar_image.get("value")
-            )
-            results["similar_images"] = url
-    except BaseException:
-        pass
-
-    for best_guess in soup.findAll("div", attrs={"class": "r5a77d"}):
-        results["best_guess"] = best_guess.get_text()
-
-    return results
-
-
-async def scam(results, lim):
-
-    single = opener.open(results["similar_images"]).read()
-    decoded = single.decode("utf-8")
-
-    imglinks = []
-    counter = 0
-
-    pattern = r"^,\[\"(.*[.png|.jpg|.jpeg])\",[0-9]+,[0-9]+\]$"
-    oboi = re.findall(pattern, decoded, re.I | re.M)
-
-    for imglink in oboi:
-        counter += 1
-        if counter < int(lim):
-            imglinks.append(imglink)
-        else:
-            break
-
-    return imglinks
-
-
-@register(pattern="^/app (.*)")
-async def apk(e):
-
-    try:
-        app_name = e.pattern_match.group(1)
-        remove_space = app_name.split(" ")
-        final_name = "+".join(remove_space)
-        page = requests.get(
-            "https://play.google.com/store/search?q=" + final_name + "&c=apps"
-        )
-        lnk = str(page.status_code)
-        soup = bs4.BeautifulSoup(page.content, "lxml", from_encoding="utf-8")
-        results = soup.findAll("div", "ZmHEEd")
-        app_name = (
-            results[0].findNext("div", "Vpfmgd").findNext("div", "WsMG1c nnK0zc").text
-        )
-        app_dev = results[0].findNext("div", "Vpfmgd").findNext("div", "KoLSrc").text
-        app_dev_link = (
-            "https://play.google.com"
-            + results[0].findNext("div", "Vpfmgd").findNext("a", "mnKHRc")["href"]
-        )
-        app_rating = (
-            results[0]
-            .findNext("div", "Vpfmgd")
-            .findNext("div", "pf5lIe")
-            .find("div")["aria-label"]
-        )
-        app_link = (
-            "https://play.google.com"
-            + results[0]
-            .findNext("div", "Vpfmgd")
-            .findNext("div", "vU6FJ p63iDd")
-            .a["href"]
-        )
-        app_icon = (
-            results[0]
-            .findNext("div", "Vpfmgd")
-            .findNext("div", "uzcko")
-            .img["data-src"]
-        )
-        app_details = "<a href='" + app_icon + "'>📲&#8203;</a>"
-        app_details += " <b>" + app_name + "</b>"
-        app_details += (
-            "\n\n<code>Developer :</code> <a href='"
-            + app_dev_link
-            + "'>"
-            + app_dev
-            + "</a>"
-        )
-        app_details += "\n<code>Rating :</code> " + app_rating.replace(
-            "Rated ", "⭐ "
-        ).replace(" out of ", "/").replace(" stars", "", 1).replace(
-            " stars", "⭐ "
-        ).replace(
-            "five", "5"
-        )
-        app_details += (
-            "\n<code>Features :</code> <a href='"
-            + app_link
-            + "'>View in Play Store</a>"
-        )
-        app_details += "\n\n===> Desinobita <==="
-        await e.reply(app_details, link_preview=True, parse_mode="HTML")
-    except IndexError:
-        await e.reply("No result found in search. Please enter **Valid app name**")
-    except Exception as err:
-        await e.reply("Exception Occured:- " + str(err))
+        await message.reply_text("No similar images found.")
 
 
 inline = "Search"
