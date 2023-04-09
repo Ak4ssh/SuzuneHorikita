@@ -1,100 +1,118 @@
-
 import os
-import re
-from telethon.tl.functions.channels import GetFullChannelRequest
-from telethon.tl.functions.users import GetFullUserRequest
-from src.source.sql import global_bans_sql
-from telethon import Button, custom, events, functions
-from src import telethn as Suzune
-from src.events import register
+
+from pyrogram import filters
+from pyrogram.types import Message
+
 from src import Owner
-from src import DEVS as Devs
-from telethon.tl.types import (
-    Channel,
-    DocumentAttributeAudio,
-    MessageMediaDocument,
-    PhotoEmpty,
-    User,
-)
-from telethon.tl import types
-     
+from src import pbot as app
 
-async def get_user(event):
-    try:
-        args = event.text.split(" ", 1)[1].split(" ", 1)
-    except IndexError:
-        args = None
-    if event.reply_to_msg_id:
-        previous_message = await event.get_reply_message()
-        user_obj = await event.client.get_entity(previous_message.sender_id)
-    elif args:
-        user = args[0]
-        if user.isnumeric():
-            user = int(user)
+from src.utils.sections import section
+from src.utils.dbfunctions import is_gbanned_user
 
-        try:
-            user_obj = await event.client.get_entity(user)
-        except (TypeError, ValueError):
-            await event.reply("Looks like I don't have control over that user, or the ID isn't a valid one. If you reply to one of their messages, I'll be able to interact with them.")
-            return
-    elif not args:
-       #self_user = await event.get_sender()
-       user = event.sender_id
-       try:
-            user_obj = await event.client.get_entity(user)
-       except (TypeError, ValueError):
-            await event.reply("Looks like I don't have control over that user, or the ID isn't a valid one. If you reply to one of their messages, I'll be able to interact with them.")
-            return
+async def get_user_info(user, already=False):
+    if not already:
+        user = await app.get_users(user)
+    if not user.first_name:
+        return ["Deleted account", None]
+    user_id = user.id
+    username = user.username
+    first_name = user.first_name
+    mention = user.mention("Link")
+    dc_id = user.dc_id
+    photo_id = user.photo.big_file_id if user.photo else None
+    is_gbanned = await is_gbanned_user(user_id)
+    is_sudo = user_id in Owner
+    body = {
+        "ID": user_id,
+        "DC": dc_id,
+        "Name": [first_name],
+        "Username": [("@" + username) if username else "Null"],
+        "Mention": [mention],
+        "Sudo": is_sudo,
+        "Gbanned": is_gbanned,
+    }
+    caption = section("User info", body)
+    return [caption, photo_id]
 
+
+async def get_chat_info(chat, already=False):
+    if not already:
+        chat = await app.get_chat(chat)
+    chat_id = chat.id
+    username = chat.username
+    title = chat.title
+    type_ = chat.type
+    is_scam = chat.is_scam
+    description = chat.description
+    members = chat.members_count
+    is_restricted = chat.is_restricted
+    link = f"[Link](t.me/{username})" if username else "Null"
+    dc_id = chat.dc_id
+    photo_id = chat.photo.big_file_id if chat.photo else None
+    body = {
+        "ID": chat_id,
+        "DC": dc_id,
+        "Type": type_,
+        "Name": [title],
+        "Username": [("@" + username) if username else "Null"],
+        "Mention": [link],
+        "Members": members,
+        "Scam": is_scam,
+        "Restricted": is_restricted,
+        "Description": [description],
+    }
+    caption = section("Chat info", body)
+    return [caption, photo_id]
+
+
+@app.on_message(filters.command("info"))
+async def info_func(_, message: Message):
+    if message.reply_to_message:
+        user = message.reply_to_message.from_user.id
+    elif len(message.command) == 1:
+        user = message.from_user.id
     else:
-        await event.reply("I don't know who you're talking about, you're going to need to specify a user...!")
-        return
-    return user_obj
+        user = message.text.split(None, 1)[1]
 
-@register(pattern=("/info"))
-async def _info(e):
-    event = e
-    x_user = await get_user(event)
+    m = await message.reply_text("Processing")
 
-    if isinstance(x_user, User):
-        x_full = await e.client(GetFullUserRequest(x_user.username or x_user.id))
-        out_str = "<b>User Info:</b>"
-        out_str += f"\n<b>First Name:</b> {x_user.first_name}"
-        if x_user.last_name:
-            out_str += f"\n<b>Last Name:</b> {x_user.last_name}"
-        if x_user.username:
-            out_str += f"\n<b>Username:</b> @{x_user.username}"
-        out_str += f"\n<b>User ID:</b> <code>{x_user.id}</code>"
-        out_str += (f"\n<b>PermaLink:</b> <a href='tg://user?id={x_user.id}'>link</a>")
-        if int(x_user.id) == Owner:
-            out_str += f"\n\n <b> Owner Of Suzune 🔱 </b>"
-        if int(x_user.id) in Devs:
-            out_str += "\n\n<b>Dev Of Suzune</b>"
-        if global_bans_sql.is_user_gbanned(x_user.id):
-            out_str += "\n\n<b>Globally Banned:</b> Yes"
-        try:
-           await e.reply(out_str, file=x_full.user.profile_photo, parse_mode="html")
-        except:
-           await e.reply(out_str, parse_mode="html")
-    if isinstance(x_user, Channel):
-        x_channel = await e.client(GetFullChannelRequest(x_user.username or x_user.id))
-        out_str = f"<b>Channel Info:</b>"
-        out_str += f"\n<b>Title:</b> {x_user.title}"
-        if x_user.username:
-            out_str += f"\n<b>Username:</b> @{x_user.username}"
-        out_str += f"\n<b>Chat ID:</b> <code>{x_user.id}</code>"
-        if x_user.verified:
-            out_str += "\n<b>Verified:</b> True"
-        if x_channel.full_chat.about:
-            out_str += f"\n\n<b>Description:</b> <code>{x_channel.full_chat.about}</code>"
-        if len(x_channel.chats) == 2:
-            out_str += f"\n<b>Linked Chat:</b> {x_channel.chats[1].title}"
-            out_str += (
-                f"\n<b>Linked Chat ID:</b> <code>-100{x_channel.chats[1].id}</code>"
+    try:
+        info_caption, photo_id = await get_user_info(user)
+    except Exception as e:
+        return await m.edit(str(e))
+
+    if not photo_id:
+        return await m.edit(info_caption, disable_web_page_preview=True)
+    photo = await app.download_media(photo_id)
+
+    await message.reply_photo(photo, caption=info_caption, quote=False)
+    await m.delete()
+    os.remove(photo)
+
+
+@app.on_message(filters.command("cinfo"))
+async def chat_info_func(_, message: Message):
+    try:
+        if len(message.command) > 2:
+            return await message.reply_text(
+                "**Usage:**/chat_info [USERNAME|ID]"
             )
-        if x_channel.full_chat.admins_count:
-           out_str += f"\n<b>Admins:</b> <code>{x_channel.full_chat.admins_count}"
-        file = x_channel.full_chat.chat_photo
-        if isinstance(file, PhotoEmpty):
-            file = None
-        await e.reply(out_str, file=file, parse_mode="html")
+
+        if len(message.command) == 1:
+            chat = message.chat.id
+        elif len(message.command) == 2:
+            chat = message.text.split(None, 1)[1]
+
+        m = await message.reply_text("Processing")
+
+        info_caption, photo_id = await get_chat_info(chat)
+        if not photo_id:
+            return await m.edit(info_caption, disable_web_page_preview=True)
+
+        photo = await app.download_media(photo_id)
+        await message.reply_photo(photo, caption=info_caption, quote=False)
+
+        await m.delete()
+        os.remove(photo)
+    except Exception as e:
+        await m.edit(e)
