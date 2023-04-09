@@ -1,44 +1,30 @@
-from src.events import register
-from src import telethn as tbot
-from telethon import events
-import requests
 import os
+import requests
+from pyrogram import Client, filters
+from src import pbot as app
 
-PASTEBIN_API_KEY = "d_7U4cLo2nHK056m2Sci82c7z78WFMXg"
-PASTEBIN_URL = "https://pastebin.com/api/api_post.php"
-
-@register(pattern=("/paste"))
-async def paste_to_pastebin(event):
-    # check if there is a replied message or file
-    if event.is_reply and event.reply_to_msg_id:
-        replied_msg = await event.get_reply_message()
-        text = ''
-        if replied_msg.text:
-            # if the replied message is text
-            text = replied_msg.text
-        elif replied_msg.media:
-            # if the replied message is a file, get the text
-            media = replied_msg.media
-            file_path = await tbot.download_media(media, file=os.path.join(os.getcwd(), 'downloads'))
-            with open(file_path, 'r') as f:
-                text = f.read()
-            os.remove(file_path)
-        if text:
-            # send the text to Pastebin and get the URL
-            data = {
-                'api_dev_key': PASTEBIN_API_KEY,
-                'api_option': 'paste',
-                'api_paste_code': text
-            }
-            response = requests.post(PASTEBIN_URL, data=data)
-            pastebin_url = response.text
-            # send the photo of the full text
-            await tbot.send_file(
-                event.chat_id,
-                file=f'https://chart.googleapis.com/chart?cht=tx&chl={pastebin_url}',
-                caption=f'Full text: {pastebin_url}'
-            )
-        else:
-            await event.reply('Sorry, I couldn\'t get the text.')
+@app.on_message(filters.private & filters.command("paste"))
+async def paste_to_pastebin(client, message):
+    if message.reply_to_message and message.reply_to_message.document:
+        file_path = await message.reply_to_message.download()
+    elif message.document:
+        file_path = await message.download()
     else:
-        await event.reply('Please reply to a message or file to get the text.')
+        await message.reply_text("Please reply to a file or send a file to paste it.")
+        return
+
+    with open(file_path, "rb") as f:
+        content = f.read()
+
+    data = {
+        "api_dev_key": "FBElmQTUl0d86mjn2JEXcG1sCzJ-MJ0O",
+        "api_option": "paste",
+        "api_paste_code": content.decode("utf-8"),
+    }
+
+    response = requests.post("https://pastebin.com/api/api_post.php", data=data)
+    os.remove(file_path)
+
+    await message.reply_text(f"Paste URL: {response.text}")
+
+app.run()
