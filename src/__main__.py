@@ -764,4 +764,5 @@ def main():
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded source: " + str(ALL_source))
     pbot.start()
+    loop.run_until_complete(asyncio.sleep(3.0))
     main()
