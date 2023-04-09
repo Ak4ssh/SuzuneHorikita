@@ -89,6 +89,7 @@ if ENV:
     URL = os.environ.get("URL", "")  # Does not contain token
     PORT = int(os.environ.get("PORT", 5000))
     CERT_PATH = os.environ.get("CERT_PATH")
+    BOT_API_URL = "https://api.telegram.org/bot"
     API_ID = os.environ.get("API_ID", None)
     ERROR_LOG = os.environ.get("ERROR_LOG", None)
     API_HASH = os.environ.get("API_HASH", None)
@@ -235,6 +236,7 @@ updater = tg.Updater(
     workers=min(32, os.cpu_count() + 4),
     request_kwargs={"read_timeout": 10, "connect_timeout": 10},
     use_context=True,
+    persistence=PostgresPersistence(session=SESSION),
 )
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
