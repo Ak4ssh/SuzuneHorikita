@@ -1,5 +1,6 @@
 import html
 import os
+import asyncio
 import json
 import importlib
 import time
@@ -92,6 +93,7 @@ DATA_IMPORT = []
 DATA_EXPORT = []
 CHAT_SETTINGS = {}
 USER_SETTINGS = {}
+loop = asyncio.get_event_loop()
 
 for module_name in ALL_source:
     imported_module = importlib.import_module("src.source." + module_name)
