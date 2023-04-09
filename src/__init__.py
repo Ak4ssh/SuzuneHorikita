@@ -184,7 +184,6 @@ else:
     HEROKU_API_KEY = Config.HEROKU_API_KEY
     HEROKU_APP_NAME = Config.HEROKU_APP_NAME
     DEL_CMDS = Config.DEL_CMDS
-    BOT_API_URL = "https://api.telegram.org/bot"
     STRICT_GBAN = Config.STRICT_GBAN
     WORKERS = Config.WORKERS
     REM_BG_API_KEY = Config.REM_BG_API_KEY
